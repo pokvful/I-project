@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+
+	RewriteCond %{REQUEST_URI} !^/(resources/.*)$
+	RewriteRule ^.*$ public/server.php [L,NC]
+
+	RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+</IfModule>
+
