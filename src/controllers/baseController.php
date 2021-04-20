@@ -2,11 +2,11 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . '/settings.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
 
-//class NotImplementedException extends Exception {
-//	public function __construct(string $message, int $code = 0, Throwable $previous = null) {
-//		parent::__construct($message, $code, $previous);
-//	}
-//}
+class NotImplementedException extends Exception {
+	public function __construct(string $message, int $code = 0, Throwable $previous = null) {
+		parent::__construct($message, $code, $previous);
+	}
+}
 
 class BaseController {
 	private Latte\Engine $latteEngine;
