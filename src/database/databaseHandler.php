@@ -3,45 +3,82 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/settings.php";
 
 class DatabaseHandler {
+
 	private $connection;
 
-	//Constructor
-	public function __construct($connection) {
-		$this->connection = $connection;
+	/**
+	 * DatabaseHandler constructor.
+	 */
+	public function __construct() {
+		$this->connect();
 
 		$this->query(
 			"SELECT * FROM Users WHERE id = :user_id",
 			array(
 				":user_id" => 12,
-			)
+			),
 		);
 	}
 
-	//Lees waarde uit van gebruikers in users tabel
+	/**
+	 * Read values from users inside users table.
+	 */
 	private function getUsers() {
 		$sql = "SELECT * FROM users";
-		$stmt = $this->connect()->query($sql);
+		$stmt = $this->connection->query($sql);
 		while ($row = $stmt->fetch()) {
 			echo $row['users_firstname'] . '<br>';
 		}
 	}
 
-	//Zet waarde van voor/achternaam binnen users tabel
-	private function setUsers($firstname, $lastname) {
+	/**
+	 * Updates value from column inside users table.
+	 *
+	 * @param $firstname value of firstname from user inside users table.
+	 */
+	private function setUsers($firstname) {
+		$sql = "UPDATE users SET users_firstname = $firstname";
+		$stmt = $this->connection->query($sql);
+		$stmt->execute([$firstname]);
+	}
+
+	/**
+	 * Creates users inside users table.
+	 *
+	 * @param string $firstname value of firstname from user inside users table.
+	 * @param string $lastname value of lastname from user inside users table.
+	 */
+	private function createUsers(string $firstname, string $lastname) {
 		$sql = "INSERT INTO users(users_firstname, users_lastname)";
-		$stmt = $this->connect()->query($sql);
+		$stmt = $this->connection->query($sql);
 		$stmt->execute([$firstname, $lastname]);
 	}
 
+	/**
+	 * Prepares, executes and fetches query.
+	 *
+	 * @param string $query value of query string.
+	 * @param array $params
+	 * @return array function returns array as return value.
+	 */
 	public function query(string $query, array $params): array {
+		$stmt = $this->connection->prepare($query);
 
+		// foreach:
+		$stmt->bindValue(":parameter", "value");
+
+		$stmt->execute();
+
+		return $stmt->fetchAll();
 	}
 
-	//Maak connectie met database
-	protected function connect() {
+	/**
+	 * Makes a connection with the database
+	 */
+	private function connect() {
 		try {
-			$dsn = "mysql:host=" . SETTINGS["database"]["host"] . ";dbname=" . SETTINGS["database"]["name"] . ";charset=utf8mb4";
-			$this->connection = new PDO($dsn, SETTINGS["database"]["username"], SETTINGS["database"]["password"]);
+			$dbh = "mysql:host=" . SETTINGS["database"]["host"] . ";dbname=" . SETTINGS["database"]["name"] . ";charset=utf8mb4";
+			$this->connection = new PDO($dbh, SETTINGS["database"]["username"], SETTINGS["database"]["password"]);
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			die("Connection failed: " . $e->getMessage());

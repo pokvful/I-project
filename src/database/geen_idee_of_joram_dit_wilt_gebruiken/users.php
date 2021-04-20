@@ -1,6 +1,5 @@
 <?php
 
-//
 class Users extends DatabaseHandler {
 
 	protected function getUser($name) {
