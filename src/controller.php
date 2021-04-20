@@ -6,7 +6,7 @@ class RequestHandler {
 		$fileName = "";
 
 		if ($requestPath === '/') {
-			$fileName = "Home";
+			$fileName = "home";
 		} else {
 			// get the last folder from the uri, and place it in `$matches[1]`
 			// if the uri is `/admin/users/`, `$matches[1]` should be `users`
@@ -21,7 +21,7 @@ class RequestHandler {
 		// remove the last folder from the uri to get the folder the template
 		// and controller are in
 		$filePath = preg_replace('/([^\/]*)\/?$/', '', $requestPath);
-		$fullPath = $_SERVER["DOCUMENT_ROOT"] . "/src/controllers"
+		$fullPath = $_SERVER["DOCUMENT_ROOT"] . "/src/controllers/"
 			. $filePath . "{$fileName}Controller.php";
 
 		try {
