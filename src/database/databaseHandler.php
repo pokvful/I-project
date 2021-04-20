@@ -8,9 +8,16 @@ class DatabaseHandler {
 	//Constructor
 	public function __construct($connection) {
 		$this->connection = $connection;
+
+		$this->query(
+			"SELECT * FROM Users WHERE id = :user_id",
+			array(
+				":user_id" => 12,
+			)
+		);
 	}
 
-	//Read value from users inside users table
+	//Lees waarde uit van gebruikers in users tabel
 	private function getUsers() {
 		$sql = "SELECT * FROM users";
 		$stmt = $this->connect()->query($sql);
@@ -19,14 +26,18 @@ class DatabaseHandler {
 		}
 	}
 
-	//Set value of first nad lastname inside users table
+	//Zet waarde van voor/achternaam binnen users tabel
 	private function setUsers($firstname, $lastname) {
 		$sql = "INSERT INTO users(users_firstname, users_lastname)";
 		$stmt = $this->connect()->query($sql);
 		$stmt->execute([$firstname, $lastname]);
 	}
 
-	//Make connection with database
+	public function query(string $query, array $params): array {
+
+	}
+
+	//Maak connectie met database
 	protected function connect() {
 		try {
 			$dsn = "mysql:host=" . SETTINGS["database"]["host"] . ";dbname=" . SETTINGS["database"]["name"] . ";charset=utf8mb4";
@@ -35,29 +46,5 @@ class DatabaseHandler {
 		} catch (PDOException $e) {
 			die("Connection failed: " . $e->getMessage());
 		}
-	}
-
-
-	protected function getUser($name) {
-		$sql = "SELECT * FROM users WHERE users_firstname = ?";
-		$stmt = $this->connect()->prepare($sql);
-		$stmt->execute([$name]);
-		$results = $stmt->fetchAll();
-
-		return $results;
-	}
-
-
-	protected function createUser($firstname, $lastname) {
-		$sql = "INSERT INTO users(users_firstname, users_lastname) VALUES (?. ?)";
-		$stmt = $this->connect()->prepare($sql);
-		$stmt->execute([$firstname . $lastname]);
-	}
-
-
-	protected function setUser($firstname, $lastname) {
-		$sql = "UPDATE users SET (users_firstname, users_lastname) VALUES (?. ?)";
-		$stmt = $this->connect()->prepare($sql);
-		$stmt->execute([$firstname, $lastname]);
 	}
 }
