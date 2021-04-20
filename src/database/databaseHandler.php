@@ -8,6 +8,13 @@ class DatabaseHandler {
 	//Constructor
 	public function __construct($connection) {
 		$this->connection = $connection;
+
+		$this->query(
+			"SELECT * FROM Users WHERE id = :user_id",
+			array(
+				":user_id" => 12,
+			)
+		);
 	}
 
 	//Lees waarde uit van gebruikers in users tabel
@@ -24,6 +31,10 @@ class DatabaseHandler {
 		$sql = "INSERT INTO users(users_firstname, users_lastname)";
 		$stmt = $this->connect()->query($sql);
 		$stmt->execute([$firstname, $lastname]);
+	}
+
+	public function query(string $query, array $params): array {
+
 	}
 
 	//Maak connectie met database
