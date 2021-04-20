@@ -10,7 +10,7 @@ class DatabaseHandler {
 		$this->connection = $connection;
 	}
 
-	//Lees waarde uit van gebruikers in users tabel
+	//Read value from users inside users table
 	private function getUsers() {
 		$sql = "SELECT * FROM users";
 		$stmt = $this->connect()->query($sql);
@@ -19,14 +19,14 @@ class DatabaseHandler {
 		}
 	}
 
-	//Zet waarde van voor/achternaam binnen users tabel
+	//Set value of first nad lastname inside users table
 	private function setUsers($firstname, $lastname) {
 		$sql = "INSERT INTO users(users_firstname, users_lastname)";
 		$stmt = $this->connect()->query($sql);
 		$stmt->execute([$firstname, $lastname]);
 	}
 
-	//Maak connectie met database
+	//Make connection with database
 	protected function connect() {
 		try {
 			$dsn = "mysql:host=" . SETTINGS["database"]["host"] . ";dbname=" . SETTINGS["database"]["name"] . ";charset=utf8mb4";
@@ -35,5 +35,29 @@ class DatabaseHandler {
 		} catch (PDOException $e) {
 			die("Connection failed: " . $e->getMessage());
 		}
+	}
+
+
+	protected function getUser($name) {
+		$sql = "SELECT * FROM users WHERE users_firstname = ?";
+		$stmt = $this->connect()->prepare($sql);
+		$stmt->execute([$name]);
+		$results = $stmt->fetchAll();
+
+		return $results;
+	}
+
+
+	protected function createUser($firstname, $lastname) {
+		$sql = "INSERT INTO users(users_firstname, users_lastname) VALUES (?. ?)";
+		$stmt = $this->connect()->prepare($sql);
+		$stmt->execute([$firstname . $lastname]);
+	}
+
+
+	protected function setUser($firstname, $lastname) {
+		$sql = "UPDATE users SET (users_firstname, users_lastname) VALUES (?. ?)";
+		$stmt = $this->connect()->prepare($sql);
+		$stmt->execute([$firstname, $lastname]);
 	}
 }
