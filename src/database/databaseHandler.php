@@ -2,16 +2,18 @@
 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/settings.php";
 
+/**
+ * Class DatabaseHandler
+ */
 class DatabaseHandler {
 
-	private $connection;
+	private PDO $connection;
 
 	/**
 	 * DatabaseHandler constructor.
 	 */
 	public function __construct() {
 		$this->connect();
-
 		$this->query(
 			"SELECT * FROM Users WHERE id = :user_id",
 			array(
@@ -49,7 +51,7 @@ class DatabaseHandler {
 	 * @param string $lastname value of lastname from user inside users table.
 	 */
 	private function createUsers(string $firstname, string $lastname) {
-		$sql = "INSERT INTO users(users_firstname, users_lastname)";
+		$sql = "INSERT INTO users(users_firstname, users_lastname) VALUES (?, ?)";
 		$stmt = $this->connection->query($sql);
 		$stmt->execute([$firstname, $lastname]);
 	}
@@ -58,17 +60,15 @@ class DatabaseHandler {
 	 * Prepares, executes and fetches query.
 	 *
 	 * @param string $query value of query string.
-	 * @param array $params
+	 * @param array $params key value pairs of query variables.
 	 * @return array function returns array as return value.
 	 */
 	public function query(string $query, array $params): array {
 		$stmt = $this->connection->prepare($query);
-
-		// foreach:
-		$stmt->bindValue(":parameter", "value");
-
+		foreach ($params as $key => $value) {
+			$stmt->bindValue($key, $value);
+		}
 		$stmt->execute();
-
 		return $stmt->fetchAll();
 	}
 

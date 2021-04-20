@@ -1,5 +1,10 @@
 {
-    "require": {
-        "latte/latte": "^2.10"
+  "require": {
+    "latte/latte": "^2.10"
+  },
+  "config": {
+    "platform": {
+      "php": "7.4.16"
     }
+  }
 }

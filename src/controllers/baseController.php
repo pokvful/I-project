@@ -2,11 +2,11 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . '/settings.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
 
-class NotImplementedException extends Exception {
-	public function __construct(string $message, int $code = 0, Throwable $previous = null) {
-		parent::__construct($message, $code, $previous);
-	}
-}
+//class NotImplementedException extends Exception {
+//	public function __construct(string $message, int $code = 0, Throwable $previous = null) {
+//		parent::__construct($message, $code, $previous);
+//	}
+//}
 
 class BaseController {
 	private Latte\Engine $latteEngine;
@@ -18,7 +18,8 @@ class BaseController {
 
 	public function __construct(string $requestPath, string $filePath, string $fileName) {
 		$this->latteEngine = new Latte\Engine;
-		$this->latteEngine->setTempDirectory( SETTINGS["latte"]["tempDirectory"] );
+
+		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
 
 		$this->requestPath = $requestPath;
 		$this->filePath = $filePath;
@@ -47,7 +48,7 @@ class BaseController {
 	protected function render() {
 		$this->latteEngine->render(
 			$_SERVER["DOCUMENT_ROOT"] . "/src/views/"
-				. $this->filePath . "{$this->fileName}.latte",
+			. $this->filePath . "{$this->fileName}.latte",
 			$this->data,
 		);
 	}
@@ -55,7 +56,7 @@ class BaseController {
 	public function run() {
 		throw new NotImplementedException(
 			"Controller \"/src/controllers{$this->filePath}{$this->fileName}\""
-			.  " hasn't been implemented"
+			. " hasn't been implemented"
 		);
 	}
 }
