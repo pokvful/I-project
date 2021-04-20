@@ -3,18 +3,18 @@
 //
 class Users extends DatabaseHandler {
 
-    protected function getUser($name) {
-        $sql = "SELECT * FROM users WHERE users_firstname = ?";
-        $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$name]);
-        $results = $stmt->fetchAll();
+	protected function getUser($name) {
+		$sql = "SELECT * FROM users WHERE users_firstname = ?";
+		$stmt = $this->connect()->prepare($sql);
+		$stmt->execute([$name]);
+		$results = $stmt->fetchAll();
 
-        return $results;
-    }
+		return $results;
+	}
 
-    protected function setUser($firstname, $lastname) {
-        $sql = "INSERT INTO users(users_firstname, users_lastname) VALUES (?. ?)";
-        $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$firstname . $lastname]);
-    }
+	protected function setUser($firstname, $lastname) {
+		$sql = "INSERT INTO users(users_firstname, users_lastname) VALUES (?. ?)";
+		$stmt = $this->connect()->prepare($sql);
+		$stmt->execute([$firstname . $lastname]);
+	}
 }
