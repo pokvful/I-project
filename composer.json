@@ -1,6 +1,7 @@
 {
   "require": {
-    "latte/latte": "^2.10"
+    "latte/latte": "^2.10",
+    "twbs/bootstrap": "5.0.0-beta3"
   },
   "config": {
     "platform": {
