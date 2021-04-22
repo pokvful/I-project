@@ -1,4 +1,10 @@
-<div style="text-align: center">
-	<h1>Looks like whe couldn't find what you where looking for</h1>
-	<p>"{$server["requestPath"]}" doesn't exist</p>
+{include './includes/header.latte'}
+
+<div class="row text-center mt-5">
+	<div class="col-md-8 offset-md-2">
+		<h1>Looks like we couldn't find what you were looking for</h1>
+		<p>"{$server["requestPath"]}" doesn't exist</p>
+	</div>
 </div>
+
+{include './includes/footer.latte'}
