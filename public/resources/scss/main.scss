@@ -13,5 +13,13 @@ $font-family-base: 'Poppins', sans-serif !default;
   width: 175px !important;
 }
 
+//Changes auction item images when screen size < 574
+@media (max-width: 574px) {
+  .auction-item {
+    padding-left: 110px !important;
+    padding-right: 110px !important;
+  }
+}
+
 //Imports bootstrap files
 @import "../../../vendor/twbs/bootstrap/scss/bootstrap.scss";

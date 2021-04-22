@@ -1,4 +1,5 @@
 <?php
+
 class RequestHandler {
 	public function renderPath() {
 		$requestPath = $_SERVER["REQUEST_URI"];
@@ -26,7 +27,7 @@ class RequestHandler {
 
 		try {
 			// if the controller doesn't exist, send a 404 page
-			if ( !file_exists($fullPath) ) {
+			if (!file_exists($fullPath)) {
 				require_once $_SERVER["DOCUMENT_ROOT"]
 					. "/src/controllers/notFoundController.php";
 
@@ -42,7 +43,7 @@ class RequestHandler {
 			// TODO: 5xx page
 			die(
 				'<h1 style="color: red">Whoopsie</h1><code>'
-				. ' In "' . $e->getFile() .':' . $e->getLine() .'"<br>'
+				. ' In "' . $e->getFile() . ':' . $e->getLine() . '"<br>'
 				. $e->getMessage()
 				. '</code>'
 			);
