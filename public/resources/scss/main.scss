@@ -1,3 +1,11 @@
-* {
-	color: red;
-}
+//Imports poppins font
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500");
+
+//Applies primary color (mango orange)
+$primary: #FFAD4F;
+
+//Adds poppins font to default bootstrap family base
+$font-family-base: 'Poppins', sans-serif !default;
+
+//Imports bootstrap files
+@import "../../../vendor/twbs/bootstrap/scss/bootstrap.scss";
