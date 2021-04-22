@@ -6,37 +6,6 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link href="/resources/stylesheet/main.css" rel="stylesheet">
-	<title>Homepagina</title>
-</head>
-<body id="body-placement">
-<nav class="sticky-top">
-	<div class="container-fluid">
-		<div class="row">
-			<ul class="navbar navbar-dark bg-dark nav-pills navbar-expand-sm mb-0">
-				<button class="navbar-toggler bg-primary ms-auto" data-toggle="collapse" data-target="#mainNav">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="justify-content-md-end collapse navbar-collapse" id="mainNav">
-					<li class="nav-item">
-						<a class="nav-link" href="/home">Home</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item">Speelgoed</a>
-							<a class="dropdown-item">Fietsen</a>
-							<a class="dropdown-item">Laptops</a>
-						</div>
-					</li>
-					<li class="nav-item ms-auto">
-						<a class="nav-link" href="#">Geboden items</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Inloggen</a>
-					</li>
-			</ul>
-		</div>
-	</div>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 			crossorigin="anonymous"></script>
@@ -46,6 +15,37 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
 			integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 			crossorigin="anonymous"></script>
+	<title>Homepagina</title>
+</head>
+<body id="body-placement">
+<nav class="sticky-top">
+	<div class="container-fluid">
+		<div class="row">
+			<ul class="navbar navbar-dark bg-dark nav-pills navbar-expand-sm mb-0 list-unstyled">
+				<button class="navbar-toggler bg-primary ms-auto" data-toggle="collapse" data-target="#mainNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="justify-content-md-end collapse navbar-collapse" id="mainNav">
+					<li class="nav-item text-end">
+						<a class="nav-link" href="/home">Home</a>
+					</li>
+					<li class="nav-item dropdown  text-end">
+						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>
+						<div class="dropdown-menu text-center" id="dropdown-menu-placement">
+							<a class="dropdown-item">Speelgoed</a>
+							<a class="dropdown-item">Fietsen</a>
+							<a class="dropdown-item">Laptops</a>
+						</div>
+					</li>
+					<li class="nav-item ms-auto nav-item float-right width 100% text-end">
+						<a class="nav-link" href="#">Geboden items</a>
+					</li>
+					<li class="nav-item nav-item float-right width 100% text-end">
+						<a class="nav-link" href="#">Inloggen</a>
+					</li>
+			</ul>
+		</div>
+	</div>
 
 
 </nav>

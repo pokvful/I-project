@@ -7,7 +7,11 @@ $primary: #FFAD4F;
 //Adds poppins font to default bootstrap family base
 $font-family-base: 'Poppins', sans-serif !default;
 
-
+//Changes dropdown menu size and placement for mobile support
+#dropdown-menu-placement {
+  right: 0 !important;
+  width: 175px !important;
+}
 
 //Imports bootstrap files
 @import "../../../vendor/twbs/bootstrap/scss/bootstrap.scss";
