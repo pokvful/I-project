@@ -1,5 +1,16 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500");
+#dropdown-menu-placement {
+  right: 0 !important;
+  width: 175px !important;
+}
+
+@media (max-width: 574px) {
+  .auction-item {
+    padding-left: 110px !important;
+    padding-right: 110px !important;
+  }
+}
 /*!
  * Bootstrap v5.0.0-beta3 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
