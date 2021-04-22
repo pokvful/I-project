@@ -1,6 +1,7 @@
 .vscode/
 .idea/
 .lvimrc
+.prettierrc
 
 vendor/
 

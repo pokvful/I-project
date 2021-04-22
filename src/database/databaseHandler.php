@@ -14,12 +14,12 @@ class DatabaseHandler {
 	 */
 	public function __construct() {
 		$this->connect();
-		$this->query(
-			"SELECT * FROM Users WHERE id = :user_id",
-			array(
-				":user_id" => 12,
-			),
-		);
+		// $this->query(
+		// 	"SELECT * FROM Users WHERE id = :user_id",
+		// 	array(
+		// 		":user_id" => 12,
+		// 	),
+		// );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class DatabaseHandler {
 	 * @param array $params key value pairs of query variables.
 	 * @return array function returns array as return value.
 	 */
-	public function query(string $query, array $params): array {
+	public function query(string $query, array $params = array()): array {
 		$stmt = $this->connection->prepare($query);
 		foreach ($params as $key => $value) {
 			$stmt->bindValue($key, $value);
@@ -76,8 +76,13 @@ class DatabaseHandler {
 	 * Makes a connection with the database
 	 */
 	private function connect() {
+		// var_dump(PDO::getAvailableDrivers());
+		// phpinfo();
+		// var_dump(PDO::getAttribute());
+		// die();
+
 		try {
-			$dbh = "mysql:host=" . SETTINGS["database"]["host"] . ";dbname=" . SETTINGS["database"]["name"] . ";charset=utf8mb4";
+			$dbh = "mssql:host=" . SETTINGS["database"]["host"] . ";dbname=" . SETTINGS["database"]["name"] . ";charset=utf8mb4";
 			$this->connection = new PDO($dbh, SETTINGS["database"]["username"], SETTINGS["database"]["password"]);
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
