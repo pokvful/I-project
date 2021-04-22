@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER ["DOCUMENT_ROOT"] . '/src/baseController.php';
+require_once $_SERVER ["DOCUMENT_ROOT"] . '/src/controllers/baseController.php';
 
 
 class SignupController extends BaseController {
