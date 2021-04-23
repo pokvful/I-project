@@ -16,8 +16,8 @@ $font-family-base: "Poppins", sans-serif !default;
 //Changes auction item images when screen size < 574
 @media (max-width: 574px) {
 	.auction-item {
-		padding-left: 110px !important;
-		padding-right: 110px !important;
+		padding-left: 1em !important;
+		padding-right: 1em !important;
 	}
 }
 
