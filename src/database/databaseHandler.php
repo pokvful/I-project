@@ -76,15 +76,12 @@ class DatabaseHandler {
 	 * Makes a connection with the database
 	 */
 	private function connect() {
-		// var_dump(PDO::getAvailableDrivers());
-		// phpinfo();
-		// var_dump(PDO::getAttribute());
-		// die();
-
 		try {
-			$dbh = "mssql:host=" . SETTINGS["database"]["host"] . ";dbname=" . SETTINGS["database"]["name"] . ";charset=utf8mb4";
+			$dbh = "sqlsrv:Server=" . SETTINGS["database"]["host"] . ";Database=" . SETTINGS["database"]["name"] . ";ConnectionPooling=0";
 			$this->connection = new PDO($dbh, SETTINGS["database"]["username"], SETTINGS["database"]["password"]);
-			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			if (SETTINGS["debug"])
+				$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			die("Connection failed: " . $e->getMessage());
 		}
