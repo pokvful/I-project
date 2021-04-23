@@ -2,23 +2,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500");
 
 //Applies primary color (mango orange)
-$primary: #FFAD4F;
+$primary: #ffad4f;
 
 //Adds poppins font to default bootstrap family base
-$font-family-base: 'Poppins', sans-serif !default;
+$font-family-base: "Poppins", sans-serif !default;
 
 //Changes dropdown menu size and placement for mobile support
 #dropdown-menu-placement {
-  right: 0 !important;
-  width: 175px !important;
+	//right: 0 !important;
+	//width: 175px !important;
 }
 
 //Changes auction item images when screen size < 574
 @media (max-width: 574px) {
-  .auction-item {
-    padding-left: 110px !important;
-    padding-right: 110px !important;
-  }
+	.auction-item {
+		padding-left: 110px !important;
+		padding-right: 110px !important;
+	}
 }
 
 //Imports bootstrap files
