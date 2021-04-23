@@ -47,18 +47,18 @@
 	</script>
 {else}
 	{* d-flex justify-content-center align-items-center *}
-	<div class="container p-3">
+	<div class="container p-5">
 		<form class="row needs-validation" novalidate>
 			<div class="col-12 text-center">
 				<h1>Registreren</h1>
 			</div>
 
-			<div class="col-6">
+			<div class="col-12 col-md-6 mb-3">
 				<label for="first-name" class="form-label">Voornaam</label>
 				<input type="text" name="first_name" id="first-name" class="form-control" required>
 			</div>
 
-			<div class="col-6">
+			<div class="col-12 col-md-6 mb-3">
 				<label for="last-name" class="form-label">Achternaam</label>
 				<input type="text" name="last_name" id="last-name" class="form-control" required>
 			</div>
@@ -86,7 +86,7 @@
 				<input type="date" name="birth_date" id="birth-date" class="form-control" required>
 			</div>
 
-			<div class="col-12">
+			<div class="col-12 mb-3">
 				<label for="phone-number-1" class="form-label">Telefoonnummer</label>
 
 				<div class="input-group">
@@ -95,22 +95,22 @@
 				</div>
 			</div>
 
-			<div class="col-6">
+			<div class="col-12 col-md-6 mb-3">
 				<label for="address" class="form-label">Adres</label>
 				<input type="text" name="address" id="address" class="form-control" required>
 			</div>
 
-			<div class="col-6">
+			<div class="col-12 col-md-6 mb-3">
 				<label for="address_addition" class="form-label">Adres toevoeging</label>
 				<input type="text" name="address_addition" id="address_addition" class="form-control" required>
 			</div>
 
-			<div class="col-6">
+			<div class="col-12 col-md-6 mb-3">
 				<label for="postal-code" class="form-label">Postcode</label>
 				<input type="text" name="postal_code" id="postal-code" class="form-control" required>
 			</div>
 
-			<div class="col-6">
+			<div class="col-12 col-md-6 mb-3">
 				<label for="city" class="form-label">Plaats</label>
 				<input type="text" name="city" id="city" class="form-control" required>
 			</div>
@@ -146,10 +146,12 @@
 				<input type="text" id="savety-answer" class="form-control" required>
 			</div>
 
-			<div class="col-12 d-flex justify-content-end">
-				<p class="float-left">Al een account? Klik <a href="#">hier</a> om in te loggen.</p>
+			<div class="col-12 col-md-6 mb-3 d-flex align-items-center">
+				<p class="mb-0 text-center text-md-left">Al een account? Klik <a href="#">hier</a> om in te loggen.</p>
+			</div>
 
-				<button type="submit" class="btn btn-primary float-right">Aanmelden</button>
+			<div class="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content-md-end">
+				<button type="submit" class="btn btn-primary">Aanmelden</button>
 			</div>
 		</form>
 	</div>
