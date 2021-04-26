@@ -21,6 +21,10 @@ class BaseController {
 
 		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
 
+		$this->latteEngine->addFunction('getCsrfInput', function(string $csrfToken): string {
+			return "<input type=\"hidden\" name=\"token\" value=\"$csrfToken\" />";
+		});
+
 		$this->latteEngine->addFunction('getBreadCrumbs', function (): string {
 			$newPaths = array_filter(explode('/', $this->requestPath));
 			$currentPath = "/";
@@ -50,6 +54,7 @@ class BaseController {
 			"_filePath" => $filePath,
 			"_fileName" => $fileName,
 			"_params" => $_GET,
+			"_csrfToken" => $_SESSION["csrf-token"],
 		);
 	}
 

@@ -14,12 +14,6 @@ class DatabaseHandler {
 	 */
 	public function __construct() {
 		$this->connect();
-		// $this->query(
-		// 	"SELECT * FROM Users WHERE id = :user_id",
-		// 	array(
-		// 		":user_id" => 12,
-		// 	),
-		// );
 	}
 
 	/**

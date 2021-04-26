@@ -4,6 +4,8 @@
 	<div class="d-flex justify-content-center p-3 w-100 p-3"> <!-- flexbox -->
 		<!--- Sign-in formum --->
 		<form method="POST" class="col-lg-4 mb-3" novalidate>
+			{getCsrfInput($_csrfToken)|noescape}
+
 			<div class="row mb-3">
 				<label for="input-email" class="form-label">Email adress</label>
 				<input type="email" class="form-control" id="input-email"> 
