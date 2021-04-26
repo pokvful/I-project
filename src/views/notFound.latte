@@ -1,11 +1,35 @@
 {include './includes/header.latte'}
 
-{getBreadCrumps($paths)}
+
+{*{$base = '://' . $_SERVER['HTTP_HOST'] . '/'}*}
+{*{var_dump($base)}*}
+{*{$breadcrumbs = array("<a href=\"$base\">$home</a>")}*}
+{*{$crumbs = '';}*}
+{*{$last = end(array_keys($path))}*}
+{*{foreach ($path as $x => $crumb) {*}
+{*$title = ucwords(str_replace(array('.php', '_', '%20'), array('', ' ', ' '), $crumb));*}
+{*if ($x != $last) {*}
+{*$breadcrumbs[] = "<a href=\"$base$crumbs$crumb\">$title</a>";*}
+{*$crumbs .= $crumb . '/';*}
+{*}*}
+{*// Otherwise, just display the title (minus)*}
+{*else {*}
+{*$breadcrumbs[] = $title;*}
+{*}*}
+{*}*}
+{*}*}
+{*}*}
+
+
 
 <div class="row text-center mt-5">
 	<div class="col-md-8 offset-md-2">
-		{var $dump = "hoi"}
-		<h1>Looks like we couldn't find what you were looking for {$dump}</h1>
+		{getBreadCrumbs()|noescape}
+{*		<ul class="breadcrumb" n:inner-foreach="$paths as $path">*}
+{*			<li class="breadcrumb-item"><a href='/' . '{$path}'>{$path}</a></li>*}
+{*		</ul>*}
+
+		<h1>Looks like we couldn't find what you were looking for</h1>
 		<p>"{$_requestPath}" doesn't exist</p>
 	</div>
 </div>

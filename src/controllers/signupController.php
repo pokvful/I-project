@@ -8,7 +8,6 @@ class SignupController extends BaseController {
 		$this->data["userData"] = array(
 			"email" => "henk@example.com",
 		);
-
 		$this->render();
 	}
 }

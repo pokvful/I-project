@@ -64,7 +64,6 @@ class DatabaseHandler {
 				return gettype($key) == "string";
 			}, ARRAY_FILTER_USE_KEY);
 		}
-
 		return $final;
 	}
 

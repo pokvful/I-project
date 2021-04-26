@@ -2,8 +2,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500");
 @media (max-width: 574px) {
   .auction-item {
-    padding-left: 110px !important;
-    padding-right: 110px !important;
+    padding-left: 1em !important;
+    padding-right: 1em !important;
   }
 }
 /*!
