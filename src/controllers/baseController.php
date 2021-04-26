@@ -21,6 +21,10 @@ class BaseController {
 
 		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
 
+		$this->latteEngine->addFunction('getBreadCrumps', function(array $paths): string {
+			return (string) var_dump($paths);
+		});
+
 		$this->requestPath = $requestPath;
 		$this->filePath = $filePath;
 		$this->fileName = $fileName;
@@ -59,4 +63,3 @@ class BaseController {
 		);
 	}
 }
-
