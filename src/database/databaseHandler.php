@@ -60,7 +60,7 @@ class DatabaseHandler {
 		$final = [];
 
 		foreach ($results as $key => $result) {
-			$final[$key] = array_filter($result, function($key) {
+			$final[$key] = array_filter($result, function ($key) {
 				return gettype($key) == "string";
 			}, ARRAY_FILTER_USE_KEY);
 		}
@@ -80,7 +80,7 @@ class DatabaseHandler {
 			$stmt->bindValue($key, $value);
 		}
 		$stmt->execute();
-		return $this->parseResult( $stmt->fetchAll() );
+		return $this->parseResult($stmt->fetchAll());
 	}
 
 	/**

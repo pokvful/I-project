@@ -21,16 +21,14 @@ class BaseController {
 
 		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
 
-
 		$this->latteEngine->addFunction('getBreadCrumbs', function (): string {
-			$newPaths = array_filter( explode( '/', $this->requestPath) );
+			$newPaths = array_filter(explode('/', $this->requestPath));
 			$currentPath = "/";
 			$i = 0;
 			$result = "<ul class=\"breadcrumb\">";
 
 			foreach ($newPaths as $path) {
 				$currentPath .= "{$path}/";
-
 				if ($i === count($newPaths) - 1) {
 					$result .= "<li class=\"breadcrumb-item active\"> {$path} </li>";
 				} else {
@@ -75,6 +73,9 @@ class BaseController {
 		);
 	}
 
+	/**
+	 * @throws NotImplementedException
+	 */
 	public function run() {
 		throw new NotImplementedException(
 			"Controller \"/src/controllers{$this->filePath}{$this->fileName}\""
