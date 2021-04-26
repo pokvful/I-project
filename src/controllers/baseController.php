@@ -21,7 +21,7 @@ class BaseController {
 
 		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
 
-		$this->latteEngine->addFunction('getCsrfInput', function(string $csrfToken): string {
+		$this->latteEngine->addFunction('getCsrfInput', function (string $csrfToken): string {
 			return "<input type=\"hidden\" name=\"token\" value=\"$csrfToken\" />";
 		});
 
