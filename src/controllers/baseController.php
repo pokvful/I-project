@@ -25,11 +25,10 @@ class BaseController {
 		$this->filePath = $filePath;
 		$this->fileName = $fileName;
 		$this->data = array(
-			"server" => array(
-				"requestPath" => $requestPath,
-				"filePath" => $filePath,
-				"fileName" => $fileName,
-			),
+			"_requestPath" => $requestPath,
+			"_filePath" => $filePath,
+			"_fileName" => $fileName,
+			"_params" => $_GET,
 		);
 	}
 

@@ -56,6 +56,18 @@ class DatabaseHandler {
 		$stmt->execute([$firstname, $lastname]);
 	}
 
+	private function parseResult(array $results) {
+		$final = [];
+
+		foreach ($results as $key => $result) {
+			$final[$key] = array_filter($result, function($key) {
+				return gettype($key) == "string";
+			}, ARRAY_FILTER_USE_KEY);
+		}
+
+		return $final;
+	}
+
 	/**
 	 * Prepares, executes and fetches query.
 	 *
@@ -69,7 +81,7 @@ class DatabaseHandler {
 			$stmt->bindValue($key, $value);
 		}
 		$stmt->execute();
-		return $stmt->fetchAll();
+		return $this->parseResult( $stmt->fetchAll() );
 	}
 
 	/**

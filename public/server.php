@@ -8,7 +8,7 @@ if (SETTINGS["debug"] === true) {
 }
 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/src/controller.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/src/requestHandler.php";
 
 $requestHandler = new RequestHandler();
 
