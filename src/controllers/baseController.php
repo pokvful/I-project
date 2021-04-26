@@ -25,8 +25,25 @@ class BaseController {
 			return "<input type=\"hidden\" name=\"token\" value=\"$csrfToken\" />";
 		});
 
-		$this->latteEngine->addFunction('getBreadCrumps', function(array $paths): string {
-			return (string) var_dump($paths);
+		$this->latteEngine->addFunction('getBreadCrumbs', function (): string {
+			$newPaths = array_filter(explode('/', $this->requestPath));
+			$currentPath = "/";
+			$i = 0;
+			$result = "<ul class=\"breadcrumb\">";
+
+			foreach ($newPaths as $path) {
+				$currentPath .= "{$path}/";
+				if ($i === count($newPaths) - 1) {
+					$result .= "<li class=\"breadcrumb-item active\"> {$path} </li>";
+				} else {
+					$result .= "<li class=\"breadcrumb-item\"> <a href=\"{$currentPath}\"> {$path} </a></li>";
+				}
+				$i++;
+			}
+
+			$result .= "</ul>";
+
+			return $result;
 		});
 
 		$this->requestPath = $requestPath;
@@ -61,6 +78,9 @@ class BaseController {
 		);
 	}
 
+	/**
+	 * @throws NotImplementedException
+	 */
 	public function run() {
 		throw new NotImplementedException(
 			"Controller \"/src/controllers{$this->filePath}{$this->fileName}\""
