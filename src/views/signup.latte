@@ -50,11 +50,11 @@
 {else}
 	{* d-flex justify-content-center align-items-center *}
 	<div class="container p-5">
+		{getBreadCrumbs()|noescape}
 		<form class="row needs-validation" novalidate>
 			<div class="col-12 text-center">
 				<h1>Registreren</h1>
 			</div>
-
 			<div class="col-12 col-md-6 mb-3">
 				<label for="first-name" class="form-label">Voornaam</label>
 				<input type="text" name="first_name" id="first-name" class="form-control" required>

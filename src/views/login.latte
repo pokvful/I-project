@@ -1,13 +1,14 @@
 {include './includes/header.latte'}
 
 <div class="container p-5">
+	{getBreadCrumbs()|noescape}
 	<form class="row">
 		<div class="col-12 text-center">
 			<h1>Inloggen</h1>
 		</div>
 		<div class="col-12 mb-3">
 			<label for="Email-address" class="form-label">E-mailadres</label>
-			<input type="text" name="Email-address" id="Email-address" class="form-control">
+			<input type="text" name="Email-address" id="Email-address"  class="form-control">
 		</div>
 		<div class="col-12 mb-3">
 			<label for="password" class="form-label">Wachtwoord</label>

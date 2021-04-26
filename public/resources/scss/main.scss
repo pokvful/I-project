@@ -13,10 +13,6 @@ $font-family-base: "Poppins", sans-serif !default;
 	//width: 175px !important;
 }
 
-#form-label {
-	width: 50% !important;
-}
-
 //Changes auction item images when screen size < 574
 @media (max-width: 574px) {
 	.auction-item {
