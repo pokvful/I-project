@@ -2,11 +2,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . '/settings.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
 
-class NotImplementedException extends Exception {
-	public function __construct(string $message, int $code = 0, Throwable $previous = null) {
-		parent::__construct($message, $code, $previous);
-	}
-}
+class NotImplementedException extends Exception { }
 
 class BaseController {
 	private Latte\Engine $latteEngine;
@@ -21,8 +17,8 @@ class BaseController {
 
 		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
 
-		$this->latteEngine->addFunction('getCsrfInput', function(string $csrfToken): string {
-			return "<input type=\"hidden\" name=\"token\" value=\"$csrfToken\" />";
+		$this->latteEngine->addFunction('getCsrfInput', function(): string {
+			return "<input type=\"hidden\" name=\"csrf-token\" value=\"{$_SESSION["csrf-token"]}\" />";
 		});
 
 		$this->latteEngine->addFunction('getBreadCrumbs', function (): string {
