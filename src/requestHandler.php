@@ -1,6 +1,13 @@
 <?php
+session_start();
 
 class RequestHandler {
+	public function __construct() {
+		if ( !isset( $_SESSION["csrf-token"] ) ) {
+			$_SESSION["csrf-token"] = bin2hex( random_bytes(32) );
+		}
+	}
+
 	public function renderPath() {
 		$requestPath = explode( '?', $_SERVER["REQUEST_URI"] )[0];
 
