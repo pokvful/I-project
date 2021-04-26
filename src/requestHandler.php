@@ -1,4 +1,6 @@
 <?php
+require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
+
 session_start();
 
 class RequestHandler {
@@ -10,7 +12,9 @@ class RequestHandler {
 
 	public function renderPath() {
 		$requestPath = explode( '?', $_SERVER["REQUEST_URI"] )[0];
-
+		$isPost = $_SERVER["REQUEST_METHOD"] === "POST";
+		$folder = $isPost ? "api" : "controllers";
+		$type = $isPost ? "Handler" : "Controller";
 		$fileName = "";
 
 		if ($requestPath === '/') {
@@ -21,16 +25,15 @@ class RequestHandler {
 			$matches = array();
 			preg_match('/([^\/]*)\/?$/', $requestPath, $matches);
 
-			$match = $matches[1];
-			$fileName = $match;
+			$fileName = $matches[1];
 		}
 
-		$class = ucfirst($fileName) . "Controller";
+		$class = ucfirst($fileName) . $type;
 		// remove the last folder from the uri to get the folder the template
 		// and controller are in
 		$filePath = preg_replace('/([^\/]*)\/?$/', '', $requestPath);
-		$fullPath = $_SERVER["DOCUMENT_ROOT"] . "/src/controllers/"
-			. $filePath . "{$fileName}Controller.php";
+		$fullPath = $_SERVER["DOCUMENT_ROOT"] . "/src/$folder/"
+			. "{$filePath}{$fileName}{$type}.php";
 
 		try {
 			// if the controller doesn't exist, send a 404 page
@@ -48,6 +51,13 @@ class RequestHandler {
 			}
 		} catch (NotImplementedException $e) {
 			// TODO: 5xx page
+			die(
+				'<h1 style="color: red">Whoopsie</h1><code>'
+				. ' In "' . $e->getFile() . ':' . $e->getLine() . '"<br>'
+				. $e->getMessage()
+				. '</code>'
+			);
+		} catch(Latte\RuntimeException $e) {
 			die(
 				'<h1 style="color: red">Whoopsie</h1><code>'
 				. ' In "' . $e->getFile() . ':' . $e->getLine() . '"<br>'
