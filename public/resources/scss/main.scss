@@ -7,18 +7,19 @@ $primary: #ffad4f;
 //Adds poppins font to default bootstrap family base
 $font-family-base: "Poppins", sans-serif !default;
 
-//Changes dropdown menu size and placement for mobile support
-#dropdown-menu-placement {
-	//right: 0 !important;
-	//width: 175px !important;
-}
-
 //Changes auction item images when screen size < 574
 @media (max-width: 574px) {
-	.auction-item {
-		padding-left: 1em !important;
-		padding-right: 1em !important;
-	}
+  .auction-item {
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+  }
+}
+
+//Wrapper for centering content
+.centered {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 //Imports bootstrap files

@@ -1,26 +1,26 @@
 {include './includes/header.latte'}
 
 {if !$cameFromMail}
-<div class="d-flex justify-content-center p-3 w-100 p-3"> <!-- flexbox -->
+<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
 	<!--- Sign-in formum --->
 	<form method="POST" class="col-lg-4 mb-3" novalidate>
 		{getCsrfInput($_csrfToken)|noescape}
 
 		<div class="row mb-3">
-			<label for="input-email" class="form-label">Email adress</label>
+			<label for="input-email" class="form-label">E-mailadres</label>
 			<input type="email" class="form-control" id="input-email">
 		</div>
 
 		<div class="row mb-3">
 			<div class="col d-flex justify-content-center">
-				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="submit" class="btn btn-primary">Registreren</button>
 			</div>
 		</div>
 
 		<div class="row mb-3">
 			<div class="col text-center">
 				<p> Al een account? </p>
-				<a href="#" class="link-primary">Klik hier om in te loggen</a>
+				<a href="/login" class="link-primary">Klik hier om in te loggen</a>
 			</div>
 		</div>
 	</form>
@@ -131,23 +131,23 @@
 		</div>
 
 		<div class="col-12 mb-3">
-			<label for="savety-question" class="form-label">Beveiliginsvraag</label>
-			<select name="savety_question" id="question" class="form-select" required
-					aria-describedby="savety-question-help">
+			<label for="safety-question" class="form-label">Beveiliginsvraag</label>
+			<select name="safety_question" id="question" class="form-select" required
+					aria-describedby="safety-question-help">
 				<option selected disabled>Selecteer een beveiliginsvraag</option>
 				<option value="question-1">Is dit een goede vraag?</option>
 				<option value="question-1">Moet ik deze vraag überhaupt wel beantwoorden?</option>
 				<option value="question-1">België</option>
 				<option value="question-1">Wat was de naam van uw eerste huisdier?</option>
 			</select>
-			<div id="savety-question-help" class="form-text">
+			<div id="safety-question-help" class="form-text">
 				U moet deze vraag beantwoorden wanneer u een nieuw wachtwoord aanvraagd.
 			</div>
 		</div>
 
 		<div class="col-12 mb-3">
-			<label for="savety-answer" class="form-label">Antwoord beveiliginsvraag</label>
-			<input type="text" id="savety-answer" class="form-control" required>
+			<label for="safety-answer" class="form-label">Antwoord beveiliginsvraag</label>
+			<input type="text" id="safety-answer" class="form-control" required>
 		</div>
 
 		<div class="col-12 col-md-6 mb-3 d-flex align-items-center">

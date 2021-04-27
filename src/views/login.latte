@@ -2,31 +2,34 @@
 
 <div class="container p-5">
 	{getBreadCrumbs()|noescape}
-	<form class="row">
-		<div class="col-12 text-center">
+	<form method="POST" class="row needs-validation" novalidate>
+		<div class="col-12 text-center mb-5">
 			<h1>Inloggen</h1>
 		</div>
-		<div class="col-12 mb-3">
-			<label for="Email-address" class="form-label">E-mailadres</label>
-			<input type="text" name="Email-address" id="Email-address" class="form-control">
+		<div class="d-flex justify-content-center w-100">
+			<div class="row mb-3">
+				<label for="Email-address" class="form-label">E-mailadres</label>
+				<input type="text" name="Email-address" id="Email-address" class="form-control">
+			</div>
 		</div>
-		<div class="col-12 mb-3">
-			<label for="password" class="form-label">Wachtwoord</label>
-			<input type="text" name="password" id="password" class="form-control">
+		<div class="d-flex justify-content-center w-100">
+			<div class="row mb-3">
+				<label for="password" class="form-label">Wachtwoord</label>
+				<input type="text" name="password" id="password" class="form-control">
+			</div>
 		</div>
-		<div class="col-12 col-md-6 mb-3 d-flex align-items-center">
-			<p class="mb-0 text-center text-md-left" id="">Nog geen account? Klik <a href="/signup">hier</a> om je te
+		<div class="row">
+			<p class="col text-center mb-2">Nog geen account? Klik <a href="/signup">hier</a> om je te
 				registreren.</p>
 		</div>
-		<div class="col-sm">
-		</div>
-		<div class="col-auto mb-3">
+		<div class="col text-center mb-3">
 			<a href="#">Wachtwoord vergeten?</a>
 		</div>
-		<div class="col-12 col-md-6 mb-3 justify-content-center">
-			<button type="submit" class="btn btn-primary">Aanmelden</button>
+		<div class="row mb-3">
+			<div class="col d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary">Aanmelden</button>
+			</div>
 		</div>
-
 	</form>
 </div>
 
