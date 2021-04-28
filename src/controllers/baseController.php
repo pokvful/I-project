@@ -53,6 +53,8 @@ class BaseController {
 			"_fileName" => urldecode($fileName),
 			"_params" => $_GET,
 			"_csrfToken" => $_SESSION["csrf-token"],
+			"_loggedin" => $_SESSION["loggedin"] ?? false,
+			"_username" => $_SESSION["username"] ?? null,
 		);
 	}
 
