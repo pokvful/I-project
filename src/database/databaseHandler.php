@@ -74,7 +74,12 @@ class DatabaseHandler {
 			$stmt->bindValue($key, $value);
 		}
 		$stmt->execute();
-		return $this->parseResult($stmt->fetchAll());
+
+		try {
+			return $this->parseResult($stmt->fetchAll());
+		} catch (Exception $e) {
+			return [];
+		}
 	}
 
 	/**
