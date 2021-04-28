@@ -17,7 +17,7 @@
 			integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 			crossorigin="anonymous"></script>
 
-	<title>Homepagina</title>
+	<title>{='EenmaalAndermaal | ' . ( $title ?? ucfirst($_fileName) )}</title>
 </head>
 <body id="body-placement">
 <nav class="sticky-top">
@@ -43,7 +43,11 @@
 						<a class="nav-link" href="#">Geboden items</a>
 					</li>
 					<li class="nav-item nav-item">
-						<a class="nav-link" href="/login">Inloggen</a>
+						{if $_loggedin}
+							<a class="nav-link" href="/logout/">Uitloggen</a>
+						{else}
+							<a class="nav-link" href="/login/">Inloggen</a>
+						{/if}
 					</li>
 			</ul>
 		</div>

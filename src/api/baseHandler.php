@@ -36,7 +36,7 @@ class BaseHandler {
 	 * 
 	 * @param string [$url=null] - The redirect url
 	 */
-	private function redirect(string $url = null) {
+	protected function redirect(string $url = null) {
 		if (!$url) {
 			if ( !isset( $_POST["redirect_uri"] ) )
 				die("no redirect uri given");
@@ -44,7 +44,8 @@ class BaseHandler {
 			$url = $_POST["redirect_uri"];
 		}
 
-		header("Location $url");
+		header("Location: $url");
+		exit();
 	}
 
 	public function run() {

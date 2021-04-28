@@ -29,10 +29,12 @@ class BaseController {
 
 			foreach ($newPaths as $path) {
 				$currentPath .= "{$path}/";
+				$text = htmlentities( urldecode($path), ENT_QUOTES );
+
 				if ($i === count($newPaths) - 1) {
-					$result .= "<li class=\"breadcrumb-item active\"> {$path} </li>";
+					$result .= "<li class=\"breadcrumb-item active\"> {$text} </li>";
 				} else {
-					$result .= "<li class=\"breadcrumb-item\"> <a href=\"{$currentPath}\"> {$path} </a></li>";
+					$result .= "<li class=\"breadcrumb-item\"> <a href=\"{$currentPath}\"> {$text} </a></li>";
 				}
 				$i++;
 			}
@@ -46,11 +48,13 @@ class BaseController {
 		$this->filePath = $filePath;
 		$this->fileName = $fileName;
 		$this->data = array(
-			"_requestPath" => $requestPath,
-			"_filePath" => $filePath,
-			"_fileName" => $fileName,
+			"_requestPath" => urldecode($requestPath),
+			"_filePath" => urldecode($filePath),
+			"_fileName" => urldecode($fileName),
 			"_params" => $_GET,
 			"_csrfToken" => $_SESSION["csrf-token"],
+			"_loggedin" => $_SESSION["loggedin"] ?? false,
+			"_username" => $_SESSION["username"] ?? null,
 		);
 	}
 
