@@ -2,7 +2,13 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . '/settings.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
 
-class NotImplementedException extends Exception { }
+use Tracy\Debugger;
+
+Debugger::enable();
+
+
+class NotImplementedException extends Exception {
+}
 
 class BaseController {
 	private Latte\Engine $latteEngine;
@@ -17,7 +23,7 @@ class BaseController {
 
 		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
 
-		$this->latteEngine->addFunction('getCsrfInput', function(): string {
+		$this->latteEngine->addFunction('getCsrfInput', function (): string {
 			return "<input type=\"hidden\" name=\"csrf-token\" value=\"{$_SESSION["csrf-token"]}\" />";
 		});
 
@@ -29,7 +35,7 @@ class BaseController {
 
 			foreach ($newPaths as $path) {
 				$currentPath .= "{$path}/";
-				$text = htmlentities( urldecode($path), ENT_QUOTES );
+				$text = htmlentities(urldecode($path), ENT_QUOTES);
 
 				if ($i === count($newPaths) - 1) {
 					$result .= "<li class=\"breadcrumb-item active\"> {$text} </li>";

@@ -2,7 +2,8 @@
   "require": {
     "latte/latte": "^2.10",
     "twbs/bootstrap": "^v5.0.0-beta3",
-    "phpmailer/phpmailer": "^6.4"
+    "phpmailer/phpmailer": "^6.4",
+    "tracy/tracy": "^2.8"
   },
   "config": {
     "platform": {
