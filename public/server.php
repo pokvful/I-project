@@ -9,6 +9,8 @@ if (SETTINGS["debug"] === true) {
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 
+	Debugger::$strictMode = true;
+	Debugger::$dumpTheme = 'dark';
 	Debugger::enable();
 }
 
