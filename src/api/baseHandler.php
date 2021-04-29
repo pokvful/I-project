@@ -12,20 +12,20 @@ class BaseHandler {
 		$this->fileName = $fileName;
 
 		if (
-			!isset( $_POST["csrf-token"])
+			!isset($_POST["csrf-token"])
 			|| !$_POST["csrf-token"]
 			|| $_POST["csrf-token"] !== $_SESSION["csrf-token"]
 		) {
 			header("Content-Type: application/json");
 			http_response_code(403);
 			die(
-				json_encode(
-					array(
-						"error" => true,
-						"code" => 403,
-						"message" => "Forbidden",
-					)
+			json_encode(
+				array(
+					"error" => true,
+					"code" => 403,
+					"message" => "Forbidden",
 				)
+			)
 			);
 		}
 	}
@@ -33,12 +33,12 @@ class BaseHandler {
 	/**
 	 * Redirect to `$url`. If `$url` is not send, the function uses the
 	 * `redirect_uri` parameter in the request body
-	 * 
+	 *
 	 * @param string [$url=null] - The redirect url
 	 */
 	protected function redirect(string $url = null) {
 		if (!$url) {
-			if ( !isset( $_POST["redirect_uri"] ) )
+			if (!isset($_POST["redirect_uri"]))
 				die("no redirect uri given");
 
 			$url = $_POST["redirect_uri"];

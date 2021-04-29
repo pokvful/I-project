@@ -4,14 +4,14 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
 
 class LoginHandler extends BaseHandler {
 	public function run() {
-		if ( !( isset( $_POST["username"] ) && $_POST["username"]) ) {
-			$this->redirect( "/login/?login-error=" . urlencode("Geen gebruikersnaam opgegeven!") );
+		if (!(isset($_POST["username"]) && $_POST["username"])) {
+			$this->redirect("/login/?login-error=" . urlencode("Geen gebruikersnaam opgegeven!"));
 		}
 
-		if ( !( isset( $_POST["password"] ) && $_POST["password"] ) ) {
+		if (!(isset($_POST["password"]) && $_POST["password"])) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Geen wachtwoord opgegeven!")
-				. "&username=" . urlencode( $_POST["username"] )
+				. "&username=" . urlencode($_POST["username"])
 			);
 		}
 
@@ -27,7 +27,7 @@ class LoginHandler extends BaseHandler {
 			)
 		);
 
-		if ( count($users) <= 0 ) {
+		if (count($users) <= 0) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Geen gebruiker met de gebruikersnaam \"$username\" gevonden.")
 			);
@@ -35,7 +35,7 @@ class LoginHandler extends BaseHandler {
 
 		$user = $users[0];
 
-		if ( !password_verify( $password, $user["password"] ) ) {
+		if (!password_verify($password, $user["password"])) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Het wachtwoord is incorrect.")
 				. "&username=" . urlencode($username)
@@ -45,7 +45,7 @@ class LoginHandler extends BaseHandler {
 		$_SESSION["loggedin"] = true;
 		$_SESSION["username"] = $username;
 
-		isset( $_POST["redirect_uri"] )
+		isset($_POST["redirect_uri"])
 			? $this->redirect()
 			: $this->redirect('/me/');
 	}
