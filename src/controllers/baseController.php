@@ -2,11 +2,6 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . '/settings.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
 
-use Tracy\Debugger;
-
-Debugger::enable();
-
-
 class NotImplementedException extends Exception {
 }
 
