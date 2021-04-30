@@ -4,6 +4,7 @@
 .prettierrc
 
 vendor/
+access.log
 
 settings.php
 public/resources/stylesheet/

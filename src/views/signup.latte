@@ -3,12 +3,12 @@
 {if !$cameFromMail}
 <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
 	<!--- Sign-in formum --->
-	<form method="POST" class="col-lg-4 mb-3" novalidate>
-		{getCsrfInput($_csrfToken)|noescape}
+	<form method="POST" action="/signup/" class="col-lg-4 mb-3" novalidate>
+		{getCsrfInput()|noescape}
 
 		<div class="row mb-3">
 			<label for="input-email" class="form-label">E-mailadres</label>
-			<input type="email" class="form-control" id="input-email">
+			<input type="email" class="form-control" name="email" placeholder="email" id="input-email" required>
 		</div>
 
 		<div class="row mb-3">
