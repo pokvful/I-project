@@ -17,7 +17,7 @@
 			integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 			crossorigin="anonymous"></script>
 
-	<title>Homepagina</title>
+	<title>{='EenmaalAndermaal | ' . ( $title ?? ucfirst($_fileName) )}</title>
 </head>
 <body id="body-placement">
 <nav class="sticky-top">
@@ -31,7 +31,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/">Home</a>
 					</li>
-					<li class="nav-item dropdown">
+					<li class="centered nav-item dropdown">
 						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>
 						<div class="dropdown-menu text-center" id="dropdown-menu-placement">
 							<a class="dropdown-item">Speelgoed</a>
@@ -43,7 +43,11 @@
 						<a class="nav-link" href="#">Geboden items</a>
 					</li>
 					<li class="nav-item nav-item">
-						<a class="nav-link" href="/login">Inloggen</a>
+						{if $_loggedin}
+							<a class="nav-link" href="/logout/">Uitloggen</a>
+						{else}
+							<a class="nav-link" href="/login/">Inloggen</a>
+						{/if}
 					</li>
 			</ul>
 		</div>
@@ -52,6 +56,7 @@
 
 {* Cookie-popup *}
 {*	BRON: https://github.com/Wruczek/Bootstrap-Cookie-Alert*}
+
 <div class="alert text-center cookiealert" role="alert">
 	<b>Ben jij een fan van cookies?</b> &#x1F36A; Wij gebruiken cookies om ervoor te zorgen dat jij als gebruiker de
 	beste ervaring hebt op onze website. <a

@@ -5,13 +5,13 @@ session_start();
 
 class RequestHandler {
 	public function __construct() {
-		if ( !isset( $_SESSION["csrf-token"] ) ) {
-			$_SESSION["csrf-token"] = bin2hex( random_bytes(32) );
+		if (!isset($_SESSION["csrf-token"])) {
+			$_SESSION["csrf-token"] = bin2hex(random_bytes(32));
 		}
 	}
 
 	public function renderPath() {
-		$requestPath = explode( '?', $_SERVER["REQUEST_URI"] )[0];
+		$requestPath = explode('?', $_SERVER["REQUEST_URI"])[0];
 		$isPost = $_SERVER["REQUEST_METHOD"] === "POST";
 		$folder = $isPost ? "api" : "controllers";
 		$type = $isPost ? "Handler" : "Controller";
@@ -57,7 +57,7 @@ class RequestHandler {
 				. $e->getMessage()
 				. '</code>'
 			);
-		} catch(Latte\RuntimeException $e) {
+		} catch (Latte\RuntimeException $e) {
 			die(
 				'<h1 style="color: red">Whoopsie</h1><code>'
 				. ' In "' . $e->getFile() . ':' . $e->getLine() . '"<br>'

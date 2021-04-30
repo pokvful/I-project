@@ -6,62 +6,13 @@
 
 <div class="container bg-white py-5">
 	<div class="row">
-		<div class="col-md-3 col-sm-5 col-xs-10 mx-auto my-4 auction-item">
+		<div n:foreach="$auctionItems as $auctionItem" class="col-md-3 col-sm-5 col-xs-12 mx-auto my-4 auction-item">
 			<div class="card">
 				<img class="card-img-top"
 					 src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg"
 					 alt="Card image cap">
 				<div class="card-body">
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-						the card's content.</p>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 col-sm-5 col-xs-10 mx-auto my-4 auction-item">
-			<div class="card">
-				<img class="card-img-top"
-					 src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg"
-					 alt="Card image cap">
-				<div class="card-body">
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-						the card's content.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-3 col-sm-5 col-xs-10 mx-auto my-4 auction-item">
-			<div class="card">
-				<img class="card-img-top"
-					 src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg"
-					 alt="Card image cap">
-				<div class="card-body">
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-						the card's content.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-3 col-sm-5 col-xs-12 mx-auto my-4 auction-item">
-			<div class="card">
-				<img class="card-img-top"
-					 src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg"
-					 alt="Card image cap">
-				<div class="card-body">
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-						the card's content.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-3 col-sm-5 col-xs-12 mx-auto my-4 auction-item">
-			<div class="card">
-				<img class="card-img-top"
-					 src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg"
-					 alt="Card image cap">
-				<div class="card-body">
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-						the
-						card's content.</p>
+					<p class="card-text">{$auctionItem["title"] . " " . $auctionItem["description"]}</p>
 				</div>
 			</div>
 		</div>

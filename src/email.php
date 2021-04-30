@@ -9,8 +9,8 @@ use PHPMailer\PHPMailer\Exception;
 class Email {
 	private PHPMailer $mailer;
 
-	public function __construct( string $subject, array $from = SETTINGS["email"]["from"] ) {
-		$this->mailer = new PHPMailer( SETTINGS["debug"] );
+	public function __construct(string $subject, array $from = SETTINGS["email"]["from"]) {
+		$this->mailer = new PHPMailer(SETTINGS["debug"]);
 
 		$this->mailer->SMTPDebug = SETTINGS["debug"]
 			? SMTP::DEBUG_CONNECTION
@@ -20,17 +20,17 @@ class Email {
 		$this->mailer->SMTPAuth = false;
 		$this->mailer->Port = SETTINGS["email"]["port"];
 
-		$this->mailer->setFrom( $from["email"], $from["name"] );
+		$this->mailer->setFrom($from["email"], $from["name"]);
 		$this->mailer->isHTML(true);
 		$this->mailer->Subject = $subject;
 	}
 
 	public function addAddress($emailAddresses, string $name = null) {
-		if ( !$name )
-			$emailAddresses = array( "$name" => "$emailAddresses" );
+		if (!$name)
+			$emailAddresses = array("$name" => "$emailAddresses");
 
-		foreach($emailAddresses as $name => $email) {
-			if ( gettype($name) === 'string' ) {
+		foreach ($emailAddresses as $name => $email) {
+			if (gettype($name) === 'string') {
 				$this->mailer->addAddress($email, $name);
 			} else {
 				$this->mailer->addAddress($email);
@@ -51,7 +51,7 @@ class Email {
 		try {
 			$this->mailer->send();
 		} catch (Exception $e) {
-			die( $e->getMessage() );
+			die($e->getMessage());
 		}
 	}
 }
