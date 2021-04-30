@@ -60,8 +60,6 @@ class SignupHandler extends BaseHandler
 
 			foreach ($queryOutput as $query) {
 				if (!isset($query)) {
-					echo "Dees is leeg: . $query";
-					die();
 				}
 			}
 		} else {
