@@ -15,7 +15,7 @@
 					<a
 						n:foreach="$items as $item"
 						href="/faq?questionId={$item['id']}"
-						class="list-group-item list-group-item-action list-group-item-primary mb-3"
+						class="btn btn-primary btn-block mb-3"
 					>
 						{$item['questionText']}
 					</a>
@@ -25,15 +25,16 @@
 		</div>
 	</div>
 {else}
-<a class="btn btn-primary ms-5" href="/Faq" role="button">Terug</a>
 	<div class= "container">
 		<div class="row">
-			<div class="col-1"></div>
-			<div class="col text-center">
-				<hr>
-				{$questionItem[0]['answerText']}
+			<div class="col-2 me-5">
+				<a class="btn btn-link" href="/Faq" role="button">Terug</a>
 			</div>
-			<div class="col-1"></div>
+			<div class="col 8">
+				<hr>
+				{$questionItem[0]['answerText']|noescape}
+			</div>
+			<div class="col-2"></div>
 		</div>
 	</div>	
 {/if}
