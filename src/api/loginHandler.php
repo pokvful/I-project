@@ -2,8 +2,10 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/database/databaseHandler.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
 
-class LoginHandler extends BaseHandler {
-	public function run() {
+class LoginHandler extends BaseHandler
+{
+	public function run()
+	{
 		if (!(isset($_POST["username"]) && $_POST["username"])) {
 			$this->redirect("/login/?login-error=" . urlencode("Geen gebruikersnaam opgegeven!"));
 		}

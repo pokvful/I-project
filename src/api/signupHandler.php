@@ -1,38 +1,111 @@
 <?php
+require_once $_SERVER["DOCUMENT_ROOT"] . '/src/database/databaseHandler.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/src/email.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/signupHandler.php';
 
-class signupHandler extends baseHandler {
-	public function run() {
+/**
+ * Class SignupHandler
+ */
+class SignupHandler extends BaseHandler
+{
 
-		$email = new Email("Signup email");
-		$email->addAddress("jorambuitenhuis@gmail.com");
-		$email->setText("Hey, <b>dit</b> is een test");
-		$email->send();
-		echo "Done :)";
+	public function run()
+	{
+		$dbh = new DatabaseHandler();
 
-		echo "test signupHandler";
+		if (isset($_POST['first_name'])) {
+			$firstname = $_POST["first_name"];
+			$lastname = $_POST["last_name"];
+			$username = $_POST["username"];
+			$password = password_hash($_POST["password"], PASSWORD_DEFAULT); //moet nog gehashed worden
+			$mailbox = $_POST["user"]; //uit de url
+			$dateOfBirth = $_POST["birth_date"];
+//		$phoneNumber = $_POST['phone-number-1"]; //Staat in andere tabel
+			$address = $_POST["address"];
+			$addressAddition = $_POST["address_addition"];
+			$postalCode = $_POST["postal_code"];
+			$city = $_POST["city"];
+			$country = $_POST["country"];
+			$question = $_POST["safety_question"]; //Verwijzing naar andere tabel
+			$answerText = $_POST["question_answer"];
 
-		if (!isset($_POST['email'])){
-			$this->redirect("/signup");
+			var_dump($password);
+
+
+
+			$queryOutput = $dbh->query(
+				<<<SQL
+					INSERT INTO [User] (username, mailbox, first_name,  last_name, address_line1, 
+									address_line2, zip_code, city, country, day_of_birth, [password], 
+									question, answer_text, seller)                    					
+									VALUES (:username, :mailbox ,:firstname, :lastname, :address, :addressAddition, :postalCode, 
+									:city, :country, :dateOfBirth, :password, :question, :answerText, 0)
+				SQL,
+				array(
+					":username" => $username,
+					":mailbox" => $mailbox,
+					":firstname" => $firstname,
+					":lastname" => $lastname,
+					":address" => $address,
+					":addressAddition" => $addressAddition,
+					":postalCode" => $postalCode,
+					":city" => $city,
+					":country" => $country,
+					":dateOfBirth" => $dateOfBirth,
+					":password" => $password,
+					":question" => $question,
+					":answerText" => $answerText
+				));
+
+			foreach ($queryOutput as $query) {
+				if (!isset($query)) {
+					echo "Dees is leeg: . $query";
+					die();
+				}
+			}
+		} else {
+
+			//Checks if email input field has acceptable values
+			if (!isset($_POST["email"])) {
+
+			}
+
+			$email = $_POST["email"];
+
+			//Filters values inside email input field
+			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				$this->redirect("/signup/?signup-error=" . urlencode("Geen email opgegeven.")
+				);
+				$this->redirect(
+					"/signup/?signup-error=" . urlencode("Geen geldige email opgegeven.")
+					. "&email=" . urlencode($email)
+				);
+			}
+
+			//Initializes verificationLink variable with hashed value from current time and set email
+			$verificationLink = password_hash(time() . $email, PASSWORD_DEFAULT);
+
+			$dbh = new DatabaseHandler();
+
+			//Builds email that gets sent afterwards
+			$emailBuilder = new Email("Signup Email");
+			$emailBuilder->addAddress($email);
+			$address = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
+			$emailBuilder->setText("Hey, <b>dit</b> is een test, je verificatielink is <a href=" . $address . "?hash=" . $verificationLink . "&user=$email>Klik hier</a>");
+			$emailBuilder->send();
+			echo "Done :)";
+
+			//Inserts email and verification code
+			$dbh->query("INSERT INTO Userverify (mailbox, verification_code) VALUES(:email, :verificationLink)", array(
+				":email" => $email,
+				":verificationLink" => $verificationLink
+			));
+
+			registerForm();
+
 		}
-			$email = $_POST['email']; //is ingevulde email
-
-
-
-		}
-		$email = "jorey.lensink@gmail.com";
-		$verivicationLink = password_hash(time() . $_POST['email']);
-
-		var_dump($verivicationLink);
-		die();
-//$hash = "fddfd";
-//		$_SESSION["signup-hash"] = $hash;
-//		$url = $_SERVER[""] . "?emailhash=" . hash;
-
-		$email = new Email("Nieuwe test mail!");
-		$email->addAddress("jorambuitenhuis@gmail.com");
-		$email->setText("Hey, <b>dit</b> is een test");
-		$email->send();
-		echo "Done :)";
-		//eventeel redirect
+	}
 
 }
+

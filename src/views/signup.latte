@@ -1,168 +1,61 @@
 {include './includes/header.latte'}
 
-{if !$cameFromMail}
-<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
-	<!--- Sign-in formum --->
-	<form method="POST" action="/signup/" class="col-lg-4 mb-3" novalidate>
-		{getCsrfInput()|noescape}
+{if !$validVerification}
+	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
+		<!--- Sign-in formum --->
+		<form method="POST" action="/signup/" class="col-lg-4 mb-3" novalidate>
+			{getCsrfInput()|noescape}
 
-		<div class="row mb-3">
-			<label for="input-email" class="form-label">E-mailadres</label>
-			<input type="email" class="form-control" name="email" placeholder="email" id="input-email" required>
-		</div>
-
-		<div class="row mb-3">
-			<div class="col d-flex justify-content-center">
-				<button type="submit" class="btn btn-primary">Registreren</button>
+			<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
+				{$signupError}
 			</div>
-		</div>
 
-		<div class="row mb-3">
-			<div class="col text-center">
-				<p> Al een account? </p>
-				<a href="/login" class="link-primary">Klik hier om in te loggen</a>
+			<div class="row mb-3">
+				<label for="input-email" class="form-label">E-mailadres</label>
+				<input type="email" class="form-control" name="email" placeholder="email" id="input-email" required>
 			</div>
-		</div>
-	</form>
-</div>
 
-<script>
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        let forms = document.querySelectorAll('.needs-validation');
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-
-                    form.classList.add('was-validated');
-                }, false);
-            });
-    })();
-</script>
-{else}
-{* d-flex justify-content-center align-items-center *}
-<div class="container p-5">
-	{getBreadCrumbs()|noescape}
-	<form class="row needs-validation" novalidate>
-		<div class="col-12 text-center">
-			<h1>Registreren</h1>
-		</div>
-		<div class="col-12 col-md-6 mb-3">
-			<label for="first-name" class="form-label">Voornaam</label>
-			<input type="text" name="first_name" id="first-name" class="form-control" required>
-		</div>
-
-		<div class="col-12 col-md-6 mb-3">
-			<label for="last-name" class="form-label">Achternaam</label>
-			<input type="text" name="last_name" id="last-name" class="form-control" required>
-		</div>
-
-		<div class="col-12 mb-3">
-			<label for="username" class="form-label">Gebruikersnaam</label>
-			<input type="text" name="username" id="username" class="form-control" required>
-		</div>
-
-		<div class="col-12 mb-3">
-			<label for="password" class="form-label">Wachtwoord</label>
-			<input type="password" name="password" id="password" class="form-control" aria-describedby="password-help"
-				   required>
-			<div id="password-help" class="form-text">
-				{* Does this look good? *}
-				<ul>
-					<li>Hier komt</li>
-					<li>Dan wat</li>
-					<li>Info over password</li>
-				</ul>
+			<div class="row mb-3">
+				<div class="col d-flex justify-content-center">
+					<button type="submit" class="btn btn-primary">Registreren</button>
+				</div>
 			</div>
-		</div>
 
-		<div class="col-12 mb-3">
-			<label for="birth-date" class="form-label">Geboortedatum</label>
-			<input type="date" name="birth_date" id="birth-date" class="form-control" required>
-		</div>
-
-		<div class="col-12 mb-3">
-			<label for="phone-number-1" class="form-label">Telefoonnummer</label>
-
-			<div class="input-group">
-				<span class="input-group-text">NL +31</span>
-				<input type="tel" name="phone_number" id="phone-number-1" class="form-control" required>
+			<div class="row mb-3">
+				<div class="col text-center">
+					<p> Al een account? </p>
+					<a href="/login" class="link-primary">Klik hier om in te loggen</a>
+				</div>
 			</div>
-		</div>
-
-		<div class="col-12 col-md-6 mb-3">
-			<label for="address" class="form-label">Adres</label>
-			<input type="text" name="address" id="address" class="form-control" required>
-		</div>
-
-		<div class="col-12 col-md-6 mb-3">
-			<label for="address_addition" class="form-label">Adres toevoeging</label>
-			<input type="text" name="address_addition" id="address_addition" class="form-control" required>
-		</div>
-
-		<div class="col-12 col-md-6 mb-3">
-			<label for="postal-code" class="form-label">Postcode</label>
-			<input type="text" name="postal_code" id="postal-code" class="form-control" required>
-		</div>
-
-		<div class="col-12 col-md-6 mb-3">
-			<label for="city" class="form-label">Plaats</label>
-			<input type="text" name="city" id="city" class="form-control" required>
-		</div>
-
-		<div class="col-12 mb-3">
-			{* Maybe use https://caniuse.com/datalist ? *}
-			<label for="country" class="form-label">Land</label>
-			<select name="country" id="country" class="form-select" required>
-				<option selected disabled>Selecteer een land</option>
-				<option value="netherlands">Nederland</option>
-				<option value="germany">Duitsland</option>
-				<option value="belgium">België</option>
-				<option value="united-kingdom">Groot Britannië</option>
-			</select>
-		</div>
-
-		<div class="col-12 mb-3">
-			<label for="safety-question" class="form-label">Beveiliginsvraag</label>
-			<select name="safety_question" id="question" class="form-select" required
-					aria-describedby="safety-question-help">
-				<option selected disabled>Selecteer een beveiliginsvraag</option>
-				<option value="question-1">Is dit een goede vraag?</option>
-				<option value="question-1">Moet ik deze vraag überhaupt wel beantwoorden?</option>
-				<option value="question-1">België</option>
-				<option value="question-1">Wat was de naam van uw eerste huisdier?</option>
-			</select>
-			<div id="safety-question-help" class="form-text">
-				U moet deze vraag beantwoorden wanneer u een nieuw wachtwoord aanvraagd.
-			</div>
-		</div>
-
-		<div class="col-12 mb-3">
-			<label for="safety-answer" class="form-label">Antwoord beveiliginsvraag</label>
-			<input type="text" id="safety-answer" class="form-control" required>
-		</div>
-
-		<div class="col-12 col-md-6 mb-3 d-flex align-items-center">
-			<p class="mb-0 text-center text-md-left">Al een account? Klik <a href="/login">hier</a> om in te loggen.</p>
-		</div>
-
-		<div class="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content-md-end">
-			<button type="submit" class="btn btn-primary">Aanmelden</button>
-		</div>
-	</form>
-</div>
+		</form>
+	</div>
 
 	<script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            let forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
+	</script>
+{else}
+	{* d-flex justify-content-center align-items-center *}
+	<script>
         // from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
-        // TODO: should we really add this, because javascript shouldn't be in the middel of the page...
+        // TODO: should we really add this, because javascript shouldn't be in the middle of the page...
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function () {
             'use strict'
@@ -184,6 +77,122 @@
                 });
         })();
 	</script>
+
+	<div class="container p-5">
+		{getBreadCrumbs()|noescape}
+		<form class="row needs-validation" method="POST" action="/signup/" novalidate>
+			{getCsrfInput()|noescape}
+			<input n:if="$user" type="hidden" name="user" value="{$user}">
+
+			<div class="col-12 text-center">
+				<h1>Registreren</h1>
+			</div>
+			<div class="col-12 col-md-6 mb-3">
+				<label for="first-name" class="form-label">Voornaam</label>
+				<input type="text" name="first_name" id="first-name" class="form-control" required>
+			</div>
+
+			<div class="col-12 col-md-6 mb-3">
+				<label for="last-name" class="form-label">Achternaam</label>
+				<input type="text" name="last_name" id="last-name" class="form-control" required>
+			</div>
+
+			<div class="col-12 mb-3">
+				<label for="username" class="form-label">Gebruikersnaam</label>
+				<input type="text" name="username" id="username" class="form-control" required>
+			</div>
+
+			<div class="col-12 mb-3">
+				<label for="password" class="form-label">Wachtwoord</label>
+				<input type="password" name="password" id="password" class="form-control"
+					   aria-describedby="password-help"
+					   required>
+				<div id="password-help" class="form-text">
+					{* Does this look good? *}
+					<ul>
+						<li>Hier komt</li>
+						<li>Dan wat</li>
+						<li>Info over password</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-12 mb-3">
+				<label for="birth-date" class="form-label">Geboortedatum</label>
+				<input type="date" name="birth_date" id="birth-date" class="form-control" required>
+			</div>
+
+			<div class="col-12 mb-3">
+				<label for="phone-number-1" class="form-label">Telefoonnummer</label>
+
+				<div class="input-group">
+					<span class="input-group-text">NL +31</span>
+					<input type="tel" name="phone_number" id="phone-number-1" class="form-control">
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 mb-3">
+				<label for="address" class="form-label">Adres</label>
+				<input type="text" name="address" id="address" class="form-control" required>
+			</div>
+
+			<div class="col-12 col-md-6 mb-3">
+				<label for="address_addition" class="form-label">Adres toevoeging</label>
+				<input type="text" name="address_addition" id="address_addition" class="form-control" required>
+			</div>
+
+			<div class="col-12 col-md-6 mb-3">
+				<label for="postal-code" class="form-label">Postcode</label>
+				<input type="text" name="postal_code" id="postal-code" class="form-control" required>
+			</div>
+
+			<div class="col-12 col-md-6 mb-3">
+				<label for="city" class="form-label">Plaats</label>
+				<input type="text" name="city" id="city" class="form-control" required>
+			</div>
+
+			<div class="col-12 mb-3">
+				{* Maybe use https://caniuse.com/datalist ? *}
+				<label for="country" class="form-label">Land</label>
+				<select name="country" id="country" class="form-select" required>
+					<option selected disabled>Selecteer een land</option>
+					<option value="netherlands">Nederland</option>
+					<option value="germany">Duitsland</option>
+					<option value="belgium">België</option>
+					<option value="united-kingdom">Groot Britannië</option>
+				</select>
+			</div>
+
+			<div class="col-12 mb-3">
+				<label for="safety-question" class="form-label">Beveiligingsvraag</label>
+				<select name="safety_question" id="question" class="form-select" required
+						aria-describedby="safety-question-help">
+					<option selected disabled>Selecteer een beveiligingsvraag</option>
+					<option value="1">Is dit een goede vraag?</option>
+					<option value="2">Moet ik deze vraag überhaupt wel beantwoorden?</option>
+					<option value="3">België</option>
+					<option value="4">Wat was de naam van uw eerste huisdier?</option>
+				</select>
+				<div id="safety-question-help" class="form-text">
+					U moet deze vraag beantwoorden wanneer u een nieuw wachtwoord aanvraagd.
+				</div>
+			</div>
+
+			<div class="col-12 mb-3">
+				<label for="safety-answer" class="form-label">Antwoord beveiliginsvraag</label>
+				<input type="text" name="question_answer" id="safety-answer" class="form-control" required>
+			</div>
+
+			<div class="col-12 col-md-6 mb-3 d-flex align-items-center">
+				<p class="mb-0 text-center text-md-left">Al een account? Klik <a href="/login">hier</a> om in te loggen.
+				</p>
+			</div>
+
+			<div class="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content-md-end">
+				<button type="submit" name="submit" class="btn btn-primary">Aanmelden</button>
+			</div>
+		</form>
+	</div>
 {/if}
 
 {include './includes/footer.latte'}
