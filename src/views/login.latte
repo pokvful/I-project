@@ -19,9 +19,9 @@
 				<label for="username" class="form-label">Gebruikersnaam</label>
 
 				{if $username}
-					<input type="text" name="username" id="username" class="form-control" value="{$username}">
+					<input type="text" name="username" id="username" class="form-control" value="{$username}" required>
 				{else}
-					<input type="text" name="username" id="username" class="form-control">
+					<input type="text" name="username" id="username" class="form-control" required >
 				{/if}
 			</div>
 		</div>
@@ -29,7 +29,7 @@
 		<div class="d-flex justify-content-center w-100">
 			<div class="row mb-3">
 				<label for="password" class="form-label">Wachtwoord</label>
-				<input type="password" name="password" id="password" class="form-control">
+				<input type="password" name="password" id="password" class="form-control" required>
 			</div>
 		</div>
 

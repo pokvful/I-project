@@ -9,7 +9,7 @@ class LoginController extends BaseController {
 
 		// TODO: should work. needs to be tested first.
 		// disallows access to login page, when logged in
-		if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
+		if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
 			$this->redirect('/');
 		}
 

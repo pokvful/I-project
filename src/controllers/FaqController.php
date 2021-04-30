@@ -2,10 +2,8 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/controllers/baseController.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
-class FaqController extends BaseController
-{
-	public function run()
-	{
+class FaqController extends BaseController {
+	public function run() {
 		$db = new DatabaseHandler();
 
 //Makes sure you only load the neccesary content from the database. if you are on the 'hub' Faq page, you don't need the answer.

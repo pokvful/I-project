@@ -7,11 +7,9 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/signupHandler.php';
 /**
  * Class SignupHandler
  */
-class SignupHandler extends BaseHandler
-{
+class SignupHandler extends BaseHandler {
 
-	public function run()
-	{
+	public function run() {
 		$dbh = new DatabaseHandler();
 
 		if (isset($_POST['first_name'])) {
@@ -31,7 +29,6 @@ class SignupHandler extends BaseHandler
 			$answerText = $_POST["question_answer"];
 
 			var_dump($password);
-
 
 
 			$queryOutput = $dbh->query(

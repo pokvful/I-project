@@ -5,10 +5,8 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 /**
  * Class SignupController
  */
-class SignupController extends BaseController
-{
-	public function checkCredentials()
-	{
+class SignupController extends BaseController {
+	public function checkCredentials() {
 
 		$this->data['validVerification'] = false;
 
@@ -37,13 +35,11 @@ class SignupController extends BaseController
 		$this->data['validVerification'] = true;
 	}
 
-	public function signupForm()
-	{
+	public function signupForm() {
 
 	}
 
-	public function run()
-	{
+	public function run() {
 		$this->data["signupError"] = $_GET["signup-error"] ?? null;
 		$this->data["cameFromMail"] = false;
 		$this->data["user"] = $_GET['user'] ?? null;
