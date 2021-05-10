@@ -31,22 +31,16 @@ class SignupController extends BaseController {
 		$this->data['validVerification'] = true;
 
 		//Checks if user hash corresponds with user email
-//		if ($userHash !== $queryVerifyUser[0]["verification_code"]) {
-//			$this->redirect("/signup/?signup-error=" . urlencode("Verificatiegegevens zijn onjuist, probeer het later opnieuw.")
-//			);
-//		}
-
-		//Checks if user email isn't already taken
-//		if ($userEmail === $queryVerifyUser[0]["mailbox"]) {
-//			$this->redirect("/signup/?signup-error=" . urlencode("Dit e-mailadres is al in gebruik.")
-//			);
-//		}
+		if ($userHash !== $queryVerifyUser[0]["verification_code"]) {
+			$this->redirect("/signup/?signup-error=" . urlencode("Verificatiegegevens zijn onjuist, probeer het later opnieuw.")
+			);
+		}
 
 		//Checks if verification code hasn't been expired
-//		if ($time_clicked > $queryVerifyUser[0]["expiration_time"]) {
-//			$this->redirect("/signup/?signup-error=" . urlencode("De verificatiecode is vervallen.")
-//			);
-//		}
+		if ($time_clicked > $queryVerifyUser[0]["expiration_time"]) {
+			$this->redirect("/signup/?signup-error=" . urlencode("De verificatiecode is vervallen.")
+			);
+		}
 	}
 
 	public function run() {
