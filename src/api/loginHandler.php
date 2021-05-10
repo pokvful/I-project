@@ -47,6 +47,6 @@ class LoginHandler extends BaseHandler {
 
 		isset($_POST["redirect_uri"])
 			? $this->redirect()
-			: $this->redirect('/me/');
+			: $this->redirect('/profile/');
 	}
 }

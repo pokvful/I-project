@@ -2,7 +2,7 @@
 
 {if !$validVerification}
 <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
-	<!--- Sign-in formum --->
+	<!--- Sign-in form --->
 	<form method="POST" action="/signup/" class="col-lg-4 mb-3" novalidate>
 		{getCsrfInput()|noescape}
 
@@ -52,7 +52,7 @@
     })();
 </script>
 {else}
-{* d-flex justify-content-center align-items-center *}
+
 <script>
     // from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
     // TODO: should we really add this, because javascript shouldn't be in the middle of the page...

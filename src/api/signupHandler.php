@@ -28,9 +28,6 @@ class SignupHandler extends BaseHandler {
 			$question = $_POST["safety_question"]; //Verwijzing naar andere tabel
 			$answerText = $_POST["question_answer"];
 
-			var_dump($password);
-
-
 			$queryOutput = $dbh->query(
 				<<<SQL
 					INSERT INTO [User] (username, mailbox, first_name,  last_name, address_line1, 
@@ -54,53 +51,36 @@ class SignupHandler extends BaseHandler {
 					":question" => $question,
 					":answerText" => $answerText
 				));
-
-			foreach ($queryOutput as $query) {
-				if (!isset($query)) {
-				}
-			}
-		} else {
-
-			//Checks if email input field has acceptable values
-			if (!isset($_POST["email"])) {
-
-			}
-
-			$email = $_POST["email"];
-
-			//Filters values inside email input field
-			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-				$this->redirect("/signup/?signup-error=" . urlencode("Geen email opgegeven.")
-				);
-				$this->redirect(
-					"/signup/?signup-error=" . urlencode("Geen geldige email opgegeven.")
-					. "&email=" . urlencode($email)
-				);
-			}
-
-			//Initializes verificationLink variable with hashed value from current time and set email
-			$verificationLink = password_hash(time() . $email, PASSWORD_DEFAULT);
-
-			$dbh = new DatabaseHandler();
-
-			//Builds email that gets sent afterwards
-			$emailBuilder = new Email("Signup Email");
-			$emailBuilder->addAddress($email);
-			$address = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
-			$emailBuilder->setText("Hey, <b>dit</b> is een test, je verificatielink is <a href=" . $address . "?hash=" . $verificationLink . "&user=$email>Klik hier</a>");
-			$emailBuilder->send();
-			echo "Done :)";
-
-			//Inserts email and verification code
-			$dbh->query("INSERT INTO Userverify (mailbox, verification_code) VALUES(:email, :verificationLink)", array(
-				":email" => $email,
-				":verificationLink" => $verificationLink
-			));
-
-			registerForm();
-
 		}
-	}
 
+		$email = $_POST["email"];
+
+		//Filters values inside email input field
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$this->redirect("/signup/?signup-error=" . urlencode("Geen email opgegeven.")
+			);
+			$this->redirect(
+				"/signup/?signup-error=" . urlencode("Geen geldige email opgegeven.")
+				. "&email=" . urlencode($email)
+			);
+		}
+
+		//Initializes verificationLink variable with hashed value from current time and set email
+		$verificationLink = password_hash(time() . $email, PASSWORD_DEFAULT);
+
+		//Builds email that gets sent afterwards
+		$emailBuilder = new Email("Signup Email");
+		$emailBuilder->addAddress($email);
+		$address = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
+		$emailBuilder->setText("Hey, <b>dit</b> is een test, je verificatielink is <a href=" . $address . "?hash=" . $verificationLink . "&user=$email>Klik hier</a>");
+		$emailBuilder->send();
+		echo "Done :)";
+
+		//Inserts email and verification code
+		$dbh->query("INSERT INTO UserVerify (mailbox, verification_code) VALUES(:email, :verificationLink)", array(
+			":email" => $email,
+			":verificationLink" => $verificationLink
+		));
+	}
 }
 
