@@ -3,9 +3,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col text-center mt-5 mb-5">
-		<h1>
-			item Titel
-		</h1>
+			<h1>
+				item Titel
+			</h1>
 		</div>
 	</div>
 	<div class="row">
@@ -46,18 +46,19 @@
 					<li class="list-group-item">
 						<div class="input-group">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Bod" maxlength="7" aria-label="Recipient's username" aria-describedby="basic-addon2">
+								{* minimum moet natuurlijk het minimum bod worden *}
+								<input type="number" class="form-control" placeholder="Bod" min="0" max="999999999" aria-label="Recipient's username">
+							</div>
 							<div class="input-group-append">
-							<button class="btn btn-primary" type="button">Bieden</button>
+								<button class="btn btn-primary" type="button">Bieden</button>
 							</div>
 						</div>
-					 </li>
-
+					</li>
 				</ul>
-				</div>
+			</div>
 
 			<ul class="list-group overflow-auto" style="height: 590px;">
-			 <li class="list-group-item active sticky-top">Voorgaande biedingen</li>
+				<li class="list-group-item active sticky-top">Voorgaande biedingen</li>
 				<li class="list-group-item">Cras justo odio</li>
 				<li class="list-group-item">Dapibus ac facilisis in</li>
 				<li class="list-group-item">Morbi leo risus</li>
@@ -103,7 +104,6 @@
 		</div>
 	</div>
 	<table class="table w-75">
-
 		<tbody>
 			<tr>
 				<th scope="row">Verkoper</th>
@@ -134,7 +134,7 @@
 				<td>17:00 12-5-2021</td>
 			</tr>
 		</tbody>
-</table>
+	</table>
 </div>
 
 {include './includes/footer.latte'}
