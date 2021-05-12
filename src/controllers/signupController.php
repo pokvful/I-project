@@ -4,6 +4,8 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
 /**
  * Class SignupController
+ *
+ * Receives data from signup-page using GET requests
  */
 class SignupController extends BaseController {
 
@@ -46,7 +48,6 @@ class SignupController extends BaseController {
 	public function run() {
 		$this->data["signupError"] = $_GET["signup-error"] ?? null;
 		$this->data["signupSuccess"] = $_GET["signup-success"] ?? null;
-		$this->data["cameFromMail"] = false;
 		$this->data["user"] = $_GET['user'] ?? null;
 
 		$this->checkCredentials();

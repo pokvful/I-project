@@ -36,7 +36,7 @@ class BaseHandler {
 	 * Redirect to `$url`. If `$url` is not send, the function uses the
 	 * `redirect_uri` parameter in the request body
 	 *
-	 * @param string [$url=null] - The redirect url
+	 * @param string|null $url
 	 */
 	protected function redirect(string $url = null) {
 		if (!$url) {
@@ -50,6 +50,9 @@ class BaseHandler {
 		exit();
 	}
 
+	/**
+	 * @throws NotImplementedException
+	 */
 	public function run() {
 		throw new NotImplementedException(
 			"Api \"/src/api{$this->filePath}{$this->fileName}\""
