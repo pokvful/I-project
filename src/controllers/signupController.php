@@ -28,8 +28,6 @@ class SignupController extends BaseController {
 			return;
 		}
 
-		$this->data['validVerification'] = true;
-
 		//Checks if user hash corresponds with user email
 		if ($userHash !== $queryVerifyUser[0]["verification_code"]) {
 			$this->redirect("/signup/?signup-error=" . urlencode("Verificatiegegevens zijn onjuist, probeer het later opnieuw.")
@@ -41,10 +39,13 @@ class SignupController extends BaseController {
 			$this->redirect("/signup/?signup-error=" . urlencode("De verificatiecode is vervallen.")
 			);
 		}
+
+		$this->data['validVerification'] = true;
 	}
 
 	public function run() {
 		$this->data["signupError"] = $_GET["signup-error"] ?? null;
+		$this->data["signupSuccess"] = $_GET["signup-success"] ?? null;
 		$this->data["cameFromMail"] = false;
 		$this->data["user"] = $_GET['user'] ?? null;
 

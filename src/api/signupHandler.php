@@ -17,16 +17,37 @@ class SignupHandler extends BaseHandler {
 			$lastname = $_POST["last_name"];
 			$username = $_POST["username"];
 			$password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-			$mailbox = $_POST["user"]; //uit de url
+			$mailbox = $_POST["user"];
 			$dateOfBirth = $_POST["birth_date"];
-//		$phoneNumber = $_POST['phone-number-1"]; //Staat in andere tabel
 			$address = $_POST["address"];
 			$addressAddition = $_POST["address_addition"];
 			$postalCode = $_POST["postal_code"];
 			$city = $_POST["city"];
 			$country = $_POST["country"];
-			$question = $_POST["safety_question"]; //Verwijzing naar andere tabel
+			$question = $_POST["safety_question"];
 			$answerText = $_POST["question_answer"];
+
+			$usernameQuery = $dbh->query("SELECT username FROM [User] WHERE username = :username", array(
+				":username" => $username
+			));
+
+			if (count($usernameQuery) > 0) {
+				$this->redirect("/home/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres:")
+				);
+			}
+
+			if (strlen($password) < 8) {
+				$this->redirect("/signup/?signup-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
+				);
+			}
+			if (!preg_match("#[0-9]+#", $password)) {
+				$this->redirect("/signup/?signup-error=" . urlencode("Het wachtoord moet minimaal één cijfer bevatten.")
+				);
+			}
+			if (!preg_match("#[a-zA-Z]+#", $password)) {
+				$this->redirect("/signup/?signup-error=" . urlencode("Het wachtoord moet minimaal één letter bevatten.")
+				);
+			}
 
 			$dbh->query(
 				<<<SQL
@@ -55,43 +76,62 @@ class SignupHandler extends BaseHandler {
 
 		$mail = $_POST["email"];
 
-		$mailboxQuery = $dbh->query("SELECT * FROM [User] WHERE mailbox = :mailbox ", array(
+		$userVerifyQuery = $dbh->query("SELECT mailbox FROM UserVerify WHERE mailbox = :mailbox ", array(
 			":mailbox" => $mail
 		));
 
-		$aantal = (count($mailboxQuery));
-		//Checks if user email already exists in database
-		if (count($mailboxQuery) > 0) {
-			$this->redirect("/signup/?signup-error=" . urlencode("Dit e-mailadres is al in gebruik." . $aantal)
+		$userTableQuery = $dbh->query("SELECT mailbox FROM [User] WHERE mailbox = :mailbox ", array(
+			":mailbox" => $mail
+		));
+
+
+		//User van geverifieerde Users tabel
+		$userVerifyTableCount = (count($userVerifyQuery));
+		$userTableQuery = (count($userTableQuery));
+
+		//Initializes verificationLink variable with hashed value from current time and set email
+		$verificationLink = password_hash(time() . $mail, PASSWORD_DEFAULT);
+
+		if ($userVerifyTableCount > 0 && $userTableQuery <= 0) {
+			$dbh->query("UPDATE Userverify SET expiration_time = DATEADD(HOUR, 4, GETDATE()) WHERE mailbox = :mailbox", array(
+				":mailbox" => $mail
+			));
+			$dbh->query("UPDATE Userverify SET verification_code = :verification_link WHERE mailbox = :mailbox", array(
+				":mailbox" => $mail,
+				":verification_link" => $verificationLink
+			));
+			$this->sendVerifyEmail($mail, $verificationLink);
+			$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
+			);
+		} else if ($userVerifyTableCount == 0) {
+			$dbh->query("INSERT INTO UserVerify(mailbox, verification_code) VALUES(:email, :verificationLink)", array(
+				":email" => $mail,
+				":verificationLink" => $verificationLink
+			));
+			$this->sendVerifyEmail($mail, $verificationLink);
+			$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
+			);
+		} else {
+			$this->redirect("/signup/?signup-error=" . urlencode("Dit e-mailadres is al in gebruik")
 			);
 		}
 
 		//Filters values inside email input field
 		if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-			$this->redirect("/signup/?signup-error=" . urlencode("Geen email opgegeven.")
-			);
 			$this->redirect(
 				"/signup/?signup-error=" . urlencode("Geen geldige email opgegeven.")
-				. "&email=" . urlencode($mail)
+				. " & email = " . urlencode($mail)
 			);
 		}
+	}
 
-		//Initializes verificationLink variable with hashed value from current time and set email
-		$verificationLink = password_hash(time() . $mail, PASSWORD_DEFAULT);
-
+	public function sendVerifyEmail($mail, $verificationLink) {
 		//Builds email that gets sent afterwards
 		$emailBuilder = new Email("Signup Email");
 		$emailBuilder->addAddress($mail);
 		$address = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
-		$emailBuilder->setText("Hey, <b>dit</b> is een test, je verificatielink is <a href=" . $address . "?hash=" . $verificationLink . "&user=$mail>Klik hier</a>");
+		$emailBuilder->setText("Hey, <b>dit</b> is een test, je verificatielink is <a href=\"" . $address . "?hash=" . $verificationLink . "&user=$mail\">Klik hier</a>");
 		$emailBuilder->send();
 		echo "Done :)";
-
-		//Inserts email and verification code
-		$dbh->query("INSERT INTO UserVerify (mailbox, verification_code) VALUES(:email, :verificationLink)", array(
-			":email" => $mail,
-			":verificationLink" => $verificationLink
-		));
 	}
 }
-

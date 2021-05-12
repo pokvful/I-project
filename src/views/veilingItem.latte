@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col text-center mt-5 mb-5">
 			<h1>
-				item Titel
+				{$itemInformation[0]["title"]}
 			</h1>
 		</div>
 	</div>
@@ -40,17 +40,17 @@
 		<div class="col ">
 			<div class="card mb-3">
 				<ul class="list-group list-group-flush">
-					<li class="list-group-item">Startprijs <br>$1000</li>
-					<li class="list-group-item">Huidig bod <br>$2000</li>
+					<li class="list-group-item">Startprijs <br>{$itemInformation[0]["starting_price"]}</li>
+					<li class="list-group-item">Huidig bod <br>{$itemInformation[0]["selling_price"]}</li>
 					<li class="list-group-item">Minimum bod <br>$2050</li>
 					<li class="list-group-item">
 						<div class="input-group">
-							<div class="input-group">
+							<div class="input-group mb-2 mt-2">
 								{* minimum moet natuurlijk het minimum bod worden *}
-								<input type="number" class="form-control" placeholder="Bod" min="0" max="999999999" aria-label="Recipient's username">
-							</div>
-							<div class="input-group-append">
-								<button class="btn btn-primary" type="button">Bieden</button>
+								<input type="number" class="form-control" placeholder="Bod" min="0" max="999999999" maxlength="7" aria-label="Bod">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button">Bieden</button>
+								</div>
 							</div>
 						</div>
 					</li>
@@ -91,9 +91,9 @@
 	</div>
 	<div class="row">
 		<div class="col">
-			<h5>
-				Hier komt een omschrijving van het veilingitem. blablabla heel leuk geef ons geld plz :)
-			</h5>
+			<p>
+				{$itemInformation[0]["description"]}
+			</p>
 		</div>
 	</div>
 	<div class="row">
@@ -103,35 +103,35 @@
 			</h1>
 		</div>
 	</div>
-	<table class="table w-75">
+	<table class="table">
 		<tbody>
 			<tr>
 				<th scope="row">Verkoper</th>
-				<td>user345678</td>
+				<td>{$itemInformation[0]["seller"]}</td>
 			</tr>
 			<tr>
 				<th scope="row">Looptijd</th>
-				<td>7 dagen</td>
+				<td>{$itemInformation[0]["duration"]}</td>
 			</tr>
 			<tr>
 				<th scope="row">Betaalwijze</th>
-				<td>contant</td>
+				<td>{$itemInformation[0]["payment_method"]}</td>
 			</tr>
 			<tr>
 				<th scope="row">Locatie</th>
-				<td>Zevenaar</td>
+				<td>{$itemInformation[0]["city"]} {$itemInformation[0]["country"]}</td>
 			</tr>
 			<tr>
 				<th scope="row">Verzendinstructies</th>
-				<td>Ophalen bij verkoper</td>
+				<td>{$itemInformation[0]["shipping_instructions"]}</td>
 			</tr>
 			<tr>
 				<th scope="row">itemnummer</th>
-				<td>23456</td>
+				<td>{$itemInformation[0]["item_number"]}</td>
 			</tr>
 			<tr>
 				<th scope="row">begin looptijd</th>
-				<td>17:00 12-5-2021</td>
+				<td>{$itemInformation[0]["duration_start_day"]} {$itemInformation[0]["duration_start_time"]}</td>
 			</tr>
 		</tbody>
 	</table>
