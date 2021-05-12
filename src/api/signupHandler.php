@@ -6,17 +6,26 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/signupHandler.php';
 
 /**
  * Class SignupHandler
+ *
+ * Receives data from signup-page using POST requests
  */
 class SignupHandler extends BaseHandler {
 
 	public function run() {
 		$dbh = new DatabaseHandler();
 
-		if (isset($_POST['first_name'])) {
+		if (isset($_POST['first_name']) && isset($_POST['last_name'])
+			&& isset($_POST['username']) && isset($_POST['password'])
+			&& isset($_POST['user']) && isset($_POST['postal_code'])
+			&& isset($_POST['address']) && isset($_POST['first_name'])
+			&& isset($_POST['city']) && isset($_POST['country'])
+			&& isset($_POST['safety_question'])
+			&& isset($_POST['question_answer']) && isset($_POST['phone_number'])) {
 			$firstname = $_POST["first_name"];
 			$lastname = $_POST["last_name"];
 			$username = $_POST["username"];
-			$password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+			$unhashedPassword = $_POST["password"];
+			$hashedPassword = password_hash($unhashedPassword, PASSWORD_DEFAULT);
 			$mailbox = $_POST["user"];
 			$dateOfBirth = $_POST["birth_date"];
 			$address = $_POST["address"];
@@ -26,29 +35,48 @@ class SignupHandler extends BaseHandler {
 			$country = $_POST["country"];
 			$question = $_POST["safety_question"];
 			$answerText = $_POST["question_answer"];
+			$phoneNumber = $_POST["phone_number"];
 
+			//SQL queries for username, verification_code and e-mail
 			$usernameQuery = $dbh->query("SELECT username FROM [User] WHERE username = :username", array(
 				":username" => $username
 			));
+			$verificationCodeQuery = $dbh->query("SELECT verification_code FROM Userverify WHERE mailbox = :mailbox", array(
+				":mailbox" => $mailbox
+			));
+			$mailboxQuery = $dbh->query("SELECT mailbox FROM [User] WHERE mailbox = :mailbox", array(
+				":mailbox" => $mailbox
+			));
 
+			//Builds URL for signup-errors
+			$verificationLink = implode($verificationCodeQuery[0]);
+			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
+			$redirectAddress = $addressRoot . "?hash=" . "$verificationLink" . "&user=" . "$mailbox";
+
+			//Filters form inputs
 			if (count($usernameQuery) > 0) {
-				$this->redirect("/home/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres:")
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Deze gebruikersnaam is al in gebruik.")
+				);
+			} else if (strlen($unhashedPassword) < 8) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
+				);
+			} else if (!preg_match("#[0-9]+#", $unhashedPassword)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Het wachtoord moet minimaal één cijfer bevatten.")
+				);
+			} else if (!preg_match("#[a-zA-Z]+#", $unhashedPassword)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Het wachtoord moet minimaal één letter bevatten.")
+				);
+			} else if (strlen($phoneNumber) > 10 && !preg_match('/^[0-9-+]$/', $phoneNumber)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Ongeldig telefoonnummer.")
+				);
+			} else if (count($mailboxQuery) > 0) {
+				$this->redirect("/");
+			} else if (strlen($postalCode) > 6) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Ongeldige postcode.")
 				);
 			}
 
-			if (strlen($password) < 8) {
-				$this->redirect("/signup/?signup-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
-				);
-			}
-			if (!preg_match("#[0-9]+#", $password)) {
-				$this->redirect("/signup/?signup-error=" . urlencode("Het wachtoord moet minimaal één cijfer bevatten.")
-				);
-			}
-			if (!preg_match("#[a-zA-Z]+#", $password)) {
-				$this->redirect("/signup/?signup-error=" . urlencode("Het wachtoord moet minimaal één letter bevatten.")
-				);
-			}
-
+			//Inserts user-filled data into database
 			$dbh->query(
 				<<<SQL
 					INSERT INTO [User] (username, mailbox, first_name,  last_name, address_line1, 
@@ -68,30 +96,52 @@ class SignupHandler extends BaseHandler {
 					":city" => $city,
 					":country" => $country,
 					":dateOfBirth" => $dateOfBirth,
-					":password" => $password,
+					":password" => $hashedPassword,
 					":question" => $question,
 					":answerText" => $answerText
 				));
+		} else {
+			$username = $_POST["username"];
+			$mailbox = $_POST["user"];
+
+			//SQL queries for username, verification_code and e-mail
+
+			$usernameQuery = $dbh->query("SELECT username FROM [User] WHERE username = :username", array(
+				":username" => $username
+			));
+			$verificationCodeQuery = $dbh->query("SELECT verification_code FROM Userverify WHERE mailbox = :mailbox", array(
+				":mailbox" => $mailbox
+			));
+			$mailboxQuery = $dbh->query("SELECT mailbox FROM [User] WHERE mailbox = :mailbox", array(
+				":mailbox" => $mailbox
+			));
+
+			//Builds URL for signup-errors
+			$verificationLink = implode($verificationCodeQuery[0]);
+			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
+			$redirectAddress = $addressRoot . "?hash=" . "$verificationLink" . "&user=" . "$mailbox";
+			$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Niet alle verplichte velden zijn ingevuld.")
+			);
 		}
 
-		$mail = $_POST["email"];
+		$mail = $_POST["user"];
 
+		//SQL queries for email data from verified and unverified user account
 		$userVerifyQuery = $dbh->query("SELECT mailbox FROM UserVerify WHERE mailbox = :mailbox ", array(
 			":mailbox" => $mail
 		));
-
 		$userTableQuery = $dbh->query("SELECT mailbox FROM [User] WHERE mailbox = :mailbox ", array(
 			":mailbox" => $mail
 		));
 
-
-		//User van geverifieerde Users tabel
+		//Counts query results
 		$userVerifyTableCount = (count($userVerifyQuery));
 		$userTableQuery = (count($userTableQuery));
 
 		//Initializes verificationLink variable with hashed value from current time and set email
 		$verificationLink = password_hash(time() . $mail, PASSWORD_DEFAULT);
 
+		//Checks if e-mail already exists in the database
 		if ($userVerifyTableCount > 0 && $userTableQuery <= 0) {
 			$dbh->query("UPDATE Userverify SET expiration_time = DATEADD(HOUR, 4, GETDATE()) WHERE mailbox = :mailbox", array(
 				":mailbox" => $mail
@@ -111,8 +161,8 @@ class SignupHandler extends BaseHandler {
 			$this->sendVerifyEmail($mail, $verificationLink);
 			$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
 			);
-		} else {
-			$this->redirect("/signup/?signup-error=" . urlencode("Dit e-mailadres is al in gebruik")
+		} else if ($userVerifyTableCount > 0 && $userTableQuery > 0) {
+			$this->redirect("/signup/?signup-success=" . urlencode("U heeft al reeds een account aangemaakt met dit e-mailadres.")
 			);
 		}
 
@@ -125,6 +175,12 @@ class SignupHandler extends BaseHandler {
 		}
 	}
 
+	/**
+	 * Builds and sends email to users
+	 *
+	 * @param $mail [user] email
+	 * @param $verificationLink ([user] specific) verification code
+	 */
 	public function sendVerifyEmail($mail, $verificationLink) {
 		//Builds email that gets sent afterwards
 		$emailBuilder = new Email("Signup Email");
