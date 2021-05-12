@@ -86,6 +86,7 @@
 	<form class="row needs-validation" method="POST" action="/signup/" novalidate>
 		{getCsrfInput()|noescape}
 		<input n:if="$user" type="hidden" name="user" value="{$user}">
+		<input n:if="$hash" type="hidden" name="user" value="{$hash}">
 
 		<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
 			{$signupError}

@@ -49,6 +49,7 @@ class SignupController extends BaseController {
 		$this->data["signupError"] = $_GET["signup-error"] ?? null;
 		$this->data["signupSuccess"] = $_GET["signup-success"] ?? null;
 		$this->data["user"] = $_GET['user'] ?? null;
+		$this->data["hash"] = $_GET['hash'] ?? null;
 
 		$this->checkCredentials();
 		$this->render();
