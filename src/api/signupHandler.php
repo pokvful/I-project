@@ -66,6 +66,7 @@ class SignupHandler extends BaseHandler {
 				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Ongeldige postcode.")
 				);
 			}
+			// TODO: Adding error messages for country and security question input field(s)
 
 			//Inserts user-filled data into database
 			$dbh->query(
@@ -96,6 +97,9 @@ class SignupHandler extends BaseHandler {
 				":username" => $username,
 				":phoneNumber" => $phoneNumber
 			));
+
+			$this->redirect("/login/?signup-success=" . urlencode("Uw account is succesvol aangemaakt.")
+			);
 		} else {
 			$mail = $_POST["user"];
 
@@ -115,46 +119,47 @@ class SignupHandler extends BaseHandler {
 			if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
 				$this->redirect("/signup/?signup-error=" . urlencode("Ongeldig e-mailadres.")
 				);
-
-				//Initializes verificationLink variable with hashed value from current time and set email
-				$verificationLink = password_hash(time() . $mail, PASSWORD_DEFAULT);
-
-				if ($userVerifyTableCount > 0 && $userTableQuery <= 0) {
-
-					$dbh->query("UPDATE Userverify SET expiration_time = DATEADD(HOUR, 4, GETDATE()) WHERE mailbox = :mailbox", array(
-						":mailbox" => $mail
-					));
-					$dbh->query("UPDATE Userverify SET verification_code = :verification_link WHERE mailbox = :mailbox", array(
-						":mailbox" => $mail,
-						":verification_link" => $verificationLink
-					));
-					$this->sendVerifyEmail($mail, $verificationLink);
-					$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
-					);
-				} else if ($userVerifyTableCount == 0) {
-					$dbh->query("INSERT INTO UserVerify(mailbox, verification_code) VALUES(:email, :verificationLink)", array(
-						":email" => $mail,
-						":verificationLink" => $verificationLink
-					));
-					$this->sendVerifyEmail($mail, $verificationLink);
-					$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
-					);
-				} else if ($userVerifyTableCount > 0 && $userTableQuery > 0) {
-					$this->redirect("/signup/?signup-success=" . urlencode("U heeft al reeds een account aangemaakt met dit e-mailadres.")
-					);
-				} else {
-					$mail = $_POST["user"];
-					$hash = $_POST["hash"];
-
-					//Builds URL for signup-errors
-					$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
-					$redirectAddress = $addressRoot . "?hash=" . "$hash" . "&user=" . "$mail";
-					$this->redirect("$redirectAddress" . "?signup-error=" . urlencode("Niet alle verplichte velden zijn ingevuld.")
-					);
-				}
 			}
+
+			//Initializes verificationLink variable with hashed value from current time and set email
+			$verificationLink = password_hash(time() . $mail, PASSWORD_DEFAULT);
+
+			if ($userVerifyTableCount > 0 && $userTableQuery <= 0) {
+				$dbh->query("UPDATE Userverify SET expiration_time = DATEADD(HOUR, 4, GETDATE()) WHERE mailbox = :mailbox", array(
+					":mailbox" => $mail
+				));
+				$dbh->query("UPDATE Userverify SET verification_code = :verification_link WHERE mailbox = :mailbox", array(
+					":mailbox" => $mail,
+					":verification_link" => $verificationLink
+				));
+				$this->sendVerifyEmail($mail, $verificationLink);
+				$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
+				);
+			} else if ($userVerifyTableCount == 0) {
+				$dbh->query("INSERT INTO UserVerify(mailbox, verification_code) VALUES(:email, :verificationLink)", array(
+					":email" => $mail,
+					":verificationLink" => $verificationLink
+				));
+				$this->sendVerifyEmail($mail, $verificationLink);
+				$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
+				);
+			} else if ($userVerifyTableCount > 0 && $userTableQuery > 0) {
+				$this->redirect("/signup/?signup-success=" . urlencode("U heeft al reeds een account aangemaakt met dit e-mailadres.")
+				);
+			}
+//			else {
+			// TODO: Make all input fields required (simplify this solution).
+//				$mail = $_POST["user"];
+//				$hash = $_POST["hash"];
+
+			//Builds URL for signup-errors
+//				$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
+//				$redirectAddress = $addressRoot . "?hash=" . "$hash" . "&user=" . "$mail";
+//				$this->redirect("$redirectAddress" . "?signup-error=" . urlencode("Niet alle verplichte velden zijn ingevuld.")
+//				);
 		}
 	}
+
 
 	/**
 	 * Builds and sends email to users
@@ -162,7 +167,8 @@ class SignupHandler extends BaseHandler {
 	 * @param $mail [user] email
 	 * @param $verificationLink ([user] specific) verification code
 	 */
-	public function sendVerifyEmail($mail, $verificationLink) {
+	public
+	function sendVerifyEmail($mail, $verificationLink) {
 		//Builds email that gets sent afterwards
 		$emailBuilder = new Email("Signup Email");
 		$emailBuilder->addAddress($mail);
