@@ -13,7 +13,7 @@ class UsersController extends BaseController {
 	}
 
 	public function run() {
-		if ( !$this->data["_admin"] )
+		if ( !$this->data["_admin"] || !$this->data["_loggedin"] )
 			$this->redirect("/");
 
 		$db = new DatabaseHandler();
