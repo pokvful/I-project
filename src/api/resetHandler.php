@@ -12,7 +12,7 @@ class ResetHandler extends BaseHandler {
 		 * @param $mail [user] email
 		 * @param $verificationLink ([user] specific) verification code
 		 */
-		public
+
 		function sendVerifyEmail($mail, $verificationLink) {
 			//Builds email that gets sent afterwards
 			$emailBuilder = new Email("Reset password");
