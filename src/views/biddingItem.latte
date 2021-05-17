@@ -48,7 +48,14 @@
 						{$itemInformation[0]["starting_price"]}
 					{/ifset}
 					</li>
-					<li class="list-group-item">Minimum bod <br>{$highestBid[0]["highestBid"] + $minimumBid}</li>
+					<li class="list-group-item">
+					Minimum bod <br>
+					{ifset $highestBid[0]["highestBid"]}
+						{$highestBid[0]["highestBid"]  + $minimumBid}
+					{else}
+						{$itemInformation[0]["starting_price"] + $minimumBid}
+					{/ifset}
+					</li>
 					<li class="list-group-item">
 						<div class="input-group">
 							<div class="input-group mb-2 mt-2">
