@@ -58,7 +58,6 @@ class BaseController {
 			// </li>
 
 			$db = new DatabaseHandler();
-			$ret = '<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>';
 
 			$databaseRubrics = $db->query(
 				"SELECT rubric_number, rubric_name, rubric FROM Rubric;"
@@ -117,6 +116,7 @@ class BaseController {
 			bdump($flatTree, 'flat tree');
 			bdump($rubrics, 'rubrics');
 
+			$ret = '<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>';
 			$ret .= '</li>';
 
 			return $ret;
@@ -133,6 +133,7 @@ class BaseController {
 			"_csrfToken" => $_SESSION["csrf-token"],
 			"_loggedin" => $_SESSION["loggedin"] ?? false,
 			"_username" => $_SESSION["username"] ?? null,
+			"_admin" => $_SESSION["admin"] ?? false,
 		);
 	}
 
