@@ -2,7 +2,7 @@
 	RewriteEngine on
 
 	# https://stackoverflow.com/questions/28364496/laravel-5-remove-public-from-url/50388334#50388334
-	RewriteCond %{REQUEST_URI} !(\.css)$ [NC]
+	RewriteCond %{REQUEST_URI} !(\.css|\.jpe?g|\.png)$ [NC]
 	RewriteRule ^.*$ public/server.php [L,NC]
 
 	RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
