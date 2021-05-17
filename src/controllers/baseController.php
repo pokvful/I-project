@@ -47,7 +47,7 @@ class BaseController {
 			return $result;
 		});
 
-		$this->latteEngine->addFunction('getRubricTree', function(): string {
+		$this->latteEngine->addFunction('getRubricTree', function (): string {
 			// <li class="nav-item dropdown">
 			// 	<a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>
 			// 	<div class="px-4 dropdown-menu text-center" id="dropdown-menu-placement">
@@ -58,19 +58,20 @@ class BaseController {
 			// </li>
 
 			$db = new DatabaseHandler();
+			$ret = '<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>';
 
 			$databaseRubrics = $db->query(
 				"SELECT rubric_number, rubric_name, rubric FROM Rubric;"
 			);
 
 			$baseRubrics = array_values(
-				array_filter($databaseRubrics, function($value) {
-					return is_null( $value["rubric"] );
+				array_filter($databaseRubrics, function ($value) {
+					return is_null($value["rubric"]);
 				})
 			);
 			$rubricsRest = array_values(
-				array_filter($databaseRubrics, function($value) {
-					return !is_null( $value["rubric"] );
+				array_filter($databaseRubrics, function ($value) {
+					return !is_null($value["rubric"]);
 				})
 			);
 
@@ -82,31 +83,31 @@ class BaseController {
 
 			foreach ($baseRubrics as $baseRubric) {
 				$rubrics->add(
-					new Rubric( $baseRubric["rubric_name"], $baseRubric["rubric_number"] )
+					new Rubric($baseRubric["rubric_name"], $baseRubric["rubric_number"])
 				);
-				$flatTree[] = $rubrics->get( $baseRubric["rubric_number"] );
+				$flatTree[] = $rubrics->get($baseRubric["rubric_number"]);
 			}
 
-			while ( $counter < count($rubricsRest) ) {
+			while ($counter < count($rubricsRest)) {
 				$rubric = $rubricsRest[$counter++];
-				$parent = $rubrics->get( $rubric["rubric_number"] );
+				$parent = $rubrics->get($rubric["rubric_number"]);
 
-				if ( !is_null($parent) ) {
+				if (!is_null($parent)) {
 					$parent->add(
-						new Rubric( $rubric["rubric_name"], $rubric["rubric_number"] )
+						new Rubric($rubric["rubric_name"], $rubric["rubric_number"])
 					);
-					$flatTree[] = $parent->get( $rubric["rubric_number"] );
+					$flatTree[] = $parent->get($rubric["rubric_number"]);
 				} else {
 					$reversedCounter = count($flatTree);
 
 					while ($reversedCounter > 0) {
 						$parent = $flatTree[--$reversedCounter];
 
-						if ( !is_null($parent) && $parent->id == $rubric["rubric"] ) {
+						if (!is_null($parent) && $parent->id == $rubric["rubric"]) {
 							$parent->add(
-								new Rubric( $rubric["rubric_name"], $rubric["rubric_number"] )
+								new Rubric($rubric["rubric_name"], $rubric["rubric_number"])
 							);
-							$flatTree[] = $parent->get( $rubric["rubric_number"] );
+							$flatTree[] = $parent->get($rubric["rubric_number"]);
 							break;
 						}
 					}
@@ -133,6 +134,7 @@ class BaseController {
 			"_csrfToken" => $_SESSION["csrf-token"],
 			"_loggedin" => $_SESSION["loggedin"] ?? false,
 			"_username" => $_SESSION["username"] ?? null,
+			"_admin" => $_SESSION["admin"] ?? false,
 		);
 	}
 

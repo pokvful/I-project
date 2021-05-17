@@ -8,8 +8,6 @@
 	</div>
 
 	<form method="GET" action="/admin/users/" class="col-12 mt-5 input-group">
-		{getCsrfInput()|noescape}
-
 		<input
 			type="text"
 			class="form-control"
@@ -19,6 +17,14 @@
 		>
 		<button type="submit" class="btn btn-outline-primary">Zoeken</button>
 	</form>
+
+	<div n:if="isset( $_params['success'] )" class="col-12 mt-5 alert alert-success">
+		{$_params["success"]}
+	</div>
+
+	<div n:if="isset( $_params['error'] )" class="col-12 mt-5 alert alert-danger">
+		{$_params["error"]}
+	</div>
 
 	<form method="POST" action="/admin/users/block/" class="col-12 mt-4">
 		{getCsrfInput()|noescape}
@@ -37,13 +43,18 @@
 					n:foreach="$users as $user"
 					n:class="list-group-item, $user['blocked'] ? list-group-item-light, d-flex, flex-column, flex-md-row, align-items-center"
 				>
-					<input type="hidden" name="username" value="{$user['username']}">
-
 					<div class="username">{$user["username"]}</div>
 					<div n:if="$user['admin']" class="user-admin text-muted ms-1 mt-2 mt-md-0">(admin)</div>
 					<div n:if="$user['blocked']" class="user-blocked text-danger ms-1 mt-2 mt-md-0">(geblokkeerd)</div>
 
-					<button type="submit" class="btn btn-outline-danger flex-align-md-right mt-2 mt-md-0">{$user["blocked"] ? "Deblokkeer" : "Blokkeer"}</button>
+					<button
+						type="submit"
+						class="btn btn-outline-danger flex-align-md-right mt-2 mt-md-0"
+						name="remove_username"
+						value="{$user['username']}"
+					>
+						{$user["blocked"] ? "Deblokkeer" : "Blokkeer"}
+					</button>
 				</div>
 			</div>
 		{/if}

@@ -1,10 +1,10 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
 
-session_start();
-
 class RequestHandler {
 	public function __construct() {
+		session_start();
+
 		if (!isset($_SESSION["csrf-token"])) {
 			$_SESSION["csrf-token"] = bin2hex(random_bytes(32));
 		}

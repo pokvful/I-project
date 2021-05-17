@@ -4,7 +4,7 @@
 //Applies primary color (mango orange)
 $body-color: #252525;
 $primary: #ffad4f;
-$danger: #FF7042;
+$danger: #ff7042;
 
 //Adds poppins font to default bootstrap family base
 $font-family-base: "Poppins", sans-serif !default;
@@ -20,11 +20,9 @@ $font-family-base: "Poppins", sans-serif !default;
 	}
 }
 
-//Wrapper for centering content
-.centered {
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
+.center-image {
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 // align items to the right in a .d-flex container
@@ -34,6 +32,16 @@ $font-family-base: "Poppins", sans-serif !default;
 
 		.flex-align#{$infix}-right {
 			margin-left: auto;
+		}
+	}
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+		.flex-align#{$infix}-bottom {
+			margin-top: auto;
 		}
 	}
 }

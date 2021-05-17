@@ -1,4 +1,5 @@
 <?php
+
 class Rubric {
 	public string $name;
 	public int $id;
@@ -11,7 +12,7 @@ class Rubric {
 
 	public function get(int $id): ?Rubric {
 		for ($i = 0; $i < count($this->rubrics); $i++) {
-			if ( $this->rubrics[$i]->id === $id )
+			if ($this->rubrics[$i]->id === $id)
 				return $this->rubrics[$i];
 		}
 
@@ -26,9 +27,9 @@ class Rubric {
 class RubricHelper {
 	/**
 	 * Sorts the the output of the database table `Rubric`.
-	 * 
+	 *
 	 * @source https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort
-	 * 
+	 *
 	 * @param array $arr - The array to be sorted by `rubric`.
 	 */
 	public static function sort(array &$arr) {
@@ -39,7 +40,7 @@ class RubricHelper {
 			$checkLength = 0;
 
 			for ($i = 1; $i < $length; $i++) {
-				if ( $arr[$i - 1]["rubric"] > $arr[$i]["rubric"] ) {
+				if ($arr[$i - 1]["rubric"] > $arr[$i]["rubric"]) {
 					$temp = $arr[$i - 1];
 					$arr[$i - 1] = $arr[$i];
 					$arr[$i] = $temp;
