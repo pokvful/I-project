@@ -4,15 +4,15 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
 class BiddingItemController extends BaseController {
 	public function calculateMinimumBid(int $highestBid) {
-		if($highestBid <1.00) {
+		if ($highestBid < 1.00) {
 			return 0;
-		} else if($highestBid <50.00) {
+		} else if ($highestBid < 50.00) {
 			return 0.5;
-		} else if($highestBid < 500.00) {
+		} else if ($highestBid < 500.00) {
 			return 1;
-		} else if($highestBid < 1000.00) {
+		} else if ($highestBid < 1000.00) {
 			return 5;
-		} else if($highestBid < 5000.00) {
+		} else if ($highestBid < 5000.00) {
 			return 10;
 		} else {
 			return 50;
@@ -22,7 +22,7 @@ class BiddingItemController extends BaseController {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
-		if( !isset( $_GET["item_number"] ) ) {
+		if (!isset($_GET["item_number"])) {
 			$this->redirect("/items/");
 		} else {
 			$this->data["itemInformation"] = $dbh->query(
@@ -44,10 +44,10 @@ class BiddingItemController extends BaseController {
 				)
 			);
 
-			if( !isset( $this->data["highestBid"][0]["highestBid"] ) ) {
-				$this->data["minimumBid"] = $this->calculateMinimumBid( $this->data["itemInformation"][0]["starting_price"] );
+			if (!isset($this->data["highestBid"][0]["highestBid"])) {
+				$this->data["minimumBid"] = $this->calculateMinimumBid($this->data["itemInformation"][0]["starting_price"]);
 			} else {
-				$this->data["minimumBid"] = $this->calculateMinimumBid( $this->data["highestBid"][0]["highestBid"] );	
+				$this->data["minimumBid"] = $this->calculateMinimumBid($this->data["highestBid"][0]["highestBid"]);
 			}
 
 			$this->render();
