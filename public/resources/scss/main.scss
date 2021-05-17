@@ -17,9 +17,10 @@ $font-family-base: "Poppins", sans-serif !default;
 
 //Wrapper for centering content
 .centered {
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 //Imports bootstrap files
