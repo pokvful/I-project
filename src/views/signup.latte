@@ -137,7 +137,7 @@
 
 			<div class="input-group">
 				<span class="input-group-text">NL +31</span>
-				<input type="tel" name="phone_number" id="phone-number-1" class="form-control" placeholder="Telefoonnummer">
+				<input type="tel" name="phone_number" id="phone-number-1" class="form-control" placeholder="Telefoonnummer" required>
 			</div>
 		</div>
 
@@ -165,7 +165,7 @@
 			{* Maybe use https://caniuse.com/datalist ? *}
 			<label for="country" class="form-label">Land</label>
 			<select name="country" id="country" class="form-select" required>
-				<option selected disabled>Selecteer een land</option>
+				<option value="">Selecteer een land</option>
 				<option value="netherlands">Nederland</option>
 				<option value="germany">Duitsland</option>
 				<option value="belgium">België</option>
@@ -175,9 +175,9 @@
 
 		<div class="col-12 mb-3">
 			<label for="safety-question" class="form-label">Beveiligingsvraag</label>
-			<select name="safety_question" id="question" class="form-select" required
-					aria-describedby="safety-question-help">
-				<option selected disabled>Selecteer een beveiligingsvraag</option>
+			<select name="safety_question" id="question" class="form-select" 
+					aria-describedby="safety-question-help" required>
+				<option value="">Selecteer een beveiligingsvraag</option>
 				<option value="1">Is dit een goede vraag?</option>
 				<option value="2">Moet ik deze vraag überhaupt wel beantwoorden?</option>
 				<option value="3">België</option>
@@ -194,9 +194,9 @@
 		</div>
 
 		<div class="col-12 col-md-6 mb-3 d-flex align-items-center">
-			<p class="mb-0 text-center text-md-left">Al een account? Klik <a href="/login">hier</a> om in te loggen.
+		<p class="mb-0 text-center text-md-left">Al een account? Klik <a href="/login">hier</a> om in te loggen.
 			</p>
-		</div>
+		</div>	
 
 		<div class="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content-md-end">
 			<button type="submit" name="submit" class="btn btn-primary">Aanmelden</button>

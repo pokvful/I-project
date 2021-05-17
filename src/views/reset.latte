@@ -1,0 +1,138 @@
+{include './includes/header.latte'}
+
+<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
+	<!--- ResetPassword form --->
+	<form method="POST" action="/resetPassword/" class="col-lg-4 mb-3" novalidate>
+		{getCsrfInput()|noescape}
+		<div n:if="$resetPassword" class="col-12 alert alert-danger mb-5" role="alert">
+			{$signupError}
+		</div>
+		<div n:if="$signupSuccess" class="col-12 alert alert-success mb-5" role="alert">
+			{$signupSuccess}
+		</div>
+
+		<div class="row mb-3">
+			<label for="input-email" class="form-label">E-mailadres</label>
+			<input type="email" class="form-control" name="user" placeholder="E-mailadres" id="input-email" required>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary">Registreren</button>
+			</div>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col text-center">
+				<p> Al een account? </p>
+				<a href="/login" class="link-primary">Klik hier om in te loggen</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        let forms = document.querySelectorAll('.needs-validation');
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    form.classList.add('was-validated');
+                }, false);
+            });
+    })();
+</script>
+{else}
+
+<script>
+    // from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
+    // TODO: should we really add this, because javascript shouldn't be in the middle of the page...
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        let forms = document.querySelectorAll('.needs-validation');
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    form.classList.add('was-validated');
+                }, false);
+            });
+    })();
+</script>
+
+<div class="container p-5">
+	{getBreadCrumbs()|noescape}
+<form method="POST" action="/login/" class="row needs-validation" novalidate>
+		{getCsrfInput()|noescape}
+		<div n:if="$signupSuccess" class="col-12 alert alert-success mb-5" role="alert">
+			{$signupSuccess}
+		</div>
+		<div class="col-12 text-center mb-5">
+			<h1>Inloggen</h1>
+		</div>
+
+		<div n:if="$loginError" class="col-12 alert alert-danger mb-5" role="alert">
+			{$loginError}
+		</div>
+
+		<div class="d-flex justify-content-center w-100">
+			<div class="row mb-3">
+				<label for="username" class="form-label">Gebruikersnaam</label>
+
+				{if $username}
+					<input type="text" name="username" id="username" class="form-control" value="{$username}" required>
+				{else}
+					<input type="text" name="username" id="username" class="form-control" required >
+				{/if}
+			</div>
+		</div>
+
+		<div class="d-flex justify-content-center w-100">
+			<div class="row mb-3">
+				<label for="password" class="form-label">Wachtwoord</label>
+				<input type="password" name="password" id="password" class="form-control" required>
+			</div>
+		</div>
+
+		<div class="row">
+			<p class="col text-center mb-2">Nog geen account? Klik <a href="/signup">hier</a> om je te
+				registreren.</p>
+		</div>
+
+		<div class="col text-center mb-3">
+			<a href="#">Wachtwoord vergeten?</a>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary">Aanmelden</button>
+			</div>
+		</div>
+	</form>
+
+</div>
+{/if}
+
+{include './includes/footer.latte'}
+
+
+{include './includes/footer.latte'}

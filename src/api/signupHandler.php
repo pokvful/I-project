@@ -45,7 +45,43 @@ class SignupHandler extends BaseHandler {
 			$redirectAddress = $addressRoot . "?hash=" . "$hash" . "&user=" . "$mailbox";
 
 			//Filters form inputs
-			if (count($usernameQuery) > 0) {
+			if (!isset($firstname)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
+				);
+			} else if (!isset($lastname)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Achternaam is niet ingevuld.")
+				);
+			} else if (!isset($username)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Gebruikersnaam is niet ingevuld.")
+				);
+			} else if (!isset($unhashedPassword)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Wachtwoord is niet ingevuld.")
+				);
+			} else if (!isset($dateOfBirth)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Geboortedatum is niet ingevuld.")
+				);
+			} else if (!isset($phoneNumber)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Telefoonnummer is niet ingevuld.")
+				);
+			} else if (!isset($address)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Adres is niet ingevuld.")
+				);
+			} else if (!isset($postalCode)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Postcode is niet ingevuld.")
+				);
+			} else if (!isset($city)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Plaats is niet ingevuld.")
+				);
+			} else if (!isset($country)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Land is niet ingevuld.")
+				);
+			} else if (!isset($question)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
+				);
+			} else if (!isset($answerText)) {
+				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
+				);
+			} else if (count($usernameQuery) > 0) {
 				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Deze gebruikersnaam is al in gebruik.")
 				);
 			} else if (strlen($unhashedPassword) < 8) {
@@ -66,7 +102,6 @@ class SignupHandler extends BaseHandler {
 				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Ongeldige postcode.")
 				);
 			}
-			// TODO: Adding error messages for country and security question input field(s)
 
 			//Inserts user-filled data into database
 			$dbh->query(
@@ -147,16 +182,6 @@ class SignupHandler extends BaseHandler {
 				$this->redirect("/signup/?signup-success=" . urlencode("U heeft al reeds een account aangemaakt met dit e-mailadres.")
 				);
 			}
-//			else {
-			// TODO: Make all input fields required (simplify this solution).
-//				$mail = $_POST["user"];
-//				$hash = $_POST["hash"];
-
-			//Builds URL for signup-errors
-//				$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
-//				$redirectAddress = $addressRoot . "?hash=" . "$hash" . "&user=" . "$mail";
-//				$this->redirect("$redirectAddress" . "?signup-error=" . urlencode("Niet alle verplichte velden zijn ingevuld.")
-//				);
 		}
 	}
 
