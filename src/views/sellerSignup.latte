@@ -1,0 +1,62 @@
+{include './includes/header.latte'}
+
+
+<div class="text-center mb-5 mt-5">
+	<h1>Aanmaken verkopersaccount</h1>
+</div>
+<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
+	<form method="POST" action="/signup/" class="col-lg-4 mb-3" novalidate>
+		<div class="row mb-3">
+		<table class="table">
+					<tbody>
+						<tr>
+							<th scope="row">
+								<label for="input-email" class="form-label mt-2">Naam bank:</label>
+							</th>
+							<td>
+								<input type="text" class="form-control" name="bank_name" placeholder="Bank" id="bank-name" required>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label for="input-email" class="form-label mt-2">Rekeningnummer:</label>
+							</th>
+							<td>
+								<input type="text" class="form-control" name="bank_account" placeholder="Rekeningnummer" id="bank_account" required>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label for="input-email" class="form-label mt-2">Betaalmethode:</label>
+							</th>
+							<td>
+								<div class="input-group">
+									<select class="form-select" id="payment_method" required>
+										<option selected>Betaalmethode</option>
+										<option value="1">Creditcard</option>
+										<option value="2">Post</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label for="input-email" class="form-label mt-2">Creditcardnummer:</label>
+							</th>
+							<td>
+								<input type="text" class="form-control" name="creditcard" placeholder="Creditcardnummer" id="creditcard" required>
+							</td>
+						</tr>
+					</tbody>
+			</table>	
+		</div>
+		<div class="row mb-3">
+			<div class="col d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary">Registreren</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+{include './includes/footer.latte'}
