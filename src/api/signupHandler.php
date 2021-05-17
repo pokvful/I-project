@@ -133,6 +133,10 @@ class SignupHandler extends BaseHandler {
 				":phoneNumber" => $phoneNumber
 			));
 
+			$dbh->query("DELETE FROM Userverify WHERE mailbox = :mailbox", array(
+				":mailbox" => $mailbox
+			));
+
 			$this->redirect("/login/?signup-success=" . urlencode("Uw account is succesvol aangemaakt.")
 			);
 		} else {

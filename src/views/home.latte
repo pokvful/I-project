@@ -1,11 +1,12 @@
 {include './includes/header.latte'}
 
-
-<div class="col">
-	<img class="w-100" src="/resources/images/img_home.jpg" alt="IMG">
-	<h1 class="text-center text-primary carousel-caption">EenmaalAndermaal</h1>
-	//TODO: Add slogan under page title.
-
+<div
+  class="center-image p-5 bg-image text-center text-dark d-flex flex-column"
+  style="background-image: url('/resources/images/homepage-img.png');
+    height: 90vh;">
+      <h1 class="flex-align-bottom">EenmaalAndermaal</h1>
+	  <h2>Voor veilingen waar je U tegen zegt.</h2>
+  </div>
 </div>
 
 
@@ -18,7 +19,7 @@
 					 alt="Card image cap">
 				<div class="card-body">
 					<p class="card-text">{$auctionItem["title"]} {$auctionItem["description"]}</p>
-					<a href="/veilingItem?item_number={$auctionItem['item_number']}" class="btn btn-primary">Bekijk veiling</a>
+					<a href="/biddingItem?item_number={$auctionItem['item_number']}" class="btn btn-primary">Bekijk veiling</a>
 				</div>
 			</div>
 		</div>
