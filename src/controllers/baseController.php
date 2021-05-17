@@ -58,6 +58,7 @@ class BaseController {
 			// </li>
 
 			$db = new DatabaseHandler();
+			$ret = '<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>';
 
 			$databaseRubrics = $db->query(
 				"SELECT rubric_number, rubric_name, rubric FROM Rubric;"
