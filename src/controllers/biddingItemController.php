@@ -2,7 +2,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/controllers/baseController.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
-class VeilingItemController extends BaseController {
+class BiddingItemController extends BaseController {
 
 	public function calculateMinimumBid(int $highestBid) {
 		if($highestBid <1.00) {
