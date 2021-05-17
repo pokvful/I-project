@@ -8,7 +8,6 @@ class UsersController extends BaseController {
 			$user["blocked"] = $user["blocked"] == 1;
 			$user["admin"] = $user["admin"] == 1;
 		}
-
 		return $users;
 	}
 

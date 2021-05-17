@@ -2,7 +2,7 @@
 {if !$eligibleForReset}
     <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
         <!--- ResetPassword form --->
-        <form method="POST" action="/reset/" class="col-lg-4 mb-3" novalidate>
+        <form method="POST" action="/reset/" class="col-lg-4 mb-3">
             {getCsrfInput()|noescape}
 
             <div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
@@ -14,7 +14,7 @@
 
             <div class="row mb-3">
                 <label for="input-email" class="form-label">E-mailadres</label>
-                <input type="email" class="form-control" name="email" placeholder="E-mailadres" id="input-email"
+                <input type="email" class="form-control" name="Email" placeholder="E-mailadres" id="input-email"
                        required>
             </div>
 
@@ -81,9 +81,10 @@
 {else}
     <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
         <!--- ResetPassword form --->
-        <form method="POST" action="/reset/" class="col-lg-4 mb-3" novalidate>
+        <form method="POST" action="/reset/" class="col-lg-4 mb-3">
             {getCsrfInput()|noescape}
-
+		    <input n:if="$mail" type="hidden" name="mail" value="{$mail}">
+		    <input n:if="$questionFromUser" type="hidden" name="questionFromUser" value="{$questionFromUser}">
             <div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
                 {$resetError}
             </div>
@@ -92,13 +93,14 @@
             </div>
 
             <div class="row mb-3">
-                <label for="input-email" class="form-label">E-mailadres</label>
-                <input type="email" class="form-control" name="email" placeholder="E-mailadres" id="input-email"
+                <label for="input-email" class="form-label">Beveiligingsvraag:</label>
+                <p>{$questionFromUser}</p>
+                <input type="text" class="form-control" name="questionAnswer" placeholder="Antwoord beveiligingsvraag" id="input-email"
                        required>
             </div>
             <div class="row mb-3">
-                <label for="input-email" class="form-label">Wachtwoord</label>
-                <input type="password" class="form-control" name="password" placeholder="Wachtwoord" id="input-password"
+                <label for="input-email" class="form-label">Nieuwe wachtwoord</label>
+                <input type="password" class="form-control" name="password" placeholder="Nieuwe wachtwoord" id="input-password"
                        required>
             </div>
 
