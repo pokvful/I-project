@@ -53,7 +53,7 @@ class BlockHandler extends BaseHandler {
 
 		$this->redirect(
 			"/admin/users/?success=" . urlencode(
-				"Succesvol de gebruiker \"$username\" " . ($newBlocked ? "geblokkeerd" : "gedeblokkeerd")
+				"De gebruiker \"$username\" is succesvol " . ($newBlocked ? "geblokkeerd" : "gedeblokkeerd")
 			)
 		);
 	}
