@@ -13,6 +13,9 @@ class UsersController extends BaseController {
 	}
 
 	public function run() {
+		if ( !$this->data["_admin"] )
+			$this->redirect("/");
+
 		$db = new DatabaseHandler();
 
 		if ( isset( $_GET["username"] ) && $_GET["username"] !== "" ) { 

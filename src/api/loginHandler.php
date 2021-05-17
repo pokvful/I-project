@@ -21,7 +21,7 @@ class LoginHandler extends BaseHandler {
 		$db = new DatabaseHandler();
 
 		$users = $db->query(
-			"SELECT [password] FROM [User] WHERE username = :username",
+			"SELECT [password], [admin]=1 FROM [User] WHERE username = :username",
 			array(
 				":username" => $username,
 			)
@@ -44,6 +44,7 @@ class LoginHandler extends BaseHandler {
 
 		$_SESSION["loggedin"] = true;
 		$_SESSION["username"] = $username;
+		$_SESSION["admin"] = $user["admin"] == 1;
 
 		isset($_POST["redirect_uri"])
 			? $this->redirect()

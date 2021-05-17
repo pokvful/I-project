@@ -4,6 +4,9 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
 
 class BlockHandler extends BaseHandler {
 	public function run() {
+		if ( !$_SESSION["admin"] )
+			$this->redirect("/");
+
 		if ( !isset( $_POST["remove_username"] ) )
 			$this->redirect("/admin/users/");
 
