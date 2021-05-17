@@ -7,6 +7,11 @@ $primary: #ffad4f;
 //Adds poppins font to default bootstrap family base
 $font-family-base: "Poppins", sans-serif !default;
 
+
+body div img {
+	max-height: 880px;
+}
+
 //Changes auction item images when screen size < 574
 @media (max-width: 574px) {
 	.auction-item {
