@@ -5,7 +5,6 @@
 	<!--- Sign-in form --->
 	<form method="POST" action="/signup/" class="col-lg-4 mb-3" novalidate>
 		{getCsrfInput()|noescape}
-
 		<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
 			{$signupError}
 		</div>
@@ -15,7 +14,7 @@
 
 		<div class="row mb-3">
 			<label for="input-email" class="form-label">E-mailadres</label>
-			<input type="email" class="form-control" name="email" placeholder="email" id="input-email" required>
+			<input type="email" class="form-control" name="user" placeholder="E-mailadres" id="input-email" required>
 		</div>
 
 		<div class="row mb-3">
@@ -86,29 +85,37 @@
 	<form class="row needs-validation" method="POST" action="/signup/" novalidate>
 		{getCsrfInput()|noescape}
 		<input n:if="$user" type="hidden" name="user" value="{$user}">
+		<input n:if="$hash" type="hidden" name="hash" value="{$hash}">
+
+		<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
+			{$signupError}
+		</div>
+		<div n:if="$signupSuccess" class="col-12 alert alert-success mb-5" role="alert">
+			{$signupSuccess}
+		</div>
 
 		<div class="col-12 text-center">
 			<h1>Registreren</h1>
 		</div>
 		<div class="col-12 col-md-6 mb-3">
 			<label for="first-name" class="form-label">Voornaam</label>
-			<input type="text" name="first_name" id="first-name" class="form-control" required>
+			<input type="text" name="first_name" id="first-name" class="form-control" placeholder="Voornaam" required>
 		</div>
 
 		<div class="col-12 col-md-6 mb-3">
 			<label for="last-name" class="form-label">Achternaam</label>
-			<input type="text" name="last_name" id="last-name" class="form-control" required>
+			<input type="text" name="last_name" id="last-name" class="form-control" placeholder="Achternaam" required>
 		</div>
 
 		<div class="col-12 mb-3">
 			<label for="username" class="form-label">Gebruikersnaam</label>
-			<input type="text" name="username" id="username" class="form-control" required>
+			<input type="text" name="username" id="username" class="form-control" placeholder="Gebruikersnaam" required>
 		</div>
 
 		<div class="col-12 mb-3">
 			<label for="password" class="form-label">Wachtwoord</label>
 			<input type="password" name="password" id="password" class="form-control"
-				   aria-describedby="password-help"
+				   aria-describedby="password-help" placeholder="Wachtwoord"
 				   required>
 			<div id="password-help" class="form-text">
 				{* Does this look good? *}
@@ -130,28 +137,28 @@
 
 			<div class="input-group">
 				<span class="input-group-text">NL +31</span>
-				<input type="tel" name="phone_number" id="phone-number-1" class="form-control">
+				<input type="tel" name="phone_number" id="phone-number-1" class="form-control" placeholder="Telefoonnummer">
 			</div>
 		</div>
 
 		<div class="col-12 col-md-6 mb-3">
 			<label for="address" class="form-label">Adres</label>
-			<input type="text" name="address" id="address" class="form-control" required>
+			<input type="text" name="address" id="address" class="form-control" placeholder="Adres" required>
 		</div>
 
 		<div class="col-12 col-md-6 mb-3">
 			<label for="address_addition" class="form-label">Adres toevoeging</label>
-			<input type="text" name="address_addition" id="address_addition" class="form-control" required>
+			<input type="text" name="address_addition" id="address_addition" class="form-control" placeholder="Adres toevoeging" required>
 		</div>
 
 		<div class="col-12 col-md-6 mb-3">
 			<label for="postal-code" class="form-label">Postcode</label>
-			<input type="text" name="postal_code" id="postal-code" class="form-control" required>
+			<input type="text" name="postal_code" id="postal-code" class="form-control" placeholder="Postcode" required>
 		</div>
 
 		<div class="col-12 col-md-6 mb-3">
 			<label for="city" class="form-label">Plaats</label>
-			<input type="text" name="city" id="city" class="form-control" required>
+			<input type="text" name="city" id="city" class="form-control" placeholder="Plaats" required>
 		</div>
 
 		<div class="col-12 mb-3">
@@ -177,13 +184,13 @@
 				<option value="4">Wat was de naam van uw eerste huisdier?</option>
 			</select>
 			<div id="safety-question-help" class="form-text">
-				U moet deze vraag beantwoorden wanneer u een nieuw wachtwoord aanvraagd.
+				U moet deze vraag beantwoorden wanneer u een nieuw wachtwoord aanvraagt.
 			</div>
 		</div>
 
 		<div class="col-12 mb-3">
-			<label for="safety-answer" class="form-label">Antwoord beveiliginsvraag</label>
-			<input type="text" name="question_answer" id="safety-answer" class="form-control" required>
+			<label for="safety-answer" class="form-label">Antwoord beveiligingsvraag</label>
+			<input type="text" name="question_answer" id="safety-answer" class="form-control" placeholder="Antwoord beveiligingsvraag" required>
 		</div>
 
 		<div class="col-12 col-md-6 mb-3 d-flex align-items-center">

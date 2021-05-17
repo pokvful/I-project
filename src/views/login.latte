@@ -5,7 +5,9 @@
 
 	<form method="POST" action="/login/" class="row needs-validation" novalidate>
 		{getCsrfInput()|noescape}
-
+		<div n:if="$signupSuccess" class="col-12 alert alert-success mb-5" role="alert">
+			{$signupSuccess}
+		</div>
 		<div class="col-12 text-center mb-5">
 			<h1>Inloggen</h1>
 		</div>
