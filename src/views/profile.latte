@@ -1,5 +1,87 @@
 {include './includes/header.latte'}
 
-<h1 class="text-center">Profielpagina</h1>
+<h1 class="text-center mt-5 mb-5">Profiel</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col-3">
+			<img class="w-100" src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg" alt="profile picture">
+		</div>
+		<div class="col-9 ">
+			<h1>Persoonsgegevens</h1>
+			<table class="table">
+					<tbody>
+						<tr>
+							<th scope="row">E-mailadres:</th>
+							<td>{$userInformation[0]["mailbox"]}</td>
+						</tr>
+						<tr>
+							<th scope="row">Gebruikersnaam:</th>
+							<td>{$userInformation[0]["username"]}</td>
+						</tr>
+						<tr>
+							<th scope="row">Voornaam:</th>
+							<td>{$userInformation[0]["first_name"]}</td>
+							<th scope="row">Achternaam:</th>
+							<td>{$userInformation[0]["last_name"]}</td>
+						</tr>
+						<tr>
+							<th scope="row">Geboortedatum</th>
+							<td>{$userInformation[0]["day_of_birth"]}</td>
+						</tr>
+						<tr>
+							<th scope="row">Adres:</th>
+							<td>{$userInformation[0]["address_line1"]} {$userInformation[0]["address_line2"]}</td>
+							<th scope="row">Postcode:</th>
+							<td>{$userInformation[0]["zip_code"]} {$userInformation[0]["city"]}</td>
+						</tr>
+						<tr>
+							<th scope="row">Land</th>
+							<td>{$userInformation[0]["country"]}</td>
+						</tr>
+						<tr>
+							<th scope="row">Telefoonnr1:</th>
+							<td>{$userInformation[0]["phone"]}</td>
+							<th scope="row">Telefoonnr2:</th>
+							<td>{*er is voor nu maar 1 telefoon. hier komt telefoon 2*}</td>
+						</tr>
+					</tbody>
+			</table>
+			<h1 class="mt-5">Verkopersgegevens</h1>
+			{if !$userInformation[0]["seller"] && $userInformation[0]["control_option"] != "creditcard"}
+			<p>
+				U bent nog geen verkoper. Klik <a href="#" class="text-primary">hier</a> om een verkoper te worden.
+			</p>
+			{else}
+			<table class="table">
+					<tbody>
+						<tr>
+							<th scope="row">Bank:</th>
+							<td>{$sellerInformation[0]["bank"]}</td>
+						</tr>
+						<tr>
+							<th scope="row">Rekeningnummer:</th>
+							<td>{$sellerInformation[0]["bank_account"]}</td>
+						</tr>
+						{ifset $sellerInformation[0]["creditcard"]}
+						<tr>
+							<th scope="row">Creditcard:</th>
+							<td>{$sellerInformation[0]["creditcard"]}</td>
+						</tr>
+						{/ifset}
+					</tbody>
+			</table>
+			{/if}
+		</div>
+		<div class="col-3"></div>
+	</div>
+	<div class="row mt-5">
+		<div class="col-2"></div>
+		<div class="col-8 "></div>
+		<div class="col-2">
+			<a class="btn btn-primary" href="#" role="button">Profiel aanpassen</a>
+		</div>
+	</div>
+</div>
 
 {include './includes/footer.latte'}
