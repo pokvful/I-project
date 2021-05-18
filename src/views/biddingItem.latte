@@ -37,7 +37,7 @@
 				</a>
 			</div>
 		</div>
-		<div class="col ">
+		<div class="col">
 			<div class="card mb-3">
 				<div class="list-group list-group-flush">
 					<div class="list-group-item">Startprijs <br>{$itemInformation[0]["starting_price"]}</div>
@@ -60,11 +60,19 @@
 					<div class="list-group-item">
 						<div class="input-group">
 							<div class="input-group mb-2 mt-2">
-								{* minimum moet natuurlijk het minimum bod worden *}
-								<input type="number" class="form-control" placeholder="Bod" min="0" max="999999999" maxlength="7" aria-label="Bod">
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="button">Bieden</button>
-								</div>
+								{ifset $_SESSION["loggedin"]}
+									{* minimum moet natuurlijk het minimum bod worden *}
+									<form method="POST" action="/">
+								    	<input type="number" class="form-control" placeholder="Bod" min="0" max="999999999" maxlength="7" aria-label="Bod">
+								    	<div class="input-group-append">
+											<button class="btn btn-primary" name="bid-button" type="submit" value="bid-button">Bieden</button>
+								    	</div>
+									</form>
+								{else}
+								    <div class="input-group-append">
+                                    <button class="btn btn-primary" name="#" type="submit" value="#">Niet ingelogd</button>
+                                    </div>
+								{/ifset}
 							</div>
 						</div>
 					</div>
