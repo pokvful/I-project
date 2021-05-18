@@ -1,0 +1,63 @@
+{include '../includes/header.latte'}
+
+<div class="container p-5">
+	{getBreadCrumbs()|noescape}
+
+	<div class="col-12 text-center">
+		<h1>Veilingitems</h1>
+	</div>
+
+	<form method="GET" action="/admin/biddingItems/" class="col-12 mt-5 input-group">
+		<input
+			type="text"
+			class="form-control"
+			name="title"
+			placeholder="Veilingitems"
+			value="{$_params['title'] ?? ''}"
+		>
+		<button type="submit" class="btn btn-outline-primary">Zoeken</button>
+	</form>
+
+	<div n:if="isset( $_params['success'] )" class="col-12 mt-5 alert alert-success">
+		{$_params["success"]}
+	</div>
+
+	<div n:if="isset( $_params['error'] )" class="col-12 mt-5 alert alert-danger">
+		{$_params["error"]}
+	</div>
+
+	<form method="POST" action="/admin/biddingItems/block/" class="col-12 mt-4">
+		{getCsrfInput()|noescape}
+
+		{if !isset($items) || !$items}
+			<p class="text-danger">
+				Er zijn geen veilingitems gevonden.
+			</p>
+		{else}
+			<div class="col-12 mt-5">
+				<p class="w-100 text-end text-muted">{count($items)} resultaten.</p>
+			</div>
+
+			<div class="list-group">
+				<div
+					n:foreach="$items as $item"
+					n:class="list-group-item, $item['blocked'] ? list-group-item-light, d-flex, flex-column, flex-md-row, align-items-center"
+				>
+					<div class="item">{$item["title"]}</div>
+					<div n:if="$item['blocked']" class="user-blocked text-danger ms-1 mt-2 mt-md-0">(geblokkeerd)</div>
+
+					<button
+						type="submit"
+						class="btn btn-outline-danger flex-align-md-right mt-2 mt-md-0"
+						name="remove_title"
+						value="{$item['title']}"
+					>
+						{$item["blocked"] ? "Deblokkeer" : "Blokkeer"}
+					</button>
+				</div>
+			</div>
+		{/if}
+	</form>
+</div>
+
+{include '../includes/footer.latte'}

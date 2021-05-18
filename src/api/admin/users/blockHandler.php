@@ -4,10 +4,10 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
 
 class BlockHandler extends BaseHandler {
 	public function run() {
-		if ( !$_SESSION["admin"] )
+		if (!$_SESSION["admin"])
 			$this->redirect("/");
 
-		if ( !isset( $_POST["remove_username"] ) )
+		if (!isset($_POST["remove_username"]))
 			$this->redirect("/admin/users/");
 
 		$username = $_POST["remove_username"];
@@ -20,17 +20,17 @@ class BlockHandler extends BaseHandler {
 			),
 		);
 
-		if ( count($users) <= 0 )
+		if (count($users) <= 0)
 			$this->redirect(
 				"/admin/users/?error=" . urlencode(
 					"De gebruikersnaam \"$username\" staat niet in de database."
 				)
 			);
 
-		$blocked = intval( $users[0]["blocked"] );
+		$blocked = intval($users[0]["blocked"]);
 		$newBlocked = $blocked ^ 1;
 
-		try { 
+		try {
 			$db->query(
 				<<<SQL
 					UPDATE [User]
@@ -46,9 +46,9 @@ class BlockHandler extends BaseHandler {
 			$this->redirect(
 				"/admin/users/?error=" . urlencode(
 					"Er ging iets mis tijdens het (de)blokkeren van een gebruiker: "
-						. $e->getMessage()
+					. $e->getMessage()
 				)
-				);
+			);
 		}
 
 		$this->redirect(
