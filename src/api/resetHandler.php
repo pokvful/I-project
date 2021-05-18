@@ -5,11 +5,10 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/email.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/resetHandler.php';
 
 class ResetHandler extends BaseHandler {
-	//TODO: Code opschonen, checks uitvoeren voor wachtwoorden (wellicht nog wat andere foutmeldingen)?
 	public function run() {
 		$dbh = new DatabaseHandler();
-		if (isset($_POST["Email"])) {
-			$mailbox = $_POST["Email"];
+		if (isset($_POST["email"])) {
+			$mailbox = $_POST["email"];
 			$resetQuestionQuery = $dbh->query(
 				"SELECT question_number, answer_text, q.text_question
 						FROM [User] AS u
@@ -20,7 +19,6 @@ class ResetHandler extends BaseHandler {
 					":mailbox" => $mailbox
 				)
 			);
-
 			if (count($resetQuestionQuery) > 0) {
 				$securityQuestion = $resetQuestionQuery[0]["text_question"];
 				$this->sendVerifyEmail($mailbox, $securityQuestion);
@@ -37,9 +35,30 @@ class ResetHandler extends BaseHandler {
 		if (isset($_POST["questionAnswer"]) && isset($_POST["password"])) {
 			$password = $_POST["password"];
 			$mail = $_POST["mail"];
-			$questionAnswerQuery = $dbh->query("SELECT answer_text FROM [User] WHERE answer_text = :answer", array(
-				"answer" => $_POST["questionAnswer"]
+			$security = strtolower($_POST["questionFromUser"]);
+			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/reset/";
+			$redirectAddress = $addressRoot . "?question=" . "$security" . "&mail=" . "$mail";
+			$questionAnswerQuery = $dbh->query("SELECT answer_text FROM [User] WHERE answer_text = :answer AND mailbox = :mailbox", array(
+				":answer" => $security,
+				":mailbox" => $mail
 			));
+
+			if (strlen($password) < 8) {
+				$this->redirect($redirectAddress . "&reset-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
+				);
+			} else if (!preg_match("#[0-9]+#", $password)) {
+				$this->redirect($redirectAddress . "&reset-error=" . urlencode("Het wachtoord moet minimaal één cijfer bevatten.")
+				);
+			} else if (!preg_match("#[a-zA-Z]+#", $password)) {
+				$this->redirect($redirectAddress . "&reset-error=" . urlencode("Het wachtoord moet minimaal één letter bevatten.")
+				);
+			} else if (!isset($_POST["questionAnswer"]) && isset($_POST["password"])) {
+				$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Onjuist wachtwoord ingevoerd.")
+				);
+			} else if (!isset($_POST["password"]) && isset($_POST["questionAnswer"])) {
+				$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Onjuist beveiligingsvraag ingevoerd.")
+				);
+			}
 
 			if (count($questionAnswerQuery) > 0) {
 				$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -47,26 +66,13 @@ class ResetHandler extends BaseHandler {
 					":passwordUser" => $hashedPassword,
 					":mailbox" => $mail
 				));
+
+				$this->redirect("$addressRoot" . "?reset-success=" . urlencode("Uw wachtwoord is succesvol gewijzigd.")
+				);
+			} else {
+				$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Onjuiste antwoord op beveiligingsvraag ingevoerd.")
+				);
 			}
-
-			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/reset/";
-			$this->redirect("$addressRoot" . "?reset-success=" . urlencode("Uw wachtwoord is succesvol gewijzigd.")
-			);
-
-		} else if (!isset($_POST["questionAnswer"]) && isset($_POST["password"])) {
-			$security = $_POST["questionFromUser"];
-			$mail = $_POST["mail"];
-			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/reset/";
-			$redirectAddress = $addressRoot . "?question=" . "$security" . "&mail=" . "$mail";
-			$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Onjuist wachtwoord ingevoerd.")
-			);
-		} else if (!isset($_POST["password"]) && isset($_POST["questionAnswer"])) {
-			$security = $_POST["questionFromUser"];
-			$mail = $_POST["mail"];
-			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/reset/";
-			$redirectAddress = $addressRoot . "?question=" . "$security" . "&mail=" . "$mail";
-			$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Onjuist beveiligingsvraag ingevoerd.")
-			);
 		}
 	}
 
@@ -75,7 +81,7 @@ class ResetHandler extends BaseHandler {
 		$emailBuilder = new Email("Reset password");
 		$emailBuilder->addAddress($mail);
 		$address = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/reset/";
-		$emailBuilder->setText("Hey, <b>dit</b> is een test, je verificatielink is <a href=\"" . $address . "?question=" . $securityQuestion . "&mail=$mail\">Klik hier</a>");
+		$emailBuilder->setText("Beste gebruiker, <br> <br> U heeft aangevraagd om uw wachtwoord opnieuw in te stellen. <a href=\"" . $address . "?question=" . $securityQuestion . "&mail=$mail\"><br><br>Klik hier</a> om naar de pagina te gaan, waar u deze kunt instellen.");
 		$emailBuilder->send();
 		echo "Done :)";
 	}

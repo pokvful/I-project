@@ -60,19 +60,21 @@
 					<div class="list-group-item">
 						<div class="input-group">
 							<div class="input-group mb-2 mt-2">
-								{ifset $_SESSION["loggedin"]}
+								{*ifset $_SESSION["loggedin"]*}
+									{*<input n:if="$username" type="hidden" name="username" value="{$username}">*}
+                                	<input n:if="$item_number" type="hidden" name="item_number" value="{$item_number}">
 									{* minimum moet natuurlijk het minimum bod worden *}
-									<form method="POST" action="/biddingItem">
-								    	<input type="number" class="form-control" placeholder="Bod" min="0" max="999999999" maxlength="7" aria-label="Bod">
+									<form method="POST" action="">
+								    	<input type="number" name="bid-amount" class="form-control" placeholder="Bod" min="0" max="999999999" maxlength="7" aria-label="Bod">
 								    	<div class="input-group-append">
 											<button class="btn btn-primary" name="bid-button" type="submit" value="bid-button">Bieden</button>
-								    	</div>
+										</div>
 									</form>
-								{else}
-								    <div class="input-group-append">
-                                    <button class="btn btn-primary" name="#" type="submit" value="#">Niet ingelogd</button>
-                                    </div>
-								{/ifset}
+								{*else*}
+									{*<div class="input-group-append">
+                                	<button class="btn btn-primary" name="#" type="submit" value="#">Niet ingelogd</button>
+                                	</div>}*
+								{*/ifset*}
 							</div>
 						</div>
 					</div>
