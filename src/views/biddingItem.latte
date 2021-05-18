@@ -39,25 +39,25 @@
 		</div>
 		<div class="col ">
 			<div class="card mb-3">
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">Startprijs <br>{$itemInformation[0]["starting_price"]}</li>
-					<li class="list-group-item">
+				<div class="list-group list-group-flush">
+					<div class="list-group-item">Startprijs <br>{$itemInformation[0]["starting_price"]}</div>
+					<div class="list-group-item">
 						Huidig bod <br>
 						{ifset $highestBid[0]["highestBid"]}
 							{$highestBid[0]["highestBid"]}
 						{else}
 							{$itemInformation[0]["starting_price"]}
 						{/ifset}
-						</li>
-						<li class="list-group-item">
+						</div>
+						<div class="list-group-item">
 						Minimum bod <br>
 						{ifset $highestBid[0]["highestBid"]}
 							{$highestBid[0]["highestBid"]  + $minimumBid}
 						{else}
 							{$itemInformation[0]["starting_price"] + $minimumBid}
 						{/ifset}
-					</li>
-					<li class="list-group-item">
+					</div>
+					<div class="list-group-item">
 						<div class="input-group">
 							<div class="input-group mb-2 mt-2">
 								{* minimum moet natuurlijk het minimum bod worden *}
@@ -67,8 +67,8 @@
 								</div>
 							</div>
 						</div>
-					</li>
-				</ul>
+					</div>
+				</div>
 			</div>
 
 			<ul class="list-group overflow-auto" style="height: 590px;">
@@ -84,9 +84,9 @@
 	</div>
 	<div class="row">
 		<div class="col mt-5 mb-5">
-			<h1>
+			<h2>
 				Omschrijving
-			</h1>
+			</h2>
 		</div>
 	</div>
 	<div class="row">
@@ -98,9 +98,9 @@
 	</div>
 	<div class="row">
 		<div class="col mt-5 mb-3">
-			<h1>
+			<h2>
 				Algemene informatie
-			</h1>
+			</h2>
 		</div>
 	</div>
 	<table class="table">
