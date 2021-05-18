@@ -45,7 +45,7 @@ class ResetHandler extends BaseHandler {
 			$mail = $_POST["mail"];
 			$password = $_POST["password"];
 			$security = $_POST["questionFromUser"];
-			$Answer = strtolower($_POST["questionAnswer"]);
+			$answer = strtolower($_POST["questionAnswer"]);
 
 			//unvalid password gets redirected
 			if (strlen($password) < 8) {
@@ -63,7 +63,7 @@ class ResetHandler extends BaseHandler {
 			}
 			// selects the answer of the security questtion with the check on filled in answer from which user
 			$questionAnswerQuery = $dbh->query("SELECT answer_text FROM [User] WHERE answer_text = :answer AND mailbox = :mailbox", array(
-				"answer" => $Answer,
+				"answer" => $answer,
 				"mailbox" => $mail
 			));
 			//checks if the user has filled in the right answer and send a success message
