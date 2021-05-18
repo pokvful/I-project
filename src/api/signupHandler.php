@@ -14,7 +14,7 @@ class SignupHandler extends BaseHandler {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
-		if (isset($_POST["hash"])) {
+		if (isset($_POST["hash"])) { // user came from verification email
 			$firstname = $_POST["first_name"];
 			$lastname = $_POST["last_name"];
 			$username = $_POST["username"];
@@ -139,7 +139,7 @@ class SignupHandler extends BaseHandler {
 
 			$this->redirect("/login/?signup-success=" . urlencode("Uw account is succesvol aangemaakt.")
 			);
-		} else {
+		} else { // user didn't come from verification email
 			$mail = $_POST["user"];
 
 			//SQL queries for email data from verified and unverified user account
