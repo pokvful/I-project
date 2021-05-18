@@ -62,7 +62,7 @@
 							<div class="input-group mb-2 mt-2">
 								{ifset $_SESSION["loggedin"]}
 									{* minimum moet natuurlijk het minimum bod worden *}
-									<form method="POST" action="/">
+									<form method="POST" action="/biddingItem">
 								    	<input type="number" class="form-control" placeholder="Bod" min="0" max="999999999" maxlength="7" aria-label="Bod">
 								    	<div class="input-group-append">
 											<button class="btn btn-primary" name="bid-button" type="submit" value="bid-button">Bieden</button>
