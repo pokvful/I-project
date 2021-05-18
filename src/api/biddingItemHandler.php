@@ -16,12 +16,11 @@ class BiddingItemHandler extends BaseHandler {
 			$dbh->query("UPDATE Bid SET item = :item, bid_amount = :bid_amount, [user] = :user, bid_day = DATE(), bid_time = TIME()", array(
 				":item" => $item,
 				":bid_amount" => $bid_amount,
-				":user" => $user,
+				":user" => $user
 			));
 
 			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/biddingItem/";
-			$this->redirect("$addressRoot" . "?item_number=" . $item . "&user=" . $user . urlencode("Bod is succesvol geplaatst."));
-
+			$this->redirect("$addressRoot" . "?item_number=" . $item . "&user=" . $user . "?bid-error=" . urlencode("Bod is succesvol geplaatst."));
 		}
 	}
 }

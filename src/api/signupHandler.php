@@ -29,7 +29,6 @@ class SignupHandler extends BaseHandler {
 			$country = $_POST["country"];
 			$question = $_POST["safety_question"];
 			$answerText = strtolower($_POST["question_answer"]);
-			$answerText = strtolower($_POST["question_answer"]);
 			$phoneNumber = $_POST["phone_number"];
 			$answerText = $_POST["question_answer"];
 			$phoneNumbers = $_POST["phone_number"];

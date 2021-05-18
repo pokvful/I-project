@@ -14,9 +14,9 @@ class SellerSignupHandler extends BaseHandler {
 		$paymentMethod = $_POST["payment_method"];
 		$creditcard = $_POST["creditcard_number"];
 
-		dump($bank,$bankAccount,$paymentMethod,$creditcard);
+		dump($bank, $bankAccount, $paymentMethod, $creditcard);
 
-		if (isset($_POST["seller"])){
+		if (isset($_POST["seller"])) {
 			$this->redirect("/");
 		}
 	}
