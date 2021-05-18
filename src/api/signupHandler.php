@@ -29,7 +29,7 @@ class SignupHandler extends BaseHandler {
 			$country = $_POST["country"];
 			$question = $_POST["safety_question"];
 			$answerText = $_POST["question_answer"];
-			$phoneNumber = $_POST["phone_number"];
+			$phoneNumbers = $_POST["phone_number"];
 			$hash = $_POST["hash"];
 
 			//SQL queries for username, verification_code and e-mail
@@ -46,61 +46,65 @@ class SignupHandler extends BaseHandler {
 
 			//Filters form inputs
 			if (!isset($firstname)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
 				);
 			} else if (!isset($lastname)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Achternaam is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Achternaam is niet ingevuld.")
 				);
 			} else if (!isset($username)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Gebruikersnaam is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Gebruikersnaam is niet ingevuld.")
 				);
 			} else if (!isset($unhashedPassword)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Wachtwoord is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Wachtwoord is niet ingevuld.")
 				);
 			} else if (!isset($dateOfBirth)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Geboortedatum is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Geboortedatum is niet ingevuld.")
 				);
-			} else if (!isset($phoneNumber)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Telefoonnummer is niet ingevuld.")
+			} else if (!isset($phoneNumbers)) {
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Telefoonnummer is niet ingevuld.")
 				);
 			} else if (!isset($address)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Adres is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Adres is niet ingevuld.")
 				);
 			} else if (!isset($postalCode)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Postcode is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Postcode is niet ingevuld.")
 				);
 			} else if (!isset($city)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Plaats is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Plaats is niet ingevuld.")
 				);
 			} else if (!isset($country)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Land is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Land is niet ingevuld.")
 				);
 			} else if (!isset($question)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
 				);
 			} else if (!isset($answerText)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
 				);
 			} else if (count($usernameQuery) > 0) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Deze gebruikersnaam is al in gebruik.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Deze gebruikersnaam is al in gebruik.")
 				);
 			} else if (strlen($unhashedPassword) < 8) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
 				);
 			} else if (!preg_match("#[0-9]+#", $unhashedPassword)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Het wachtoord moet minimaal één cijfer bevatten.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Het wachtoord moet minimaal één cijfer bevatten.")
 				);
 			} else if (!preg_match("#[a-zA-Z]+#", $unhashedPassword)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Het wachtoord moet minimaal één letter bevatten.")
-				);
-			} else if (strlen($phoneNumber) > 10 && !preg_match('/^[0-9-+]$/', $phoneNumber)) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Ongeldig telefoonnummer.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Het wachtoord moet minimaal één letter bevatten.")
 				);
 			} else if (count($mailboxQuery) > 0) {
 				$this->redirect("/");
 			} else if (strlen($postalCode) > 6) {
-				$this->redirect("$redirectAddress" . "&signup-error=" . urlencode("Ongeldige postcode.")
+				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Ongeldige postcode.")
 				);
+			}
+
+			foreach ($phoneNumbers as $phoneNumber) { 
+				if (strlen($phoneNumber) > 10 && !preg_match('/^[0-9-+]$/', $phoneNumber)) {
+					$this->redirect($redirectAddress . "&signup-error=" . urlencode("Ongeldig telefoonnummer.")
+					);
+				}
 			}
 
 			//Inserts user-filled data into database
@@ -108,7 +112,7 @@ class SignupHandler extends BaseHandler {
 				<<<SQL
 					INSERT INTO [User] (username, mailbox, first_name,  last_name, address_line1, 
 									address_line2, zip_code, city, country, day_of_birth, [password], 
-									question, answer_text, seller)                    					
+									question, answer_text, seller)
 									VALUES (:username, :mailbox ,:firstname, :lastname, :address, :addressAddition, :postalCode, 
 									:city, :country, :dateOfBirth, :password, :question, :answerText, 0)
 				SQL,
@@ -126,12 +130,16 @@ class SignupHandler extends BaseHandler {
 					":password" => $hashedPassword,
 					":question" => $question,
 					":answerText" => $answerText
-				));
+				)
+			);
 
-			$dbh->query("INSERT INTO User_Phone ([user], phone) VALUES (:username, :phoneNumber)", array(
-				":username" => $username,
-				":phoneNumber" => $phoneNumber
-			));
+			// TODO: This isn't the most optimal solution
+			foreach ($phoneNumbers as $phoneNumber) { 
+				$dbh->query("INSERT INTO User_Phone ([user], phone) VALUES (:username, :phoneNumber)", array(
+					":username" => $username,
+					":phoneNumber" => $phoneNumber
+				));
+			}
 
 			$dbh->query("DELETE FROM Userverify WHERE mailbox = :mailbox", array(
 				":mailbox" => $mailbox
