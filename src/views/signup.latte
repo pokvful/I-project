@@ -33,53 +33,27 @@
 </div>
 
 <script>
-    (function () {
-        'use strict'
+	(function () {
+		'use strict'
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        let forms = document.querySelectorAll('.needs-validation');
+		// Fetch all the forms we want to apply custom Bootstrap validation styles to
+		let forms = document.querySelectorAll('.needs-validation');
 
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
+		// Loop over them and prevent submission
+		Array.prototype.slice.call(forms)
+			.forEach(function (form) {
+				form.addEventListener('submit', function (event) {
+					if (!form.checkValidity()) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
 
-                    form.classList.add('was-validated');
-                }, false);
-            });
-    })();
+					form.classList.add('was-validated');
+				}, false);
+			});
+	})();
 </script>
 {else}
-
-<script>
-    // from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
-    // TODO: should we really add this, because javascript shouldn't be in the middle of the page...
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        let forms = document.querySelectorAll('.needs-validation');
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-
-                    form.classList.add('was-validated');
-                }, false);
-            });
-    })();
-</script>
-
 <div class="container p-5">
 	{getBreadCrumbs()|noescape}
 	<form class="row needs-validation" method="POST" action="/signup/" novalidate>
@@ -120,24 +94,27 @@
 			<div id="password-help" class="form-text">
 				{* Does this look good? *}
 				<ul>
-					<li>Hier komt</li>
-					<li>Dan wat</li>
-					<li>Info over password</li>
+					<li>Tenminste &eacute;&eacute;n letter.</li>
+					<li>Tenminste &eacute;&eacute;n getal.</li>
 				</ul>
 			</div>
 		</div>
 
-		<div class="col-12 mb-3">
+		<div class="col-12 mb-4">
 			<label for="birth-date" class="form-label">Geboortedatum</label>
 			<input type="date" name="birth_date" id="birth-date" class="form-control" required>
 		</div>
 
-		<div class="col-12 mb-3">
-			<label for="phone-number-1" class="form-label">Telefoonnummer</label>
+		<div class="col-12 mb-3" id="phone-numbers">
+			<div class="col-12 d-flex align-items-end">
+				<span class="form-label">Telefoonnummer</span>
 
-			<div class="input-group">
-				<span class="input-group-text">NL +31</span>
-				<input type="tel" name="phone_number" id="phone-number-1" class="form-control" placeholder="Telefoonnummer" required>
+				<button type="button" id="phone-number-add" class="btn btn-outline-primary flex-align-right">Voeg nummer toe</button>
+			</div>
+
+			<div id="phone-number-1" class="input-group mt-2">
+				<label for="phone-number-1" class="input-group-text">NL +31</label>
+				<input type="tel" pattern="[0-9]+" name="phone_number[]" id="phone-number-1" class="form-control" placeholder="Telefoonnummer" required>
 			</div>
 		</div>
 
@@ -203,6 +180,85 @@
 		</div>
 	</form>
 </div>
+
+<script n:syntax="off">
+	// from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
+	// TODO: should we really add this, because javascript shouldn't be in the middle of the page...
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	(function () {
+		'use strict'
+
+		// Fetch all the forms we want to apply custom Bootstrap validation styles to
+		let forms = document.querySelectorAll('.needs-validation');
+
+		// Loop over them and prevent submission
+		Array.prototype.slice.call(forms)
+			.forEach(function (form) {
+				form.addEventListener('submit', function (event) {
+					if (!form.checkValidity()) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+
+					form.classList.add('was-validated');
+				}, false);
+			});
+		// end bootstrap code
+
+		function getPhoneNumberElement(number) {
+			let div = document.createElement("div");
+			div.id = `phone-number-${number}`;
+			div.classList.add("input-group", "mt-2");
+			
+			let label = document.createElement("label");
+			label.setAttribute("for", `phone-number-${number}-input`);
+			label.classList.add("input-group-text");
+			label.innerText = "NL +31";
+
+			let input = document.createElement("input");
+			input.type = "tel";
+			input.setAttribute("pattern", "[0-9]+");
+			input.name = "phone_number[]";
+			input.id = `phone-number-${number}-input`;
+			input.classList.add("form-control");
+			input.placeholder = `Extra telefoonnummer`;
+			input.required = true;
+
+			let button = document.createElement("button");
+			button.type = "button";
+			button.id = `phone-number-${number}-button`;
+			button.classList.add("btn", "btn-outline-danger");
+			button.setAttribute("data-input", `phone-number-${number}`);
+			button.innerText = "Verwijder";
+
+			div.append(label);
+			div.append(input);
+			div.append(button);
+
+			return div;
+		}
+
+		const ELEM_PHONE_NUMBERS = document.getElementById("phone-numbers");
+		const ELEM_PHONE_NUMBER_ADD = document.getElementById("phone-number-add");
+		const MAX_PHONE_NUMBERS = 1000;
+		let phoneNumberCounter = 1;
+
+		ELEM_PHONE_NUMBER_ADD.addEventListener("click", function(e) {
+			if (phoneNumberCounter < MAX_PHONE_NUMBERS) { 
+				ELEM_PHONE_NUMBERS.append( getPhoneNumberElement(++phoneNumberCounter) );
+
+				document.getElementById(`phone-number-${phoneNumberCounter}-button`)
+					.addEventListener("click", function removePhoneNumber(e) {
+						let inputElem = e.target.getAttribute("data-input");
+
+						ELEM_PHONE_NUMBERS.removeChild(
+							document.getElementById(inputElem)
+						);
+					}, false);
+			}
+		}, false);
+	})();
+</script>
 {/if}
 
 {include './includes/footer.latte'}

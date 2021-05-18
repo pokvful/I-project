@@ -5,11 +5,11 @@
 <div class="container">
 	<div class="row">
 		<div class="col-3">
-			<img class="w-100" src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg" alt="profile picture">
+			<img class="w-100 mt-5" src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg" alt="profile picture">
 		</div>
 
 		<div class="col-9">
-			<h1>Persoonsgegevens</h1>
+			<h3>Persoonsgegevens</h3>
 
 			<table class="table">
 				<tbody>
@@ -24,6 +24,8 @@
 					<tr>
 						<th scope="row">Voornaam:</th>
 						<td>{$userInformation[0]["first_name"]}</td>
+					</tr>
+					<tr>					
 						<th scope="row">Achternaam:</th>
 						<td>{$userInformation[0]["last_name"]}</td>
 					</tr>
@@ -34,6 +36,8 @@
 					<tr>
 						<th scope="row">Adres:</th>
 						<td>{$userInformation[0]["address_line1"]} {$userInformation[0]["address_line2"]}</td>
+					</tr>
+					<tr>
 						<th scope="row">Postcode:</th>
 						<td>{$userInformation[0]["zip_code"]} {$userInformation[0]["city"]}</td>
 					</tr>
@@ -41,18 +45,21 @@
 						<th scope="row">Land</th>
 						<td>{$userInformation[0]["country"]}</td>
 					</tr>
+
 					<tr>
 						<th scope="row">Telefoonnr1:</th>
 						<td>{$userInformation[0]["phone"]}</td>
+					<tr>
 						<th scope="row">Telefoonnr2:</th>
 						<td>{*er is voor nu maar 1 telefoon. hier komt telefoon 2*}</td>
+					</tr>
 					</tr>
 				</tbody>
 			</table>
 
-			<h1 class="mt-5">Verkopersgegevens</h1>
+			<h3 class="mt-5">Verkopersgegevens</h3>
 
-			{if !$userInformation[0]["seller"] && $userInformation[0]["control_option"] != "creditcard"}
+			{if !$userInformation[0]["seller"]}
 				<p>
 					U bent nog geen verkoper. Klik <a href="#" class="text-primary">hier</a> om een verkoper te worden.
 				</p>
@@ -81,8 +88,8 @@
 		<div class="col-3"></div>
 	</div>
 
-	<div class="row mt-5 d-flex">
-		<a class="btn btn-primary d-inline-block flex-align-right" href="#" role="button">Profiel aanpassen</a>
+	<div class="d-flex flex-row-reverse mt-5">
+		<a class="btn btn-primary" href="#" role="button">Profiel aanpassen</a>
 	</div>
 </div>
 

@@ -5,7 +5,7 @@
 	<h1>Aanmaken verkopersaccount</h1>
 </div>
 <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
-	<form method="POST" action="/signup/" class="col-lg-4 mb-3" novalidate>
+	<form method="POST" class="col-lg-4 mb-3" novalidate>
 		<div class="row mb-3">
 		<table class="table">
 					<tbody>
@@ -14,7 +14,7 @@
 								<label for="input-email" class="form-label mt-2">Naam bank:</label>
 							</th>
 							<td>
-								<input type="text" class="form-control" name="bank_name" placeholder="Bank" id="bank-name" required>
+								<input type="text" class="form-control" name="bank_name" placeholder="Bank" id="bank_name" required>
 							</td>
 						</tr>
 						<tr>
@@ -44,7 +44,7 @@
 								<label for="input-email" class="form-label mt-2">Creditcardnummer:</label>
 							</th>
 							<td>
-								<input type="text" class="form-control" name="creditcard" placeholder="Creditcardnummer" id="creditcard" required>
+								<input type="text" class="form-control" name="creditcard_number" placeholder="creditcardnummer" id="creditcard_number" required>
 							</td>
 						</tr>
 					</tbody>
@@ -52,7 +52,8 @@
 		</div>
 		<div class="row mb-3">
 			<div class="col d-flex justify-content-center">
-				<button type="submit" class="btn btn-primary">Registreren</button>
+				<button type="submit" class="btn btn-primary" name="seller">Verkoper worden</button>
+
 			</div>
 		</div>
 	</form>
