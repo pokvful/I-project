@@ -8,27 +8,27 @@ class BlockHandler extends BaseHandler {
 		if (!$_SESSION["admin"])
 			$this->redirect("/");
 
-		if (!isset($_POST["remove_title"]))
+		if (!isset($_POST["remove_item"]))
 			$this->redirect("/admin/biddingItems/");
 
-		$title = $_POST["remove_title"];
+		$item_number = $_POST["remove_item"];
 		$db = new DatabaseHandler();
 
-		$titles = $db->query(
-			"SELECT blocked FROM Item WHERE title = :title",
+		$item_numbers = $db->query(
+			"SELECT blocked FROM Item WHERE item_number = :item_number",
 			array(
-				":title" => $title,
+				":item_number" => $item_number,
 			),
 		);
 
-		if (count($titles) <= 0)
+		if (count($item_numbers) <= 0)
 			$this->redirect(
 				"/admin/biddingItems/?error=" . urlencode(
-					"Het veilingitem \"$title\" staat niet in de database."
+					"Het veilingitem \"$item_number\" staat niet in de database."
 				)
 			);
 
-		$blocked = intval($titles[0]["blocked"]);
+		$blocked = intval($item_numbers[0]["blocked"]);
 		$newBlocked = $blocked ^ 1;
 
 		try {
@@ -36,10 +36,10 @@ class BlockHandler extends BaseHandler {
 				<<<SQL
 					UPDATE Item
 						SET blocked = :blocked
-						WHERE title = :title
+						WHERE item_number = :item_number
 				SQL,
 				array(
-					":title" => $title,
+					":item_number" => $item_number,
 					":blocked" => $newBlocked,
 				)
 			);
@@ -54,7 +54,7 @@ class BlockHandler extends BaseHandler {
 
 		$this->redirect(
 			"/admin/biddingItems/?success=" . urlencode(
-				"Het veilingitem \"$title\" is succesvol " . ($newBlocked ? "geblokkeerd" : "gedeblokkeerd")
+				"Het veilingitem Nr.$item_number is succesvol " . ($newBlocked ? "geblokkeerd" : "gedeblokkeerd")
 			)
 		);
 	}

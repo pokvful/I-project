@@ -20,7 +20,7 @@ class BiddingItemsController extends BaseController {
 			$this->data["items"] = $this->parseItems(
 				$db->query(
 					<<<SQL
-						SELECT title, blocked
+						SELECT title, item_number, blocked
 							FROM Item
 							WHERE title LIKE CONCAT('%', :title, '%')
 							ORDER BY title
@@ -33,7 +33,7 @@ class BiddingItemsController extends BaseController {
 		} else {
 			$this->data["items"] = $this->parseItems(
 				$db->query(
-					"SELECT title, blocked FROM Item ORDER BY title"
+					"SELECT title, item_number, blocked FROM Item ORDER BY title"
 				)
 			);
 		}

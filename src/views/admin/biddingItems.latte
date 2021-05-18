@@ -43,14 +43,15 @@
 					n:foreach="$items as $item"
 					n:class="list-group-item, $item['blocked'] ? list-group-item-light, d-flex, flex-column, flex-md-row, align-items-center"
 				>
+				    <div class="item">Nr.{$item["item_number"]}&nbsp; | &nbsp;</div>
 					<div class="item">{$item["title"]}</div>
 					<div n:if="$item['blocked']" class="user-blocked text-danger ms-1 mt-2 mt-md-0">(geblokkeerd)</div>
 
 					<button
 						type="submit"
 						class="btn btn-outline-danger flex-align-md-right mt-2 mt-md-0"
-						name="remove_title"
-						value="{$item['title']}"
+						name="remove_item"
+						value="{$item['item_number']}"
 					>
 						{$item["blocked"] ? "Deblokkeer" : "Blokkeer"}
 					</button>

@@ -77,7 +77,7 @@
 				{foreach $bids as $bid}
 					<li class="list-group-item">{$bid["user"]} | {$bid["bid_amount"]} | {$bid["bid_day"]} {$bid["bid_time"]}</li>
 				{else}
-					<li class="list-group-item">Er is nog niet beboden op deze veiling</li>
+					<li class="list-group-item">Er is nog niet geboden op deze veiling.</li>
 				{/foreach}
 			</ul>
 		</div>
@@ -126,11 +126,11 @@
 				<td>{$itemInformation[0]["shipping_instructions"]}</td>
 			</tr>
 			<tr>
-				<th scope="row">itemnummer</th>
+				<th scope="row">Item nummer</th>
 				<td>{$itemInformation[0]["item_number"]}</td>
 			</tr>
 			<tr>
-				<th scope="row">begin looptijd</th>
+				<th scope="row">Begin looptijd</th>
 				<td>{$itemInformation[0]["duration_start_day"]} {$itemInformation[0]["duration_start_time"]}</td>
 			</tr>
 		</tbody>
