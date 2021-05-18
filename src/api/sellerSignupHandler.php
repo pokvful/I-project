@@ -4,7 +4,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/email.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/signupHandler.php';
 
-class SignupHandler extends BaseHandler {
+class SellerSignupHandler extends BaseHandler {
 
 	public function run() {
 		$dbh = new DatabaseHandler();
@@ -15,5 +15,9 @@ class SignupHandler extends BaseHandler {
 		$creditcard = $_POST["creditcard_number"];
 
 		dump($bank,$bankAccount,$paymentMethod,$creditcard);
+
+		if (isset($_POST["seller"])){
+			$this->redirect("/");
+		}
 	}
 }
