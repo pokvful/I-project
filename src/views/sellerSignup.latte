@@ -6,6 +6,7 @@
 </div>
 <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
 	<form method="POST" class="col-lg-4 mb-3" novalidate>
+	{getCsrfInput()|noescape}
 		<div class="row mb-3">
 		<table class="table">
 					<tbody>
@@ -31,10 +32,10 @@
 							</th>
 							<td>
 								<div class="input-group">
-									<select class="form-select" id="payment_method" required>
+									<select class="form-select" name="payment_method" id="payment_method" required>
 										<option selected>Betaalmethode</option>
-										<option value="1">Creditcard</option>
-										<option value="2">Post</option>
+										<option value="creditcard">Creditcard</option>
+										<option value="post">Post</option>
 									</select>
 								</div>
 							</td>
