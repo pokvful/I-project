@@ -14,7 +14,29 @@ class SellerSignupHandler extends BaseHandler {
 		$paymentMethod = $_POST['payment_method'];
 		$creditcard = $_POST["creditcard_number"];
 
-		
+		//Builds URL for signup-errors
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/sellerSignup/";
+		$redirectAddress = $addressRoot;
+
+		//Filters form inputs
+		if (!isset($bank)) {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("Banknaam is niet ingevuld.")
+			);
+		} else if (!isset($bankAccount)) {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
+			);
+		} else if (!isset($paymentMethod) || ($paymentMethod != 'creditcard' || $paymentMethod != 'post')) {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("Betaalmethode is niet ingevuld.")
+			);
+		} else if (!isset($creditcard) || ($paymentMethod == 'creditcard' && $creditcard != '')) {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
+			);
+		} else if ($paymentMethod == 'post' && $creditcard != '') {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
+			);
+		}	
+
+
 
 
 		$dbh->query(
