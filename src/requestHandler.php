@@ -8,6 +8,11 @@ class RequestHandler {
 		if (!isset($_SESSION["csrf-token"])) {
 			$_SESSION["csrf-token"] = bin2hex(random_bytes(32));
 		}
+
+		if (!isset($_SESSION["loggedin"])) {
+			$_SESSION["loggedin"] = false;
+		}
+
 	}
 
 	public function renderPath() {
