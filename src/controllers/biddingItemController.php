@@ -31,11 +31,13 @@ class BiddingItemController extends BaseController {
 					":item_number" => $_GET["item_number"]
 				)
 			);
-			$this->data["bids"] = $dbh->query("
+			$this->data["bids"] = $dbh->query(
+				<<<SQL
 				SELECT item, bid_amount, [user], bid_day, LEFT(bid_time,8) AS bid_time FROM Bid 
 				WHERE item = :item_number
-				ORDER BY bid_day DESC, bid_time DESC"
-				, array(
+				ORDER BY bid_day DESC, bid_time DESC
+				SQL,
+				array(
 					":item_number" => $_GET["item_number"]
 				)
 			);
