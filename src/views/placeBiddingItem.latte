@@ -1,0 +1,86 @@
+{include './includes/header.latte'}
+
+<div class="container py-5">
+		<div class="col-12 text-center">
+			<h1>Veilingitem plaatsen</h1>
+		</div>
+<div class="d-flex justify-content-center p-3 w-100">
+	<form method="POST" action="/placeBiddingItem/" class="needs-validation col-lg-4 mb-3" novalidate>
+		{getCsrfInput()|noescape}
+		<div n:if="$biddingError" class="col-12 alert alert-danger mb-5" role="alert">
+			{$signupError}
+		</div>
+		<div n:if="$biddingSuccess" class="col-12 alert alert-success mb-5" role="alert">
+			{$signupSuccess}
+		</div>
+
+		<div class="row mb-3">
+        	<label for="input-title" class="form-label">Titel</label>
+        	<input type="text" class="form-control" name="input-title" placeholder="Titel" required>
+        </div>
+
+        <div class="row mb-3">
+              <label for="input-description" class="form-label">Beschrijving</label>
+              <input type="text" class="form-control" name="input-description" placeholder="Beschrijving"  required>
+        </div>
+
+        <div class="row mb-3">
+            <label for="input-price" class="form-label">Verkoopprijs</label>
+            <input type="text" class="form-control" name="input-price" placeholder="Verkoopprijs" required>
+        </div>
+
+        <div class="row mb-3">
+             <label for="input-shipping-instructions" class="form-label">Verzendinstructies</label>
+             <input type="text" class="form-control" name="input-shipping-instructions" placeholder="Verzendinstructies" required>
+        </div>
+
+        <div class="row mb-3">
+             <label for="input-delivery-costs" class="form-label">Verzendkosten</label>
+             <input type="text" class="form-control" name="input-delivery-costs" placeholder="Verzendkosten"required>
+        </div>
+
+		{*https://mdbootstrap.com/snippets/jquery/mdbootstrap/920964*}
+           <div class="file-field">
+              <div class="z-depth-1-half mb-4">
+                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" class="img-fluid"
+                alt="example placeholder">
+              </div>
+              <div class="d-flex justify-content-center">
+              <div class="btn btn-mdb-color btn-rounded float-left">
+                <span>Kies bestand</span>
+                <input type="file">
+               </div>
+             </div>
+           </div>
+		</div>
+		<div class="row mb-3">
+			<div class="col d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary">Plaats veilingitem</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+	(function () {
+		'use strict'
+
+		// Fetch all the forms we want to apply custom Bootstrap validation styles to
+		let forms = document.querySelectorAll('.needs-validation');
+
+		// Loop over them and prevent submission
+		Array.prototype.slice.call(forms)
+			.forEach(function (form) {
+				form.addEventListener('submit', function (event) {
+					if (!form.checkValidity()) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+
+					form.classList.add('was-validated');
+				}, false);
+			});
+	})();
+</script>
+
+{include './includes/footer.latte'}
