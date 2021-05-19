@@ -60,30 +60,27 @@
 					<div class="list-group-item">
 						<div class="input-group">
 							<div class="input-group mb-2 mt-2">
-								{*ifset $_SESSION["loggedin"]*}
-									{*<input n:if="$username" type="hidden" name="username" value="{$username}">*}
-                                	<input n:if="$item_number" type="hidden" name="item_number" value="{$item_number}">
-									{* minimum moet natuurlijk het minimum bod worden *}
-									<form method="POST" action="">
-								    	<input type="number" name="bid-amount" class="form-control" placeholder="Bod" min="0" max="999999999" maxlength="7" aria-label="Bod">
-								    	<div class="input-group-append">
-											<button class="btn btn-primary" name="bid-button" type="submit" value="bid-button">Bieden</button>
+								{if $_SESSION["loggedin"]}
+									<form class="row needs-validation" method="POST" action="">
+										{getCsrfInput()|noescape}
+										<input n:if="$item_number" type="hidden" name="item_number" value="{$item_number}">
+								    	<input type="number" name="bid_amount" class="form-control" placeholder="Bod" min="{$highestBid[0]["highestBid"]  + $minimumBid}" max="999999999" maxlength="9" aria-label="Bod" required>
+								    	<div class="input-group-append pt-3">
+											<button class="btn btn-primary" name="bid_button" type="submit" value="bid-button">Bieden</button>
 										</div>
 									</form>
-								{*else*}
-									{*<div class="input-group-append">
-                                	<button class="btn btn-primary" name="#" type="submit" value="#">Niet ingelogd</button>
-                                	</div>}*
-								{*/ifset*}
+								{else}
+									<div class="input-group-append">
+                                	Om op dit item te bieden, moet u <a href="/login/">inloggen</a></button>
+                                	</div>
+								{/if}
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<ul class="list-group overflow-auto" style="height: 590px;">
+			<ul class="list-group overflow-auto " style="height: 590px;">
 				<li class="list-group-item active sticky-top">Voorgaande biedingen</li>
-
 				{foreach $bids as $bid}
 					<li class="list-group-item">{$bid["user"]} | {$bid["bid_amount"]} | {$bid["bid_day"]} {$bid["bid_time"]}</li>
 				{else}
