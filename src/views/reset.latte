@@ -80,7 +80,7 @@
 {else}
 	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
 		<!--- ResetPassword form --->
-		<form method="POST" action="/reset/" class="col-lg-4 mb-3">
+		<form method="POST" action="/reset/" class="needs-validation col-lg-4 mb-3" novalidate>
 			{getCsrfInput()|noescape}
 			<input n:if="$mail" type="hidden" name="mail" value="{$mail}">
 			<input n:if="$questionFromUser" type="hidden" name="questionFromUser" value="{$questionFromUser}">
