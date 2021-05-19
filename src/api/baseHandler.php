@@ -26,8 +26,7 @@ class BaseHandler {
 					"error" => true,
 					"code" => 403,
 					"message" => "Forbidden",
-				)
-			)
+				))
 			);
 		}
 	}

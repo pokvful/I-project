@@ -1,40 +1,40 @@
 {include './includes/header.latte'}
 {if !$eligibleForReset}
-    <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
-        <!--- ResetPassword form --->
-        <form method="POST" action="/reset/" class="col-lg-4 mb-3">
-            {getCsrfInput()|noescape}
+	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
+		<!--- ResetPassword form --->
+		<form method="POST" action="/reset/" class="col-lg-4 mb-3">
+			{getCsrfInput()|noescape}
 
-            <div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
-                {$resetError}
-            </div>
-            <div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
-                {$resetSuccess}
-            </div>
+			<div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
+				{$resetError}
+		              	</div>
+			<div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
+				{$resetSuccess}
+			</div>
 
-            <div class="row mb-3">
-                <label for="input-email" class="form-label">E-mailadres</label>
-                <input type="email" class="form-control" name="Email" placeholder="E-mailadres" id="input-email"
-                       required>
-            </div>
+			<div class="row mb-3">
+				<label for="input-email" class="form-label">E-mailadres</label>
+				<input type="email" class="form-control" name="email" placeholder="E-mailadres" id="input-email"
+					   required>
+			</div>
 
-            <div class="row mb-3">
-                <div class="col d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Verstuur mail</button>
-                </div>
-            </div>
+			<div class="row mb-3">
+				<div class="col d-flex justify-content-center">
+					<button type="submit" class="btn btn-primary">Verstuur mail</button>
+				</div>
+			</div>
 
-            <div class="row mb-3">
-                <div class="col text-center">
-                    <a href="/login" class="link-primary">Klik hier om in te loggen</a>
-                </div>
-            </div>
-        </form>
-    </div>
+			<div class="row mb-3">
+				<div class="col text-center">
+					<a href="/login" class="link-primary">Klik hier om in te loggen</a>
+				</div>
+			</div>
+		</form>
+	</div>
 
-    <script>
-        (function () {
+	<script>(function () {
             'use strict'
+
 
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             let forms = document.querySelectorAll('.needs-validation');
@@ -52,9 +52,8 @@
                     }, false);
                 });
         })();
-    </script>
-
-    <script>
+	</script>
+	<script>
         // from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
         // TODO: should we really add this, because javascript shouldn't be in the middle of the page...
         // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -77,40 +76,42 @@
                     }, false);
                 });
         })();
-    </script>
+	</script>
 {else}
-    <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
-        <!--- ResetPassword form --->
-        <form method="POST" action="/reset/" class="col-lg-4 mb-3">
-            {getCsrfInput()|noescape}
-		    <input n:if="$mail" type="hidden" name="mail" value="{$mail}">
-		    <input n:if="$questionFromUser" type="hidden" name="questionFromUser" value="{$questionFromUser}">
-            <div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
-                {$resetError}
-            </div>
-            <div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
-                {$resetSuccess}
-            </div>
+	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
+		<!--- ResetPassword form --->
+		<form method="POST" action="/reset/" class="needs-validation col-lg-4 mb-3" novalidate>
+			{getCsrfInput()|noescape}
+			<input n:if="$mail" type="hidden" name="mail" value="{$mail}">
+			<input n:if="$questionFromUser" type="hidden" name="questionFromUser" value="{$questionFromUser}">
+			<div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
+				{$resetError}
+			</div>
+			<div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
+				{$resetSuccess}
+			</div>
 
-            <div class="row mb-3">
-                <label for="input-email" class="form-label">Beveiligingsvraag:</label>
-                <p>{$questionFromUser}</p>
-                <input type="text" class="form-control" name="questionAnswer" placeholder="Antwoord beveiligingsvraag" id="input-email"
-                       required>
-            </div>
-            <div class="row mb-3">
-                <label for="input-email" class="form-label">Nieuwe wachtwoord</label>
-                <input type="password" class="form-control" name="password" placeholder="Nieuwe wachtwoord" id="input-password"
-                       required>
-            </div>
+			<div class="row mb-3">
+				<label for="input-email" class="form-label">Beveiligingsvraag:</label>
+				<p>{$questionFromUser}</p>
+				<input type="text" class="form-control" name="questionAnswer" placeholder="Antwoord beveiligingsvraag"
+					   id="input-email"
+					   required>
+			</div>
+			<div class="row mb-3">
+				<label for="input-email" class="form-label">Nieuwe wachtwoord</label>
+				<input type="password" class="form-control" name="password" placeholder="Nieuwe wachtwoord"
+					   id="input-password"
+					   required>
+			</div>
 
-            <div class="row mb-3">
-                <div class="col d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Reset wachtwoord</button>
-                </div>
-            </div>
+			<div class="row mb-3">
+				<div class="col d-flex justify-content-center">
+					<button type="submit" class="btn btn-primary">Reset wachtwoord</button>
+				</div>
+			</div>
 
-        </form>
-    </div>
+		</form>
+	</div>
 {/if}
 {include './includes/footer.latte'}

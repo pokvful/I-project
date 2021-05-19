@@ -3,7 +3,7 @@
 {if !$validVerification}
 <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
 	<!--- Sign-in form --->
-	<form method="POST" action="/signup/" class="col-lg-4 mb-3" novalidate>
+	<form method="POST" action="/signup/" class="needs-validation col-lg-4 mb-3" novalidate>
 		{getCsrfInput()|noescape}
 		<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
 			{$signupError}
@@ -96,6 +96,7 @@
 				<ul>
 					<li>Tenminste &eacute;&eacute;n letter.</li>
 					<li>Tenminste &eacute;&eacute;n getal.</li>
+					<li>Tenminste 8 karakters lang.</li>
 				</ul>
 			</div>
 		</div>
@@ -125,7 +126,7 @@
 
 		<div class="col-12 col-md-6 mb-3">
 			<label for="address_addition" class="form-label">Adres toevoeging</label>
-			<input type="text" name="address_addition" id="address_addition" class="form-control" placeholder="Adres toevoeging" required>
+			<input type="text" name="address_addition" id="address_addition" class="form-control" placeholder="Adres toevoeging">
 		</div>
 
 		<div class="col-12 col-md-6 mb-3">
@@ -204,7 +205,6 @@
 				}, false);
 			});
 		// end bootstrap code
-
 		function getPhoneNumberElement(number) {
 			let div = document.createElement("div");
 			div.id = `phone-number-${number}`;

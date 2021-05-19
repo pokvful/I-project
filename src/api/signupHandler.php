@@ -100,7 +100,7 @@ class SignupHandler extends BaseHandler {
 				);
 			}
 
-			foreach ($phoneNumbers as $phoneNumber) { 
+			foreach ($phoneNumbers as $phoneNumber) {
 				if (strlen($phoneNumber) > 10 && !preg_match('/^[0-9-+]$/', $phoneNumber)) {
 					$this->redirect($redirectAddress . "&signup-error=" . urlencode("Ongeldig telefoonnummer.")
 					);
@@ -134,7 +134,7 @@ class SignupHandler extends BaseHandler {
 			);
 
 			// TODO: This isn't the most optimal solution
-			foreach ($phoneNumbers as $phoneNumber) { 
+			foreach ($phoneNumbers as $phoneNumber) {
 				$dbh->query("INSERT INTO User_Phone ([user], phone) VALUES (:username, :phoneNumber)", array(
 					":username" => $username,
 					":phoneNumber" => $phoneNumber
