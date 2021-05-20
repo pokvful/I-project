@@ -1,0 +1,96 @@
+{include './includes/header.latte'}
+
+<div class="container">
+	<div class="col-12 text-center my-5">
+		<h1>Veilingsitems</h1>
+	</div>
+
+	<div class="row">
+		<div class="col-12 col-md-3 mb-4 mb-md-0">
+			<div class="border rounded p-3">
+				<h4>Filters</h4>
+				<span>Filters zijn binnenkort beschikbaar.</span>
+			</div>
+		</div>
+
+		<form method="GET" action="/items/" class="col-12 col-md-9">
+			<input type="hidden" name="count" value="{$perPage}">
+
+			<div class="row mb-2">
+				<div class="d-flex flex-row justify-content-center">
+					{* page is already one back (start from 0 in the code and from 1 for the user) *}
+					<button n:if="$page >= 1" type="submit" class="btn btn-link" name="page" value="{$page}">&lt;</button>
+
+					<button
+						n:foreach="$nextPageNumbers as $nextPage"
+						type="submit"
+						n:class="btn, $nextPage == $page ? btn-primary : btn-outline-primary, mx-2"
+						name="page"
+						value="{$nextPage + 1}"
+					>
+						{$nextPage + 1}
+					</button>
+
+					{* page is one back (start from 0 in the code and from 1 for the user), so + 2 *}
+					<button
+						n:if="($page + 1) < ceil($totalRows / $perPage)"
+						type="submit"
+						class="btn btn-link"
+						name="page"
+						value="{$page + 2}"
+					>
+						&gt;
+					</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<div n:foreach="$items as $item" class="ocl-12 col-md-6 col-lg-4 py-3">
+					<div class="card">
+						<img class="card-img-top"
+							src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg"
+							alt="Card image cap">
+						
+						<div class="card-body">
+							<h4 class="card-title">{$item['title']}</h4>
+							<h6 class="card-subtitle mb-2 text-muted">&euro;{$item['bid_amount']}</h6>
+
+							<p class="card-text">{cutString( $item['description'], 75, true )}</p>
+							<a href="/biddingItem/?item_number={$item['item_number']}" class="btn btn-primary">Bekijken</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row mt-2">
+				<div class="d-flex flex-row justify-content-center">
+					{* page is already one back (start from 0 in the code and from 1 for the user) *}
+					<button n:if="$page >= 1" type="submit" class="btn btn-link" name="page" value="{$page}">&lt;</button>
+
+					<button
+						n:foreach="$nextPageNumbers as $nextPage"
+						type="submit"
+						n:class="btn, $nextPage == $page ? btn-primary : btn-outline-primary, mx-2"
+						name="page"
+						value="{$nextPage + 1}"
+					>
+						{$nextPage + 1}
+					</button>
+
+					{* page is one back (start from 0 in the code and from 1 for the user), so + 2 *}
+					<button
+						n:if="($page + 1) < ceil($totalRows / $perPage)"
+						type="submit"
+						class="btn btn-link"
+						name="page"
+						value="{$page + 2}"
+					>
+						&gt;
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{include './includes/footer.latte'}

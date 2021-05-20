@@ -2,6 +2,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . '/settings.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/database/databaseHandler.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/helpers/rubric.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/src/helpers/string.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
 
 class NotImplementedException extends Exception
@@ -22,6 +23,13 @@ class BaseController
 		$this->latteEngine = new Latte\Engine;
 
 		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
+
+		$this->latteEngine->addFunction(
+			'cutString',
+			function(string $string, int $maxLength, $useEllipsis = false) {
+				return StringHelper::cut($string, $maxLength, $useEllipsis);
+			}
+		);
 
 		$this->latteEngine->addFunction('getCsrfInput', function (): string {
 			return "<input type=\"hidden\" name=\"csrf-token\" value=\"{$_SESSION["csrf-token"]}\" />";
