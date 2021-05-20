@@ -11,9 +11,18 @@ class Rubric {
 		$this->id = $id;
 	}
 
-	public function get(int $id): ?Rubric {
+	public function getById(int $id): ?Rubric {
 		for ($i = 0; $i < count($this->rubrics); $i++) {
 			if ($this->rubrics[$i]->id === $id)
+				return $this->rubrics[$i];
+		}
+
+		return null;
+	}
+
+	public function getByName(string $name): ?Rubric {
+		for ($i = 0; $i < count($this->rubrics); $i++) {
+			if ($this->rubrics[$i]->name === $name)
 				return $this->rubrics[$i];
 		}
 
@@ -54,9 +63,8 @@ class RubricHelper {
 		}
 	}
 
-	public static function getRubricsFromDataBase():Rubric {
+	public static function getRubricsFromDataBase(): Rubric {
 		$db = new DatabaseHandler();
-		$ret = '<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alle veilingitems</a>';
 
 		$databaseRubrics = $db->query(
 			"SELECT rubric_number, rubric_name, rubric FROM Rubric;"
@@ -83,18 +91,18 @@ class RubricHelper {
 			$rubrics->add(
 				new Rubric($baseRubric["rubric_name"], $baseRubric["rubric_number"])
 			);
-			$flatTree[] = $rubrics->get($baseRubric["rubric_number"]);
+			$flatTree[] = $rubrics->getById($baseRubric["rubric_number"]);
 		}
 
 		while ($counter < count($rubricsRest)) {
 			$rubric = $rubricsRest[$counter++];
-			$parent = $rubrics->get($rubric["rubric_number"]);
+			$parent = $rubrics->getById($rubric["rubric_number"]);
 
 			if (!is_null($parent)) {
 				$parent->add(
 					new Rubric($rubric["rubric_name"], $rubric["rubric_number"])
 				);
-				$flatTree[] = $parent->get($rubric["rubric_number"]);
+				$flatTree[] = $parent->getById($rubric["rubric_number"]);
 			} else {
 				$reversedCounter = count($flatTree);
 
@@ -105,7 +113,7 @@ class RubricHelper {
 						$parent->add(
 							new Rubric($rubric["rubric_name"], $rubric["rubric_number"])
 						);
-						$flatTree[] = $parent->get($rubric["rubric_number"]);
+						$flatTree[] = $parent->getById($rubric["rubric_number"]);
 						break;
 					}
 				}

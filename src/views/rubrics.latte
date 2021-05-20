@@ -1,0 +1,26 @@
+{include './includes/header.latte'}
+
+<div class="container">
+	<div class="col-12 text-center my-5">
+		<h1>Categorie&euml;n</h1>
+	</div>
+
+	<div class="list-group">
+		<div
+			n:foreach="$rubrics->rubrics as $rubric"
+			class="d-flex list-group-item list-group-item-action"
+		>
+			<a href="/items/?rubric={$rubric->id}" class="d-flex align-items-center flex-grow-1">{$rubric->name}</a>
+
+			<a
+				n:if="count( $rubric->rubrics ) > 0"
+				href="/rubrics/?rubric={$rubricTree}\{$rubric->name}"
+				class="d-inline-block btn btn-primary"
+			>
+				&gt;&gt;
+			</a>
+		</div>
+	</div>
+</div>
+
+{include './includes/footer.latte'}
