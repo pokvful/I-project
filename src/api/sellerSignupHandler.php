@@ -34,16 +34,12 @@ class SellerSignupHandler extends BaseHandler {
 		} else if ($paymentMethod == 'post' && $creditcard != '') {
 			$this->redirect($redirectAddress . "?signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
 			);
-		}	
-
-
-
+		}
 
 		$dbh->query(
 			<<<SQL
 				INSERT INTO Seller ([user], bank, bank_account, control_option, creditcard)
 								VALUES (:username, :bank, :bank_account, :payment_method, :creditcard_number)
-	
 			SQL,
 			array(
 				":username"	=> $_SESSION["username"],
@@ -52,7 +48,7 @@ class SellerSignupHandler extends BaseHandler {
 				":payment_method" => $paymentMethod,
 				":creditcard_number" => $creditcard,
 			)
-		);	
+		);
 		$dbh->query(
 			<<<SQL
 			UPDATE 	[User]
@@ -62,9 +58,9 @@ class SellerSignupHandler extends BaseHandler {
 			array(
 				":username"	=> $_SESSION["username"],
 			)
-		);	
-			
-			$this->redirect("/profile/");
+		);
+
+		$this->redirect("/profile/");
 
 	}
 }
