@@ -1,6 +1,7 @@
+
 {include './includes/header.latte'}
 
-
+{$isSeller[0]["Seller"]}
 <div class="text-center mb-5 mt-5">
 	<h1>Aanmaken verkopersaccount</h1>
 </div>
@@ -11,53 +12,58 @@
 		</div>
 	{getCsrfInput()|noescape}
 		<div class="row mb-3">
-			<table class="table">
-					<tbody>
-						<tr>
-							<th scope="row">
-								<label for="input-email" class="form-label mt-2">Naam bank:</label>
-							</th>
-							<td>
-								<input type="text" class="form-control" name="bank_name" placeholder="Bank" id="bank_name" required>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">
-								<label for="input-email" class="form-label mt-2">Rekeningnummer:</label>
-							</th>
-							<td>
-								<input type="text" class="form-control" name="bank_account" placeholder="Rekeningnummer" id="bank_account" required>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">
-								<label for="input-email" class="form-label mt-2">Betaalmethode:</label>
-							</th>
-							<td>
-								<div class="input-group">
+			<div class="row list-group-flush">
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col fw-bold">
+							<label for="input-email" class="form-label mt-2">Naam bank:</label>
+						</div>
+						<div class="col">
+							<input type="text" class="form-control" name="bank_name" placeholder="Bank" id="bank_name" required>
+						</div>
+					</div>
+				</div>
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col fw-bold">
+							<label for="input-email" class="form-label mt-2">Rekeningnummer:</label>
+						</div>
+						<div class="col">
+							<input type="text" class="form-control" name="bank_account" placeholder="Rekeningnummer" id="bank_account" required>
+						</div>
+					</div>
+				</div>
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col fw-bold">
+							<label for="input-email" class="form-label mt-2">Betaalmethode:</label>
+						</div>
+						<div class="col">
+							<div class="input-group">
 									<select class="form-select" name="payment_method" id="payment_method" required>
 										<option selected>Betaalmethode</option>
 										<option value="creditcard">Creditcard</option>
 										<option value="post">Post</option>
 									</select>
 								</div>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">
-								<label for="input-email" class="form-label mt-2">Creditcardnummer:</label>
-							</th>
-							<td>
-								<input type="text" class="form-control" name="creditcard_number" placeholder="creditcardnummer" id="creditcard_number" required>
-							</td>
-						</tr>
-					</tbody>
-			</table>	
+						</div>
+					</div>
+				</div>
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col fw-bold">
+							<label for="input-email" class="form-label mt-2">Creditcardnummer:</label>	
+						</div>
+						<div class="col">
+							<input type="text" class="form-control" name="creditcard_number" placeholder="creditcardnummer" id="creditcard_number" required>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="row mb-3">
 			<div class="col d-flex justify-content-center">
 				<button type="submit" class="btn btn-primary" name="seller">Verkoper worden</button>
-
 			</div>
 		</div>
 	</form>

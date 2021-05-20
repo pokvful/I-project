@@ -110,38 +110,78 @@
 			</h2>
 		</div>
 	</div>
-	<table class="table">
-		<tbody>
-			<tr>
-				<th scope="row">Verkoper</th>
-				<td>{$itemInformation[0]["seller"]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Looptijd</th>
-				<td>{$itemInformation[0]["duration"]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Betaalwijze</th>
-				<td>{$itemInformation[0]["payment_method"]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Locatie</th>
-				<td>{$itemInformation[0]["city"]} {$itemInformation[0]["country"]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Verzendinstructies</th>
-				<td>{$itemInformation[0]["shipping_instructions"]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Item nummer</th>
-				<td>{$itemInformation[0]["item_number"]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Begin looptijd</th>
-				<td>{$itemInformation[0]["duration_start_day"]} {$itemInformation[0]["duration_start_time"]}</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="row list-group-flush">
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Verkoper:
+				</div>
+				<div class="col">
+					{$itemInformation[0]["seller"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Looptijd:
+				</div>
+				<div class="col">
+					{$itemInformation[0]["duration"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Betaalwijze:
+				</div>
+				<div class="col">
+					{$itemInformation[0]["payment_method"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Locatie:
+				</div>
+				<div class="col">
+					{$itemInformation[0]["city"]} {$itemInformation[0]["country"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Verzendinstructies
+				</div>
+				<div class="col">
+					{$itemInformation[0]["shipping_instructions"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Item nummer:
+				</div>
+				<div class="col">
+					{$itemInformation[0]["item_number"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Begin looptijd:
+				</div>
+				<div class="col">
+					{$itemInformation[0]["duration_start_day"]} {$itemInformation[0]["duration_start_time"]}
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 {include './includes/footer.latte'}
