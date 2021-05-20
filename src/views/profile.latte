@@ -9,75 +9,128 @@
 		</div>
 		<div class="col-9">
 			<h3>Persoonsgegevens</h3>
-			<table class="table">
-				<tbody>
-					<tr>
-						<th scope="row">E-mailadres:</th>
-						<td>{$userInformation[0]["mailbox"]}</td>
-					</tr>
-					<tr>
-						<th scope="row">Gebruikersnaam:</th>
-						<td>{$userInformation[0]["username"]}</td>
-					</tr>
-					<tr>
-						<th scope="row">Voornaam:</th>
-						<td>{$userInformation[0]["first_name"]}</td>
-					</tr>
-					<tr>					
-						<th scope="row">Achternaam:</th>
-						<td>{$userInformation[0]["last_name"]}</td>
-					</tr>
-					<tr>
-						<th scope="row">Geboortedatum</th>
-						<td>{$userInformation[0]["day_of_birth"]}</td>
-					</tr>
-					<tr>
-						<th scope="row">Adres:</th>
-						<td>{$userInformation[0]["address_line1"]} {$userInformation[0]["address_line2"]}</td>
-					</tr>
-					<tr>
-						<th scope="row">Postcode:</th>
-						<td>{$userInformation[0]["zip_code"]} {$userInformation[0]["city"]}</td>
-					</tr>
-					<tr>
-						<th scope="row">Land</th>
-						<td>{$userInformation[0]["country"]}</td>
-					</tr>
-
-					<tr>
-						<th scope="row">Telefoonnr1:</th>
-						<td>{$userInformation[0]["phone"]}</td>
-					<tr>
-						<th scope="row">Telefoonnr2:</th>
-						<td>{*er is voor nu maar 1 telefoon. hier komt telefoon 2*}</td>
-					</tr>
-					</tr>
-				</tbody>
-			</table>
+	<div class="row list-group-flush">
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					E-mailadres:
+				</div>
+				<div class="col">
+					{$userInformation[0]["mailbox"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Gebruikersnaam:
+				</div>
+				<div class="col">
+					{$userInformation[0]["username"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Voornaam:
+				</div>
+				<div class="col">
+					{$userInformation[0]["first_name"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Achternaam:
+				</div>
+				<div class="col">
+					{$userInformation[0]["last_name"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Geboortedatum:
+				</div>
+				<div class="col">
+					{$userInformation[0]["day_of_birth"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Adres:
+				</div>
+				<div class="col">
+					{$userInformation[0]["address_line1"]} {$userInformation[0]["address_line2"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Postcode:
+				</div>
+				<div class="col">
+					{$userInformation[0]["zip_code"]} {$userInformation[0]["city"]}
+				</div>
+			</div>
+		</div>
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Land:
+				</div>
+				<div class="col">
+					{$userInformation[0]["country"]}
+				</div>
+			</div>
+		</div>
+	</div>
 			<h3 class="mt-5">Verkopersgegevens</h3>
 			{if !$userInformation[0]["seller"]}
 				<p>
 					U bent nog geen verkoper. Klik <a href="/sellerSignup" class="text-primary">hier</a> om een verkoper te worden.
 				</p>
 			{else}
-				<table class="table">
-					<tbody>
-						<tr>
-							<th scope="row">Bank:</th>
-							<td>{$sellerInformation[0]["bank"]}</td>
-						</tr>
-						<tr>
-							<th scope="row">Rekeningnummer:</th>
-							<td>{$sellerInformation[0]["bank_account"]}</td>
-						</tr>
-						{ifset $sellerInformation[0]["creditcard"]}
-						<tr>
-							<th scope="row">Creditcard:</th>
-							<td>{$sellerInformation[0]["creditcard"]}</td>
-						</tr>
-						{/ifset}
-					</tbody>
-				</table>
+				<div class="row list-group-flush">
+					<div class="list-group-item">
+						<div class="row">
+							<div class="col fw-bold">
+								Bank:
+							</div>
+							<div class="col">
+								{$sellerInformation[0]["bank"]}
+							</div>
+						</div>
+					</div>
+					<div class="list-group-item">
+						<div class="row">
+							<div class="col fw-bold">
+								Rekeningnummer:
+							</div>
+							<div class="col">
+								{$sellerInformation[0]["bank_account"]}
+							</div>
+						</div>
+					</div>
+					{ifset $sellerInformation[0]["creditcard"]}
+					<div class="list-group-item">
+						<div class="row">
+							<div class="col fw-bold">
+								Creditcard:
+							</div>
+							<div class="col">
+								{$sellerInformation[0]["creditcard"]}
+							</div>
+						</div>
+					</div>
+				{/ifset}
+			</div>
 			{/if}
 		</div>
 		<div class="col-3"></div>
