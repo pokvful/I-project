@@ -11,13 +11,60 @@ class SellerSignupHandler extends BaseHandler {
 
 		$bank = $_POST["bank_name"];
 		$bankAccount = $_POST["bank_account"];
-		$paymentMethod = $_POST["payment_method"];
+		$paymentMethod = $_POST['payment_method'];
 		$creditcard = $_POST["creditcard_number"];
 
-		dump($bank, $bankAccount, $paymentMethod, $creditcard);
+		//Builds URL for signup-errors
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/sellerSignup/";
+		$redirectAddress = $addressRoot;
 
-		if (isset($_POST["seller"])) {
-			$this->redirect("/");
-		}
+		//Filters form inputs
+		if (!isset($bank)) {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("Banknaam is niet ingevuld.")
+			);
+		} else if (!isset($bankAccount)) {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
+			);
+		} else if (!isset($paymentMethod) || ($paymentMethod != 'creditcard' || $paymentMethod != 'post')) {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("Betaalmethode is niet ingevuld.")
+			);
+		} else if (!isset($creditcard) || ($paymentMethod == 'creditcard' && $creditcard != '')) {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
+			);
+		} else if ($paymentMethod == 'post' && $creditcard != '') {
+			$this->redirect($redirectAddress . "?signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
+			);
+		}	
+
+
+
+
+		$dbh->query(
+			<<<SQL
+				INSERT INTO Seller ([user], bank, bank_account, control_option, creditcard)
+								VALUES (:username, :bank, :bank_account, :payment_method, :creditcard_number)
+	
+			SQL,
+			array(
+				":username"	=> $_SESSION["username"],
+				":bank" => $bank,
+				":bank_account" => $bankAccount,
+				":payment_method" => $paymentMethod,
+				":creditcard_number" => $creditcard,
+			)
+		);	
+		$dbh->query(
+			<<<SQL
+			UPDATE 	[User]
+			SET seller = 1
+			WHERE [username] = :username							
+			SQL,
+			array(
+				":username"	=> $_SESSION["username"],
+			)
+		);	
+			
+			$this->redirect("/profile/");
+
 	}
 }

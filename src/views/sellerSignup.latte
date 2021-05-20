@@ -6,8 +6,12 @@
 </div>
 <div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
 	<form method="POST" class="col-lg-4 mb-3" novalidate>
+		<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
+			{$signupError}
+		</div>
+	{getCsrfInput()|noescape}
 		<div class="row mb-3">
-		<table class="table">
+			<table class="table">
 					<tbody>
 						<tr>
 							<th scope="row">
@@ -31,10 +35,10 @@
 							</th>
 							<td>
 								<div class="input-group">
-									<select class="form-select" id="payment_method" required>
+									<select class="form-select" name="payment_method" id="payment_method" required>
 										<option selected>Betaalmethode</option>
-										<option value="1">Creditcard</option>
-										<option value="2">Post</option>
+										<option value="creditcard">Creditcard</option>
+										<option value="post">Post</option>
 									</select>
 								</div>
 							</td>
@@ -59,5 +63,26 @@
 	</form>
 </div>
 
+<script>
+	(function () {
+		'use strict'
+
+		// Fetch all the forms we want to apply custom Bootstrap validation styles to
+		let forms = document.querySelectorAll('.needs-validation');
+
+		// Loop over them and prevent submission
+		Array.prototype.slice.call(forms)
+			.forEach(function (form) {
+				form.addEventListener('submit', function (event) {
+					if (!form.checkValidity()) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+
+					form.classList.add('was-validated');
+				}, false);
+			});
+	})();
+</script>
 
 {include './includes/footer.latte'}

@@ -6,7 +6,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
 
 class SellerSignupController extends BaseController {
 	public function run() {
-
+		$this->data["signupError"] = $_GET["signup-error"] ?? null;
 		$this->render();
 	}
 }

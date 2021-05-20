@@ -32,7 +32,11 @@ class BiddingItemController extends BaseController {
 				)
 			);
 			$this->data["bids"] = $dbh->query(
-				"SELECT item, bid_amount, [user], bid_day, LEFT(bid_time,8) AS bid_time FROM Bid WHERE item = :item_number",
+				<<<SQL
+				SELECT item, bid_amount, [user], bid_day, LEFT(bid_time,8) AS bid_time FROM Bid 
+				WHERE item = :item_number
+				ORDER BY bid_day DESC, bid_time DESC
+				SQL,
 				array(
 					":item_number" => $_GET["item_number"]
 				)
@@ -53,7 +57,6 @@ class BiddingItemController extends BaseController {
 			$this->data["bidError"] = $_GET["bid-error"] ?? null;
 			$this->data["bidSuccess"] = $_GET["bid-success"] ?? null;
 			$this->data["item_number"] = $_GET['item_number'] ?? null;
-//			$this->data["username"] = $_GET['username'] ?? null;
 			$this->render();
 		}
 	}
