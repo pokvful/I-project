@@ -37,11 +37,15 @@
 					<li class="nav-i">
 						<a href="/rubrics/" class="nav-link">Categorie&euml;n</a>
 					</li>
-
+					{if $_SESSION["loggedin"]}
 					<li class="nav-item ms-auto nav-item">
 						<a class="nav-link" href="/placeBiddingItem/">Plaats veilingitem</a>
 					</li>
-
+					{else}
+					<li class="nav-item ms-auto nav-item">
+                    	{*PLACEHOLDER VOOR LAY-OUT*}
+                    </li>
+					{/if}
 					<li class="nav-item">
 						<a class="nav-link" href="/faq/">Faq</a>
 					</li>

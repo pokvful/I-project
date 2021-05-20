@@ -7,21 +7,20 @@ class PlaceBiddingItemHandler extends BaseHandler {
 
 	public function run() {
 		$dbh = new DatabaseHandler();
-		if ($_SESSION["loggedin"]) {
+		if (isset($_POST["place_bid"])) {
 			$checkIfUserIsSellerQuery = $dbh->query("SELECT seller FROM [User] WHERE seller = 1 AND username = :username", array(
 				":username" => $_SESSION["username"]
 			));
-			if (count($checkIfUserIsSellerQuery) > 0) {
 
+			if (count($checkIfUserIsSellerQuery) > 0) {
 				$title = $_POST["title"];
 				$seller = $_SESSION["username"];
 				$description = $_POST["description"];
 				$starting_price = $_POST["price"];
 				$payment_method = $_POST["payment_method"];
-				$payment_instructions = $_POST["payment_instruction"];
+				$payment_instruction = $_POST["payment_instruction"];
 				$shipping_cost = $_POST["shipping_costs"];
 				$shipping_instructions = $_POST["shipping_instruction"];
-//				$file_name = $_POST["file_name"];
 
 				bdump($_FILES);
 				//file
@@ -35,62 +34,57 @@ class PlaceBiddingItemHandler extends BaseHandler {
 					//A file path needs to be present
 					if ($tmpFilePath != "") {
 						//Setup our new file path
-						$newFilePath = "./uploadFiles/" . $_FILES['upload']['name'][$i];
+						$newFilePath = "./resources/images/" . $_FILES['upload']['name'][$i];
 						//File is uploaded to temp dir
 						if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-							//Other code goes here
+							$file_name = $files[0];
 						}
 					}
 				}
 
-				// end file
-
-				$getSellerLocationQuery = $dbh->query("
-		SELECT city, country FROM [User] WHERE username = :username
-		", array(
-					":username" => $seller
-				));
-
-				$city = $getSellerLocationQuery[0]["city"];
-				$country = $getSellerLocationQuery[0]["country"];
+				$city = $_POST["city"];
+				$country = $_POST["country"];
+				$duration = 4;
+				$auction_closed = 0;
 
 				$placeItemQuery = $dbh->query(
 					<<<SQL
-				INSERT INTO Item (title, [description], starting_price, payment_method, payment_instructions, city, country, duration, duration_start_day, duration_start_time, shipping_cost, shipping_instructions, seller, duration_end_day, duration_end_time)
-				VALUES(:title, :description, :starting_price, :payment_method, :payment_instructions, :city, :country, :duration, :duration_start_day, :duration_start_time, :shipping_cost, :shipping_instructions, :seller, :duration_end_day, :duration_end_time) 
-			SQL,
-
+						INSERT INTO Item (title, [description], starting_price, payment_method, payment_instruction, city, country, duration, duration_start_day, duration_start_time, shipping_cost, shipping_instructions, seller, duration_end_day, duration_end_time, auction_closed)
+						VALUES(:title, :description, :starting_price, :payment_method, :payment_instruction, :city, :country, :duration, getDate(), CONVERT(TIME, getDate()), :shipping_cost, :shipping_instruction, :seller, DATEADD(DD, 4, getDate()), DATEADD(HOUR, 4, getDate()), :auction_closed) 
+						SQL,
 					array(
 						":title" => $title,
 						":description" => $description,
 						":starting_price" => $starting_price,
 						":payment_method" => $payment_method,
-						":payment_instructions" => $payment_instructions,
+						":payment_instruction" => $payment_instruction,
 						":city" => $city,
 						":country" => $country,
-						":duration" => 4,
-						":duration_start_day" => getDate(),
-						":duration_start_time" => CONVERT(TIME, getDate()),
-						"shipping_cost" => $shipping_cost,
+						":duration" => $duration,
+						":shipping_cost" => $shipping_cost,
 						":shipping_instruction" => $shipping_instructions,
 						":seller" => $seller,
-						"duration_end_day" => DATEADD(DD, 4, @Date),
-						"duration_end_time" => DATEADD(HOUR, 4, @Date)
+						":auction_closed" => $auction_closed
 					));
+
+				$getItemNumberQuery = $dbh->query("SELECT @@IDENTITY AS highestID");
 
 				$placeMediaQuery = $dbh->query(
 					<<<SQL
-			INSERT INTO [File] ([filename], item) 
-				VALUES(:file_name, :item_number) 
-			SQL,
-
+						INSERT INTO [File] ([filename], item)
+						VALUES(:file_name, :item_number)
+						SQL,
 					array(
 						":file_name" => $file_name,
-						"item_number" => $item_number
+						"item_number" => $getItemNumberQuery[0]["highestID"]
 					));
+
+			} else {
+				$this->redirect("/placeBiddingItem/?bidding-error=" . urlencode("Bod is succesvol geplaatst.")
+				);
 			}
+			$this->redirect("/placeBiddingItem/?bidding-success=" . urlencode("Bod is succesvol geplaatst.")
+			);
 		}
-		$this->redirect("/placeBiddingItem/?bidding-success=" . urlencode("Bod is succesvol geplaatst.")
-		);
 	}
 }

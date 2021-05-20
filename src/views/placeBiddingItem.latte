@@ -42,12 +42,12 @@
 
 				<div class="row mb-3">
 					<label for="input-city" class="form-label">Plaats</label>
-					<input type="text" class="form-control" name="city" placeholder="Plaats" required>
+					<input type="text" class="form-control" name="city" value={$city} placeholder="Plaats" required>
 				</div>
 
 				<div class="row mb-3">
 					<label for="input-country" class="form-label">Land</label>
-					<input type="text" class="form-control" name="country" placeholder="Land" required>
+					<input type="text" class="form-control" name="country" value={$country} placeholder="Land" required>
 				</div>
 
 				<div class="row mb-3">
@@ -68,7 +68,7 @@
 				<div class="row mb-3">
 					<label for="input-title" class="form-label">Betaalinstructie</label>
 					<input type="text" class="form-control" name="payment_instruction"
-						   placeholder="Betaalinstructie" required>
+						   placeholder="Betaalinstructie">
 				</div>
 
 				<div class="row mb-3">
@@ -80,7 +80,7 @@
 				<div class="row mb-3">
 					<label for="input-shipping-instructions" class="form-label">Verzendinstructies</label>
 					<input type="text" class="form-control" name="shipping_instruction"
-						   placeholder="Verzendinstructies" required>
+						   placeholder="Verzendinstructies">
 				</div>
 
 				{*https://mdbootstrap.com/snippets/jquery/mdbootstrap/920964*}
@@ -88,16 +88,14 @@
 					<label for="input-image" class="form-label">Afbeelding</label>
 					<input name="upload[]" type="file" multiple="multiple" required />
 				</div>
-
 	</div>
 	<div class="row mb-3">
 		<div class="col d-flex justify-content-center">
-			<button type="submit" class="btn btn-primary">Plaats veilingitem</button>
+			<button type="submit" class="btn btn-primary" name="place_bid">Plaats veilingitem</button>
 		</div>
 	</div>
 	</form>
 </div>
-
 <script>
     (function () {
         'use strict'

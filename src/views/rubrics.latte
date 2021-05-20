@@ -10,7 +10,8 @@
 			n:foreach="$rubrics->rubrics as $rubric"
 			class="d-flex list-group-item list-group-item-action"
 		>
-			<a href="/items/?rubric={$rubric->id}" class="d-flex align-items-center flex-grow-1">{$rubric->name}</a>
+
+			<a href="/items/?rubric={$rubric->id}" class="d-flex align-items-center flex-grow-1 text-decoration-none text-dark">{$rubric->name}</a>
 
 			<a
 				n:if="count( $rubric->rubrics ) > 0"

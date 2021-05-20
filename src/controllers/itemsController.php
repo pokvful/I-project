@@ -4,7 +4,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
 class ItemsController extends BaseController {
 	private function getSafePageNumber() {
-		$unsafePageNumber = intval( $_GET["page"] ?? 1 );
+		$unsafePageNumber = intval($_GET["page"] ?? 1);
 
 		if ($unsafePageNumber < 1) $unsafePageNumber = 1;
 
@@ -13,7 +13,7 @@ class ItemsController extends BaseController {
 
 	private function getAvailablePageNumbers(int $currPage, int $maxPages) {
 		$ret = array();
-		$currPage = min( $maxPages - 3, max(2, $currPage) );
+		$currPage = min($maxPages - 3, max(2, $currPage));
 
 		for ($i = $currPage - 2; $i < $currPage + 3; $i++) {
 			$ret[] = $i;
@@ -26,7 +26,7 @@ class ItemsController extends BaseController {
 		$dbh = new DatabaseHandler();
 
 		$this->data["page"] = $this->getSafePageNumber() - 1;
-		$this->data["perPage"] = intval( $_GET["count"] ?? 30 );
+		$this->data["perPage"] = intval($_GET["count"] ?? 30);
 
 		$this->data["items"] = $dbh->query(
 			<<<SQL
@@ -42,14 +42,27 @@ class ItemsController extends BaseController {
 			)
 		);
 
-		if ( count( $this->data["items"] ) <= 0) {
+		foreach ($this->data["items"] as $itemNumber) {
+			$this->data["imageNumbers"] = [$itemNumber][0]["item_number"];
+			$this->data["images"] = $dbh->query(
+				<<<SQL
+				SELECT [filename]
+					FROM [File]
+					WHERE item = :item
+				SQL,
+				array(
+					":item" => [$itemNumber][0]["item_number"]
+				));
+		}
+
+		if (count($this->data["items"]) <= 0) {
 			$this->redirect("/items/?page=1");
 		}
 
 		$this->data["totalRows"] = $this->data["items"][0]["row_count"];
 		$this->data["nextPageNumbers"] = $this->getAvailablePageNumbers(
 			$this->data["page"],
-			ceil( $this->data["totalRows"] / $this->data["perPage"] )
+			ceil($this->data["totalRows"] / $this->data["perPage"])
 		);
 
 		$this->render();
