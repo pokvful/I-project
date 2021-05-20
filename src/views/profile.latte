@@ -90,6 +90,18 @@
 				</div>
 			</div>
 		</div>
+		{for $i = 0; $i < $phoneNumberCount[0]["amount"]; $i++}
+		<div class="list-group-item">
+			<div class="row">
+				<div class="col fw-bold">
+					Telefoon nummer {1+$i}
+				</div>
+				<div class="col">
+					{$phoneNumber[$i]["phone"]};
+				</div>
+			</div>
+		</div>
+		{/for}
 	</div>
 			<h3 class="mt-5">Verkopersgegevens</h3>
 			{if !$userInformation[0]["seller"]}
@@ -118,19 +130,19 @@
 							</div>
 						</div>
 					</div>
-					{ifset $sellerInformation[0]["creditcard"]}
-					<div class="list-group-item">
-						<div class="row">
-							<div class="col fw-bold">
-								Creditcard:
+						{if $sellerInformation[0]["creditcard"]}
+							<div class="list-group-item">
+								<div class="row">
+									<div class="col fw-bold">
+										Creditcard:
+									</div>
+									<div class="col">
+										{$sellerInformation[0]["creditcard"]}
+									</div>
+								</div>
 							</div>
-							<div class="col">
-								{$sellerInformation[0]["creditcard"]}
-							</div>
-						</div>
-					</div>
-				{/ifset}
-			</div>
+						{/if}
+				</div>
 			{/if}
 		</div>
 		<div class="col-3"></div>

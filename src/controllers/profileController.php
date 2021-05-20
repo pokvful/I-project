@@ -21,8 +21,19 @@ class ProfileController extends BaseController {
 					":user" => $_SESSION["username"]
 				)
 			);
+			$this->data["phoneNumber"] = $dbh->query(
+				"SELECT * FROM User_Phone WHERE [user] = :user",
+				array(
+					":user" => $_SESSION["username"]
+				)
+			);
+			$this->data["phoneNumberCount"] = $dbh->query(
+				"SELECT COUNT(*) AS amount FROM User_Phone WHERE [user] = :user",
+				array(
+					":user" => $_SESSION["username"]
+				)
+			);
 		}
-
 		$this->render();
 	}
 }
