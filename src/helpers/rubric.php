@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'].'/src/database/databaseHandler.php';
 
 class Rubric {
 	public string $name;
@@ -10,9 +11,18 @@ class Rubric {
 		$this->id = $id;
 	}
 
-	public function get(int $id): ?Rubric {
+	public function getById(int $id): ?Rubric {
 		for ($i = 0; $i < count($this->rubrics); $i++) {
 			if ($this->rubrics[$i]->id === $id)
+				return $this->rubrics[$i];
+		}
+
+		return null;
+	}
+
+	public function getByName(string $name): ?Rubric {
+		for ($i = 0; $i < count($this->rubrics); $i++) {
+			if ($this->rubrics[$i]->name === $name)
 				return $this->rubrics[$i];
 		}
 
@@ -51,5 +61,64 @@ class RubricHelper {
 
 			$length = $checkLength;
 		}
+	}
+
+	public static function getRubricsFromDataBase(): Rubric {
+		$db = new DatabaseHandler();
+
+		$databaseRubrics = $db->query(
+			"SELECT rubric_number, rubric_name, rubric FROM Rubric;"
+		);
+
+		$baseRubrics = array_values(
+			array_filter($databaseRubrics, function ($value) {
+				return is_null($value["rubric"]);
+			})
+		);
+		$rubricsRest = array_values(
+			array_filter($databaseRubrics, function ($value) {
+				return !is_null($value["rubric"]);
+			})
+		);
+
+		RubricHelper::sort($rubricsRest);
+
+		$rubrics = new Rubric();
+		$counter = 0;
+		$flatTree = array();
+
+		foreach ($baseRubrics as $baseRubric) {
+			$rubrics->add(
+				new Rubric($baseRubric["rubric_name"], $baseRubric["rubric_number"])
+			);
+			$flatTree[] = $rubrics->getById($baseRubric["rubric_number"]);
+		}
+
+		while ($counter < count($rubricsRest)) {
+			$rubric = $rubricsRest[$counter++];
+			$parent = $rubrics->getById($rubric["rubric_number"]);
+
+			if (!is_null($parent)) {
+				$parent->add(
+					new Rubric($rubric["rubric_name"], $rubric["rubric_number"])
+				);
+				$flatTree[] = $parent->getById($rubric["rubric_number"]);
+			} else {
+				$reversedCounter = count($flatTree);
+
+				while ($reversedCounter > 0) {
+					$parent = $flatTree[--$reversedCounter];
+
+					if (!is_null($parent) && $parent->id == $rubric["rubric"]) {
+						$parent->add(
+							new Rubric($rubric["rubric_name"], $rubric["rubric_number"])
+						);
+						$flatTree[] = $parent->getById($rubric["rubric_number"]);
+						break;
+					}
+				}
+			}
+		}
+		return $rubrics;
 	}
 }

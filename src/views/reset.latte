@@ -7,7 +7,7 @@
 
 			<div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
 				{$resetError}
-		              	</div>
+			</div>
 			<div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
 				{$resetSuccess}
 			</div>
@@ -32,50 +32,51 @@
 		</form>
 	</div>
 
-	<script>(function () {
-            'use strict'
-
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            let forms = document.querySelectorAll('.needs-validation');
-
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-        })();
-	</script>
 	<script>
-        // from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
-        // TODO: should we really add this, because javascript shouldn't be in the middle of the page...
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict'
+		(function () {
+			'use strict'
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            let forms = document.querySelectorAll('.needs-validation');
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			let forms = document.querySelectorAll('.needs-validation');
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
+			// Loop over them and prevent submission
+			Array.prototype.slice.call(forms)
+				.forEach(function (form) {
+					form.addEventListener('submit', function (event) {
+						if (!form.checkValidity()) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
 
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-        })();
+						form.classList.add('was-validated');
+					}, false);
+				});
+		})();
+	</script>
+
+	<script>
+		// from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
+		// TODO: should we really add this, because javascript shouldn't be in the middle of the page...
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(function () {
+			'use strict'
+
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			let forms = document.querySelectorAll('.needs-validation');
+
+			// Loop over them and prevent submission
+			Array.prototype.slice.call(forms)
+				.forEach(function (form) {
+					form.addEventListener('submit', function (event) {
+						if (!form.checkValidity()) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+
+						form.classList.add('was-validated');
+					}, false);
+				});
+		})();
 	</script>
 {else}
 	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
@@ -94,14 +95,12 @@
 			<div class="row mb-3">
 				<label for="input-email" class="form-label">Beveiligingsvraag:</label>
 				<p>{$questionFromUser}</p>
-				<input type="text" class="form-control" name="questionAnswer" placeholder="Antwoord beveiligingsvraag"
-					   id="input-email"
+				<input type="text" class="form-control" name="questionAnswer" placeholder="Antwoord beveiligingsvraag" id="input-email"
 					   required>
 			</div>
 			<div class="row mb-3">
 				<label for="input-email" class="form-label">Nieuwe wachtwoord</label>
-				<input type="password" class="form-control" name="password" placeholder="Nieuwe wachtwoord"
-					   id="input-password"
+				<input type="password" class="form-control" name="password" placeholder="Nieuwe wachtwoord" id="input-password"
 					   required>
 			</div>
 

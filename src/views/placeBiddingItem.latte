@@ -1,86 +1,123 @@
 {include './includes/header.latte'}
 
 <div class="container py-5">
-		<div class="col-12 text-center">
-			<h1>Veilingitem plaatsen</h1>
-		</div>
-<div class="d-flex justify-content-center p-3 w-100">
-	<form method="POST" action="/placeBiddingItem/" class="needs-validation col-lg-4 mb-3" novalidate>
-		{getCsrfInput()|noescape}
-		<div n:if="$biddingError" class="col-12 alert alert-danger mb-5" role="alert">
-			{$signupError}
-		</div>
-		<div n:if="$biddingSuccess" class="col-12 alert alert-success mb-5" role="alert">
-			{$signupSuccess}
-		</div>
-
-		<div class="row mb-3">
-        	<label for="input-title" class="form-label">Titel</label>
-        	<input type="text" class="form-control" name="input-title" placeholder="Titel" required>
-        </div>
-
-        <div class="row mb-3">
-              <label for="input-description" class="form-label">Beschrijving</label>
-              <input type="text" class="form-control" name="input-description" placeholder="Beschrijving"  required>
-        </div>
-
-        <div class="row mb-3">
-            <label for="input-price" class="form-label">Verkoopprijs</label>
-            <input type="text" class="form-control" name="input-price" placeholder="Verkoopprijs" required>
-        </div>
-
-        <div class="row mb-3">
-             <label for="input-shipping-instructions" class="form-label">Verzendinstructies</label>
-             <input type="text" class="form-control" name="input-shipping-instructions" placeholder="Verzendinstructies" required>
-        </div>
-
-        <div class="row mb-3">
-             <label for="input-delivery-costs" class="form-label">Verzendkosten</label>
-             <input type="text" class="form-control" name="input-delivery-costs" placeholder="Verzendkosten"required>
-        </div>
-
-		{*https://mdbootstrap.com/snippets/jquery/mdbootstrap/920964*}
-           <div class="file-field">
-              <div class="z-depth-1-half mb-4">
-                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" class="img-fluid"
-                alt="example placeholder">
-              </div>
-              <div class="d-flex justify-content-center">
-              <div class="btn btn-mdb-color btn-rounded float-left">
-                <span>Kies bestand</span>
-                <input type="file">
-               </div>
-             </div>
-           </div>
-		</div>
-		<div class="row mb-3">
-			<div class="col d-flex justify-content-center">
-				<button type="submit" class="btn btn-primary">Plaats veilingitem</button>
+	<div class="col-12 text-center">
+		<h1>Veilingitem plaatsen</h1>
+	</div>
+	<div class="d-flex justify-content-center p-3 w-100">
+		<form method="POST" action="/placeBiddingItem/" enctype="multipart/form-data" class="needs-validation col-lg-4 mb-3" novalidate>
+			{getCsrfInput()|noescape}
+			<div n:if="$biddingError" class="col-12 alert alert-danger mb-5" role="alert">
+				{$biddingError}
 			</div>
+			<div n:if="$biddingSuccess" class="col-12 alert alert-success mb-5" role="alert">
+				{$biddingSuccess}
+			</div>
+
+			<div class="row mb
+				<label for="cars">Kies een categorie:</label>
+
+			<select name="category" id="category">
+				<ul n:if="$categories">
+					{foreach $categories as $category}
+					<option value="{$category["rubric_number"]}">{$category["rubric_name"]}</option>
+					{/foreach}
+				</ul>
+
+				<div class="row mb-3">
+					<label for="input-title" class="form-label">Categorie</label>
+					<input type="text" class="form-control" name="category" placeholder="Categorie" required>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-title" class="form-label">Titel</label>
+					<input type="text" class="form-control" name="title" placeholder="Titel" required>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-description" class="form-label">Beschrijving</label>
+					<input type="text" class="form-control" name="description" placeholder="Beschrijving"
+						   required>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-city" class="form-label">Plaats</label>
+					<input type="text" class="form-control" name="city" placeholder="Plaats" required>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-country" class="form-label">Land</label>
+					<input type="text" class="form-control" name="country" placeholder="Land" required>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-price" class="form-label">Verkoopprijs</label>
+					<input type="number" class="form-control" name="price" placeholder="Bieden vanaf" required>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-title" class="form-label">Betaalmethode</label>
+					<div class="input-group">
+						<select class="form-select" name="payment_method" id="payment_method" required>
+							<option value="giro">Giro</option>
+							<option value="bank">Bank</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-title" class="form-label">Betaalinstructie</label>
+					<input type="text" class="form-control" name="payment_instruction"
+						   placeholder="Betaalinstructie" required>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-delivery-costs" class="form-label">Verzendkosten</label>
+					<input type="number" class="form-control" name="shipping_costs" placeholder="Verzendkosten"
+						   required>
+				</div>
+
+				<div class="row mb-3">
+					<label for="input-shipping-instructions" class="form-label">Verzendinstructies</label>
+					<input type="text" class="form-control" name="shipping_instruction"
+						   placeholder="Verzendinstructies" required>
+				</div>
+
+				{*https://mdbootstrap.com/snippets/jquery/mdbootstrap/920964*}
+				<div class="row mb-3">
+					<label for="input-image" class="form-label">Afbeelding</label>
+					<input name="upload[]" type="file" multiple="multiple" required />
+				</div>
+
+	</div>
+	<div class="row mb-3">
+		<div class="col d-flex justify-content-center">
+			<button type="submit" class="btn btn-primary">Plaats veilingitem</button>
 		</div>
+	</div>
 	</form>
 </div>
 
 <script>
-	(function () {
-		'use strict'
+    (function () {
+        'use strict'
 
-		// Fetch all the forms we want to apply custom Bootstrap validation styles to
-		let forms = document.querySelectorAll('.needs-validation');
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        let forms = document.querySelectorAll('.needs-validation');
 
-		// Loop over them and prevent submission
-		Array.prototype.slice.call(forms)
-			.forEach(function (form) {
-				form.addEventListener('submit', function (event) {
-					if (!form.checkValidity()) {
-						event.preventDefault();
-						event.stopPropagation();
-					}
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
 
-					form.classList.add('was-validated');
-				}, false);
-			});
-	})();
+                    form.classList.add('was-validated');
+                }, false);
+            });
+    })();
 </script>
 
 {include './includes/footer.latte'}
