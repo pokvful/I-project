@@ -46,18 +46,19 @@ class ItemsController extends BaseController {
 			$this->redirect("/items/?page=1");
 		}
 
-		foreach ($this->data["items"] as $itemNumber) {
-			$this->data["imageNumbers"] = [$itemNumber][0]["item_number"];
-			$this->data["images"] = $dbh->query(
-				<<<SQL
-				SELECT [filename]
-					FROM [File]
-					WHERE item = :item
-				SQL,
-				array(
-					":item" => [$itemNumber][0]["item_number"]
-				));
-		}
+		// foreach ($this->data["items"] as $itemNumber) {
+		// 	$this->data["imageNumbers"] = [$itemNumber][0]["item_number"];
+		// 	$this->data["images"] = $dbh->query(
+		// 		<<<SQL
+		// 		SELECT [filename]
+		// 			FROM [File]
+		// 			WHERE item = :item
+		// 		SQL,
+		// 		array(
+		// 			":item" => [$itemNumber][0]["item_number"]
+		// 		)
+		// 	);
+		// }
 
 		$this->data["totalRows"] = $this->data["items"][0]["row_count"];
 		$this->data["nextPageNumbers"] = $this->getAvailablePageNumbers(
