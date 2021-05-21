@@ -7,6 +7,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/signupHandler.php';
 class SellerSignupHandler extends BaseHandler {
 
 	public function run() {
+		$dbh = new DatabaseHandler();
 		$this->data["isSeller"] = $dbh->query("SELECT Seller FROM [User] WHERE [username] = :user",
 			array(
 				":user" => $_SESSION["username"]
@@ -15,10 +16,6 @@ class SellerSignupHandler extends BaseHandler {
 		if ($this->data["isSeller"][0]["Seller"] == 1) {
 			$this->redirect("/");
 		} else {
-			$this->render();
-
-			$dbh = new DatabaseHandler();
-
 
 			$bank = $_POST["bank_name"];
 			$bankAccount = $_POST["bank_account"];
@@ -37,7 +34,8 @@ class SellerSignupHandler extends BaseHandler {
 				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
 				);
 			}
-			if (!isset($creditcard) || !$creditcard) {
+			if ($paymentMethod = 'creditcard' && !$creditcard) {
+				var_dump($paymentMethod);
 				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
 				);
 			}
