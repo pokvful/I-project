@@ -3,19 +3,19 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/controllers/baseController.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
 class BiddingItemController extends BaseController {
-	public function calculateMinimumBid(int $highestBid) {
+	public function calculateMinimumBid(float $highestBid) {
 		if ($highestBid < 1.00) {
-			return 0;
+			return 0.00;
 		} else if ($highestBid < 50.00) {
-			return 0.5;
+			return 0.50;
 		} else if ($highestBid < 500.00) {
-			return 1;
+			return 1.00;
 		} else if ($highestBid < 1000.00) {
-			return 5;
+			return 5.00;
 		} else if ($highestBid < 5000.00) {
-			return 10;
+			return 10.00;
 		} else {
-			return 50;
+			return 50.00;
 		}
 	}
 
