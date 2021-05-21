@@ -58,6 +58,7 @@ class ResetHandler extends BaseHandler {
 				$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Het wachtwoord moet minimaal één letter bevatten.")
 				);
 			}
+
 			//Compares the answer of the security question with the data inside the database
 			$questionAnswerQuery = $dbh->query("SELECT answer_text FROM [User] WHERE answer_text = :answer AND mailbox = :mailbox", array(
 				"answer" => $answer,

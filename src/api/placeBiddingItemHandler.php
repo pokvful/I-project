@@ -80,7 +80,7 @@ class PlaceBiddingItemHandler extends BaseHandler {
 					));
 
 			} else {
-				$this->redirect("/placeBiddingItem/?bidding-error=" . urlencode("Bod is succesvol geplaatst.")
+				$this->redirect("/placeBiddingItem/?bidding-error=" . urlencode("U moet een verkoper zijn om een item te plaatsen.")
 				);
 			}
 			$this->redirect("/placeBiddingItem/?bidding-success=" . urlencode("Bod is succesvol geplaatst.")

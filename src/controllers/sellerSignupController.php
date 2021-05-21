@@ -18,6 +18,5 @@ class SellerSignupController extends BaseController {
 		} else {
 			$this->render();
 		}
-
 	}
 }
