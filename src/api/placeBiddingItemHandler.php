@@ -34,7 +34,7 @@ class PlaceBiddingItemHandler extends BaseHandler {
 					//A file path needs to be present
 					if ($tmpFilePath != "") {
 						//Setup our new file path
-						$newFilePath = "./resources/images/" . $_FILES['upload']['name'][$i];
+						$newFilePath = "./resources/images/bidding/" . $_FILES['upload']['name'][$i];
 						//File is uploaded to temp dir
 						if (move_uploaded_file($tmpFilePath, $newFilePath)) {
 							$file_name = $files[0];
