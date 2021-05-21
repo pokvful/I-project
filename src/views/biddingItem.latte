@@ -46,7 +46,9 @@
 						{ifset $highestBid[0]["highestBid"]}
 							&euro; {$highestBid[0]["highestBid"]}
 						{else}
-							&euro;{$itemInformation[0]["starting_price"]}
+							<p>
+								Er is nog geen bod gedaan op deze veiling.
+							</p>
 						{/ifset}
 						</div>
 						<div class="list-group-item">
