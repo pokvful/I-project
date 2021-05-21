@@ -10,7 +10,7 @@ class ProfileController extends BaseController {
 			$this->redirect("/login/?redirect_uri=" . urlencode("/profile/"));
 		} else {
 			$this->data["userInformation"] = $dbh->query(
-				"SELECT * FROM [user],User_phone WHERE username = :username",
+				"SELECT * FROM [User] WHERE username = :username",
 				array(
 					":username" => $_SESSION["username"]
 				)
