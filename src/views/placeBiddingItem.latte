@@ -14,21 +14,16 @@
 				{$biddingSuccess}
 			</div>
 
-			<div class="row mb
+			<div class="row mb-3">
 				<label for="cars">Kies een categorie:</label>
 
-				<select name="category" id="category">
+				<select name="category" id="category" class="form-select">
 					<ul n:if="$categories">
 						{foreach $categories as $category}
 						<option value="{$category['rubric_number']}">{$category["rubric_name"]}</option>
 						{/foreach}
 					</ul>
 				</select>
-			</div>
-
-			<div class="row mb-3">
-				<label for="input-title" class="form-label">Categorie</label>
-				<input type="text" class="form-control" name="category" placeholder="Categorie" required>
 			</div>
 
 			<div class="row mb-3">
