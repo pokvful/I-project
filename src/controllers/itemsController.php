@@ -42,6 +42,10 @@ class ItemsController extends BaseController {
 			)
 		);
 
+		if (count($this->data["items"]) <= 0) {
+			$this->redirect("/items/?page=1");
+		}
+
 		foreach ($this->data["items"] as $itemNumber) {
 			$this->data["imageNumbers"] = [$itemNumber][0]["item_number"];
 			$this->data["images"] = $dbh->query(
@@ -53,10 +57,6 @@ class ItemsController extends BaseController {
 				array(
 					":item" => [$itemNumber][0]["item_number"]
 				));
-		}
-
-		if (count($this->data["items"]) <= 0) {
-			$this->redirect("/items/?page=1");
 		}
 
 		$this->data["totalRows"] = $this->data["items"][0]["row_count"];
