@@ -30,7 +30,7 @@ class ItemsController extends BaseController {
 
 		$this->data["items"] = $dbh->query(
 			<<<SQL
-				SELECT item_number, title, [description], bid_amount, row_count
+				SELECT item_number, title, [description], [filename], bid_amount, row_count
 					FROM vw_ItemsList
 					ORDER BY item_number
 					OFFSET :offset ROWS
@@ -59,6 +59,8 @@ class ItemsController extends BaseController {
 		// 		)
 		// 	);
 		// }
+
+		bdump( $this->data["items"], 'items' );
 
 		$this->data["totalRows"] = $this->data["items"][0]["row_count"];
 		$this->data["nextPageNumbers"] = $this->getAvailablePageNumbers(

@@ -48,8 +48,8 @@
 				<div n:foreach="$items as $item" class="ocl-12 col-md-6 col-lg-4 py-3">
 					<div class="card">
 						<img class="card-img-top"
-							src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg"
-							alt="Card image cap">
+							src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? 'https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg' : '/resources/images/bidding/' . $item['filename']}"
+							alt="{$item['title']}">
 						
 						<div class="card-body">
 							<h4 class="card-title">{$item['title']}</h4>
