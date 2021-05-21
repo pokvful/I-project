@@ -51,7 +51,7 @@
 					</li>
 					{if $_loggedin}
 						<li class="nav-item">
-							<a class="nav-link" href="/profile/">Profiel</a>
+							<a class="nav-link" href="/profile/">{$_SESSION["username"]}</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/logout/">Uitloggen</a>
