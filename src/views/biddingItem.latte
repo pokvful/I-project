@@ -40,21 +40,21 @@
 		<div class="col">
 			<div class="card mb-3">
 				<div class="list-group list-group-flush">
-					<div class="list-group-item">Startprijs <br>{$itemInformation[0]["starting_price"]}</div>
+					<div class="list-group-item">Startprijs <br>&euro; {$itemInformation[0]["starting_price"]}</div>
 					<div class="list-group-item">
 						Huidig bod <br>
 						{ifset $highestBid[0]["highestBid"]}
-							{$highestBid[0]["highestBid"]}
+							&euro; {$highestBid[0]["highestBid"]}
 						{else}
-							{$itemInformation[0]["starting_price"]}
+							&euro;{$itemInformation[0]["starting_price"]}
 						{/ifset}
 						</div>
 						<div class="list-group-item">
 						Minimum bod <br>
 						{ifset $highestBid[0]["highestBid"]}
-							{$highestBid[0]["highestBid"]  + $minimumBid}
+							&euro; {$highestBid[0]["highestBid"]  + $minimumBid}
 						{else}
-							{$itemInformation[0]["starting_price"] + $minimumBid}
+							&euro; {$itemInformation[0]["starting_price"] + $minimumBid}
 						{/ifset}
 					</div>
 					<div class="list-group-item">
@@ -82,7 +82,7 @@
 			<ul class="list-group overflow-auto " style="height: 590px;">
 				<li class="list-group-item active sticky-top">Voorgaande biedingen</li>
 				{foreach $bids as $bid}
-					<li class="list-group-item">{$bid["user"]} | {$bid["bid_amount"]} | {$bid["bid_day"]} {$bid["bid_time"]}</li>
+					<li class="list-group-item">{$bid["user"]} | &euro; {$bid["bid_amount"]} | {$bid["bid_day"]} {$bid["bid_time"]}</li>
 				{else}
 					<li class="list-group-item">Er is nog niet geboden op deze veiling.</li>
 				{/foreach}
