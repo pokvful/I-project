@@ -8,3 +8,6 @@ access.log
 
 settings.php
 public/resources/stylesheet/
+
+public/resources/images/bidding/*
+!public/resources/images/bidding/.gitkeep
