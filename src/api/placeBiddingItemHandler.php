@@ -34,7 +34,7 @@ class PlaceBiddingItemHandler extends BaseHandler {
 					//A file path needs to be present
 					if ($tmpFilePath != "") {
 						//Setup our new file path
-						$newFilePath = "./resources/images/" . $_FILES['upload']['name'][$i];
+						$newFilePath = "./resources/images/bidding/" . $_FILES['upload']['name'][$i];
 						//File is uploaded to temp dir
 						if (move_uploaded_file($tmpFilePath, $newFilePath)) {
 							$file_name = $files[0];
@@ -80,7 +80,7 @@ class PlaceBiddingItemHandler extends BaseHandler {
 					));
 
 			} else {
-				$this->redirect("/placeBiddingItem/?bidding-error=" . urlencode("Bod is succesvol geplaatst.")
+				$this->redirect("/placeBiddingItem/?bidding-error=" . urlencode("U moet een verkoper zijn om een item te plaatsen.")
 				);
 			}
 			$this->redirect("/placeBiddingItem/?bidding-success=" . urlencode("Bod is succesvol geplaatst.")

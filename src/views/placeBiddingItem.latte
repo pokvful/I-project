@@ -17,84 +17,87 @@
 			<div class="row mb
 				<label for="cars">Kies een categorie:</label>
 
-			<select name="category" id="category">
-				<ul n:if="$categories">
-					{foreach $categories as $category}
-					<option value="{$category["rubric_number"]}">{$category["rubric_name"]}</option>
-					{/foreach}
-				</ul>
+				<select name="category" id="category">
+					<ul n:if="$categories">
+						{foreach $categories as $category}
+						<option value="{$category['rubric_number']}">{$category["rubric_name"]}</option>
+						{/foreach}
+					</ul>
+				</select>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-title" class="form-label">Categorie</label>
-					<input type="text" class="form-control" name="category" placeholder="Categorie" required>
-				</div>
+			<div class="row mb-3">
+				<label for="input-title" class="form-label">Categorie</label>
+				<input type="text" class="form-control" name="category" placeholder="Categorie" required>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-title" class="form-label">Titel</label>
-					<input type="text" class="form-control" name="title" placeholder="Titel" required>
-				</div>
+			<div class="row mb-3">
+				<label for="input-title" class="form-label">Titel</label>
+				<input type="text" class="form-control" name="title" placeholder="Titel" required>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-description" class="form-label">Beschrijving</label>
-					<input type="text" class="form-control" name="description" placeholder="Beschrijving"
-						   required>
-				</div>
+			<div class="row mb-3">
+				<label for="input-description" class="form-label">Beschrijving</label>
+				<input type="text" class="form-control" name="description" placeholder="Beschrijving"
+						required>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-city" class="form-label">Plaats</label>
-					<input type="text" class="form-control" name="city" value={$city} placeholder="Plaats" required>
-				</div>
+			<div class="row mb-3">
+				<label for="input-city" class="form-label">Plaats</label>
+				<input type="text" class="form-control" name="city" value={$city} placeholder="Plaats" required>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-country" class="form-label">Land</label>
-					<input type="text" class="form-control" name="country" value={$country} placeholder="Land" required>
-				</div>
+			<div class="row mb-3">
+				<label for="input-country" class="form-label">Land</label>
+				<input type="text" class="form-control" name="country" value={$country} placeholder="Land" required>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-price" class="form-label">Verkoopprijs</label>
-					<input type="number" class="form-control" name="price" placeholder="Bieden vanaf" required>
-				</div>
+			<div class="row mb-3">
+				<label for="input-price" class="form-label">Verkoopprijs</label>
+				<input type="number" class="form-control" name="price" placeholder="Bieden vanaf" required>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-title" class="form-label">Betaalmethode</label>
-					<div class="input-group">
-						<select class="form-select" name="payment_method" id="payment_method" required>
-							<option value="giro">Giro</option>
-							<option value="bank">Bank</option>
-						</select>
-					</div>
+			<div class="row mb-3">
+				<label for="input-title" class="form-label">Betaalmethode</label>
+				<div class="input-group">
+					<select class="form-select" name="payment_method" id="payment_method" required>
+						<option value="giro">Giro</option>
+						<option value="bank">Bank</option>
+					</select>
 				</div>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-title" class="form-label">Betaalinstructie</label>
-					<input type="text" class="form-control" name="payment_instruction"
-						   placeholder="Betaalinstructie">
-				</div>
+			<div class="row mb-3">
+				<label for="input-title" class="form-label">Betaalinstructie</label>
+				<input type="text" class="form-control" name="payment_instruction"
+						placeholder="Betaalinstructie">
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-delivery-costs" class="form-label">Verzendkosten</label>
-					<input type="number" class="form-control" name="shipping_costs" placeholder="Verzendkosten"
-						   required>
-				</div>
+			<div class="row mb-3">
+				<label for="input-delivery-costs" class="form-label">Verzendkosten</label>
+				<input type="number" class="form-control" name="shipping_costs" placeholder="Verzendkosten"
+						required>
+			</div>
 
-				<div class="row mb-3">
-					<label for="input-shipping-instructions" class="form-label">Verzendinstructies</label>
-					<input type="text" class="form-control" name="shipping_instruction"
-						   placeholder="Verzendinstructies">
-				</div>
+			<div class="row mb-3">
+				<label for="input-shipping-instructions" class="form-label">Verzendinstructies</label>
+				<input type="text" class="form-control" name="shipping_instruction"
+						placeholder="Verzendinstructies">
+			</div>
 
-				{*https://mdbootstrap.com/snippets/jquery/mdbootstrap/920964*}
-				<div class="row mb-3">
-					<label for="input-image" class="form-label">Afbeelding</label>
-					<input name="upload[]" type="file" multiple="multiple" required />
+			{*https://mdbootstrap.com/snippets/jquery/mdbootstrap/920964*}
+			<div class="row mb-3">
+				<label for="input-image" class="form-label">Afbeelding</label>
+				<input name="upload[]" type="file" multiple="multiple" required />
+			</div>
+
+			<div class="row mb-3">
+				<div class="col d-flex justify-content-center">
+					<button type="submit" class="btn btn-primary" name="place_bid">Plaats veilingitem</button>
 				</div>
+			</div>
+		</form>
 	</div>
-	<div class="row mb-3">
-		<div class="col d-flex justify-content-center">
-			<button type="submit" class="btn btn-primary" name="place_bid">Plaats veilingitem</button>
-		</div>
-	</div>
-	</form>
 </div>
 <script>
     (function () {
