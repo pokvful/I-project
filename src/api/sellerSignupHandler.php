@@ -8,15 +8,15 @@ class SellerSignupHandler extends BaseHandler {
 
 	public function run() {
 		$this->data["isSeller"] = $dbh->query("SELECT Seller FROM [User] WHERE [username] = :user",
-		array(
-			":user" => $_SESSION["username"]
+			array(
+				":user" => $_SESSION["username"]
 			)
-		);	
-		if($this->data["isSeller"][0]["Seller"] == 1) {
+		);
+		if ($this->data["isSeller"][0]["Seller"] == 1) {
 			$this->redirect("/");
 		} else {
 			$this->render();
-			
+
 			$dbh = new DatabaseHandler();
 
 
@@ -37,7 +37,7 @@ class SellerSignupHandler extends BaseHandler {
 				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
 				);
 			}
-			if (!isset($creditcard) || !$creditcard ) {
+			if (!isset($creditcard) || !$creditcard) {
 				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
 				);
 			}
@@ -52,7 +52,7 @@ class SellerSignupHandler extends BaseHandler {
 									VALUES (:username, :bank, :bank_account, :payment_method, :creditcard_number)
 				SQL,
 				array(
-					":username"	=> $_SESSION["username"],
+					":username" => $_SESSION["username"],
 					":bank" => $bank,
 					":bank_account" => $bankAccount,
 					":payment_method" => $paymentMethod,
@@ -66,7 +66,7 @@ class SellerSignupHandler extends BaseHandler {
 				WHERE [username] = :username							
 				SQL,
 				array(
-					":username"	=> $_SESSION["username"],
+					":username" => $_SESSION["username"],
 				)
 			);
 
