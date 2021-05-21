@@ -34,8 +34,7 @@ class SellerSignupHandler extends BaseHandler {
 				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
 				);
 			}
-			if ($paymentMethod = 'creditcard' && !$creditcard) {
-				var_dump($paymentMethod);
+			if ($paymentMethod == 'creditcard' && !$creditcard) {
 				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
 				);
 			}
