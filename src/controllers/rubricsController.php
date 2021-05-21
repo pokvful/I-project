@@ -6,10 +6,12 @@ class RubricsController extends BaseController {
 	public function run() {
 		$rubrics = RubricHelper::getRubricsFromDataBase();
 
-		$rubricTree = explode( '\\', urldecode( $_GET["rubric"] ?? "" ) );
-		$rubricWanted = array_filter( $rubricTree, function ($v) { return !!$v; } );
+		$rubricTree = explode('\\', urldecode($_GET["rubric"] ?? ""));
+		$rubricWanted = array_filter($rubricTree, function ($v) {
+			return !!$v;
+		});
 
-		while ( count($rubricWanted) > 0 && !is_null( $rubrics ) ) {
+		while (count($rubricWanted) > 0 && !is_null($rubrics)) {
 			$rubric = array_shift($rubricWanted);
 
 			$rubrics = $rubrics->getByName($rubric);

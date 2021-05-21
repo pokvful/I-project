@@ -5,12 +5,10 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/helpers/rubric.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/helpers/string.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php';
 
-class NotImplementedException extends Exception
-{
+class NotImplementedException extends Exception {
 }
 
-class BaseController
-{
+class BaseController {
 	private Latte\Engine $latteEngine;
 
 	public string $requestPath;
@@ -18,15 +16,14 @@ class BaseController
 	public string $fileName;
 	public array $data;
 
-	public function __construct(string $requestPath, string $filePath, string $fileName)
-	{
+	public function __construct(string $requestPath, string $filePath, string $fileName) {
 		$this->latteEngine = new Latte\Engine;
 
 		$this->latteEngine->setTempDirectory(SETTINGS["latte"]["tempDirectory"]);
 
 		$this->latteEngine->addFunction(
 			'cutString',
-			function(string $string, int $maxLength, $useEllipsis = false) {
+			function (string $string, int $maxLength, $useEllipsis = false) {
 				return StringHelper::cut($string, $maxLength, $useEllipsis);
 			}
 		);
@@ -77,8 +74,7 @@ class BaseController
 	 *
 	 * @param string $path The url the user should be send to
 	 */
-	protected function redirect(string $path)
-	{
+	protected function redirect(string $path) {
 		header("Location: " . $path);
 		exit();
 	}
@@ -86,11 +82,10 @@ class BaseController
 	/**
 	 * Render the template
 	 */
-	protected function render()
-	{
+	protected function render() {
 		$this->latteEngine->render(
 			$_SERVER["DOCUMENT_ROOT"] . "/src/views/"
-				. $this->filePath . "{$this->fileName}.latte",
+			. $this->filePath . "{$this->fileName}.latte",
 			$this->data,
 		);
 	}
@@ -98,11 +93,10 @@ class BaseController
 	/**
 	 * @throws NotImplementedException
 	 */
-	public function run()
-	{
+	public function run() {
 		throw new NotImplementedException(
 			"Controller \"/src/controllers{$this->filePath}{$this->fileName}\""
-				. " hasn't been implemented"
+			. " hasn't been implemented"
 		);
 	}
 }

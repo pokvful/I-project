@@ -12,12 +12,12 @@ class UsersController extends BaseController {
 	}
 
 	public function run() {
-		if ( !$this->data["_admin"] || !$this->data["_loggedin"] )
+		if (!$this->data["_admin"] || !$this->data["_loggedin"])
 			$this->redirect("/");
 
 		$db = new DatabaseHandler();
 
-		if ( isset( $_GET["username"] ) && $_GET["username"] !== "" ) { 
+		if (isset($_GET["username"]) && $_GET["username"] !== "") {
 			$this->data["users"] = $this->parseUsers(
 				$db->query(
 					<<<SQL
