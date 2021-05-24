@@ -32,7 +32,7 @@ class ResetHandler extends BaseHandler {
 			if (count($resetQuestionQuery) > 0) {
 				$securityQuestion = $resetQuestionQuery[0]["text_question"];
 				$this->sendVerifyEmail($mailbox, $securityQuestion);
-				$this->redirect("$addressRoot" . "?reset-success=" . urlencode("Er is een mail verstuurd waarmee u uw wachtwoord kunt opnieuw kunt instellen.")
+				$this->redirect("$addressRoot" . "?reset-success=" . urlencode("Er is een mail verstuurd waarmee u uw wachtwoord opnieuw kunt instellen.")
 				);
 			} else {
 				$this->redirect("$addressRoot" . "?reset-error=" . urlencode("Onjuiste gegevens.")
