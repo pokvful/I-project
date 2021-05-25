@@ -3,6 +3,8 @@
 <div class="container">
 	<div class="col-12 text-center my-5">
 		<h1>Veilingsitems</h1>
+
+		{getBreadCrumbs()|noescape}
 	</div>
 
 	<div class="row">
@@ -52,7 +54,7 @@
 				<div n:foreach="$items as $item" class="ocl-12 col-md-6 col-lg-4 py-3">
 					<div class="card">
 						<img class="card-img-top"
-							src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? 'https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg' : '/resources/images/bidding/' . $item['filename']}"
+							src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.png' : '/resources/images/bidding/' . $item['filename']}"
 							alt="{$item['title']}">
 						
 						<div class="card-body">

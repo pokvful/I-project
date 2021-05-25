@@ -7,7 +7,6 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link href="/resources/stylesheet/main.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
-
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 			crossorigin="anonymous"></script>
@@ -25,45 +24,43 @@
 	<div class="container-fluid">
 		<div class="row">
 			<ul class="navbar navbar-dark bg-dark nav-pills navbar-expand-sm mb-0 list-unstyled">
-			    <a class="navbar-brand" href="/">
-    		        <img src="/public/resources/images/logo.png" alt="">
-    		    </a>
+				<a class="navbar-brand" href="/">
+					<img src="/public/resources/images/logo.png" alt="">
+				</a>
 				<button class="navbar-toggler bg-primary ms-auto" data-toggle="collapse" data-target="#mainNav">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<div class="justify-content-md-end collapse navbar-collapse" id="mainNav">
-					<li class="nav-item">
+				<div class="collapse navbar-collapse" id="mainNav">
+					<li class="nav-item ">
 						<a class="nav-link" href="/">Home</a>
 					</li>
-					<li class="nav-i">
+					<li class="nav-item ">
 						<a href="/rubrics/" class="nav-link">Categorie&euml;n</a>
 					</li>
-					{if $_SESSION["loggedin"]}
-					<li class="nav-item ms-auto nav-item">
-						<a class="nav-link" href="/placeBiddingItem/">Plaats veilingitem</a>
+
+					<li class="nav-item ms-auto me-3">
+						<a class="nav-link" href="/faq/">Faq</a>
 					</li>
-					{else}
-					<li class="nav-item ms-auto nav-item">
-                    	{*PLACEHOLDER VOOR LAY-OUT*}
-                    </li>
-					{/if}
-					<li class="nav-item">
-						<a class="nav-link" href="/faq/">FAQ</a>
-					</li>
+
 					{if $_loggedin}
-					<li class="nav-item">
-						<a class="nav-link" href="/profile/">{$_SESSION["username"]}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/logout/">Uitloggen</a>
-					</li>
+						<div class="dropdown ms-3 ms-md-0">
+							<button class="btn btn-primary dropdown-toggle " type="button" id="dropdownUser"
+									data-bs-toggle="dropdown" aria-expanded="false">
+								{$_SESSION["username"]}
+							</button>
+							<ul class="dropdown-menu dropdown-menu-start dropdown-menu-md-end" aria-labelledby="dropdownUser">
+								{if $_SESSION["seller"]}
+									<li><a class="dropdown-item" href="/placeBiddingItem/">Plaats veilingitem</a></li>
+								{/if}
+								<li><a class="dropdown-item" href="/profile/">Mijn profiel</a></li>
+								<li><a class="dropdown-item" href="/logout/">Uitloggen</a></li>
+							</ul>
+						</div>
 					{else}
-					<li class="nav-item">
-						<a class="nav-link" href="/login/">Inloggen</a>
-					</li>
-					</div>
+						<li class="nav-item ">
+							<a class="nav-link" href="/login/">Inloggen</a>
+						</li>
 					{/if}
-			</ul>
 		</div>
 	</div>
 </nav>
@@ -80,3 +77,10 @@
 	</button>
 </div>
 <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<script>
+    let dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+    let dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+        return new bootstrap.Dropdown(dropdownToggleEl);
+    });
+</script>
