@@ -1,35 +1,43 @@
 {include './includes/header.latte'}
 
 {if !$validVerification}
-<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
-	<!--- Sign-in form --->
-	<form method="POST" action="/signup/" class="needs-validation col-lg-4 mb-3" novalidate>
-		{getCsrfInput()|noescape}
-		<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
-			{$signupError}
-		</div>
-		<div n:if="$signupSuccess" class="col-12 alert alert-success mb-5" role="alert">
-			{$signupSuccess}
-		</div>
+<div class="container">
+	<div class="col-12 mt-5 mb-3 text-center">
+		<h1 class="mb-3">Registreren</h1>
 
-		<div class="row mb-3">
-			<label for="input-email" class="form-label">E-mailadres</label>
-			<input type="email" class="form-control" name="user" placeholder="E-mailadres" id="input-email" required>
-		</div>
+		{getBreadCrumbs()|noescape}
+	</div>
 
-		<div class="row mb-3">
-			<div class="col d-flex justify-content-center">
-				<button type="submit" class="btn btn-primary">Registreren</button>
+	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
+		<!--- Sign-in form --->
+		<form method="POST" action="/signup/" class="needs-validation col-lg-4 mb-3" novalidate>
+			{getCsrfInput()|noescape}
+			<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
+				{$signupError}
 			</div>
-		</div>
-
-		<div class="row mb-3">
-			<div class="col text-center">
-				<p> Al een account? </p>
-				<a href="/login" class="link-primary">Klik hier om in te loggen</a>
+			<div n:if="$signupSuccess" class="col-12 alert alert-success mb-5" role="alert">
+				{$signupSuccess}
 			</div>
-		</div>
-	</form>
+
+			<div class="row mb-3">
+				<label for="input-email" class="form-label">E-mailadres</label>
+				<input type="email" class="form-control" name="user" placeholder="E-mailadres" id="input-email" required>
+			</div>
+
+			<div class="row mb-3">
+				<div class="col d-flex justify-content-center">
+					<button type="submit" class="btn btn-primary">Registreren</button>
+				</div>
+			</div>
+
+			<div class="row mb-3">
+				<div class="col text-center">
+					<p> Al een account? </p>
+					<a href="/login" class="link-primary">Klik hier om in te loggen</a>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
 
 <script>

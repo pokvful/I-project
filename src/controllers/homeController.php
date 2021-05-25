@@ -12,7 +12,7 @@ class HomeController extends BaseController {
 		$dbh = new DatabaseHandler();
 
 		//Selects title, item_number and description from vw_Homepage view
-		$this->data["auctionItems"] = $dbh->query("SELECT title, item_number, [description] FROM vw_Homepage");
+		$this->data["auctionItems"] = $dbh->query("SELECT item_number, title, [description], [filename], bid_amount FROM vw_Homepage");
 
 		$this->render();
 	}
