@@ -38,6 +38,20 @@
 			</div>
 
 			<div class="row mb-3">
+				<label for="cars">Bepaal looptijd van veilingitem:</label>
+
+				<select name="duration" id="duration" class="form-select">
+					<ul>
+						<option value="1">1 dag</option>
+						<option value="3">3 dagen</option>
+						<option value="5">5 dagen</option>
+						<option selected="selected" value="7">7 dagen</option>
+						<option value="10">10 dagen</option>
+					</ul>
+				</select>
+			</div>
+
+			<div class="row mb-3">
 				<label for="input-city" class="form-label">Plaats</label>
 				<input type="text" class="form-control" name="city" value={$city} placeholder="Plaats" required>
 			</div>
