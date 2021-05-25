@@ -23,6 +23,31 @@ class ChangeProfileHandler extends BaseHandler {
 		var_dump($phoneNumbers);
 		die();
 
+		if (!isset($firstname)) {
+			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
+			);
+		} else if (!isset($lastName)) {
+			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Achternaam is niet ingevuld.")
+			);
+		} else if (!isset($userName)) {
+			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Gebruikersnaam is niet ingevuld.")
+			);
+		} else if (!isset($birthDate)) {
+			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Geboortedatum is niet ingevuld.")
+			);
+		} else if (!isset($adress1)) {
+			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Adres is niet ingevuld.")
+			);
+		} else if (!isset($postalCode)) {
+			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Postcode is niet ingevuld.")
+			);
+		} else if (!isset($city)) {
+			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Plaats is niet ingevuld.")
+			);
+		} else if (!isset($country)) {
+			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Land is niet ingevuld.")
+			);
+
 		$dbh->query(
 			<<<SQL
 			UPDATE 	[User]
