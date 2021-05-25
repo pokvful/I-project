@@ -44,13 +44,13 @@ class PlaceBiddingItemHandler extends BaseHandler {
 
 				$city = $_POST["city"];
 				$country = $_POST["country"];
-				$duration = 4;
+				$duration = $_POST["duration"];
 				$auction_closed = 0;
 
 				$placeItemQuery = $dbh->query(
 					<<<SQL
 						INSERT INTO Item (title, [description], starting_price, payment_method, payment_instruction, city, country, duration, duration_start_day, duration_start_time, shipping_cost, shipping_instructions, seller, duration_end_day, duration_end_time, auction_closed)
-						VALUES(:title, :description, :starting_price, :payment_method, :payment_instruction, :city, :country, :duration, getDate(), CONVERT(TIME, getDate()), :shipping_cost, :shipping_instruction, :seller, DATEADD(DD, 4, getDate()), DATEADD(HOUR, 4, getDate()), :auction_closed) 
+						VALUES(:title, :description, :starting_price, :payment_method, :payment_instruction, :city, :country, :duration, getDate(), CONVERT(TIME, getDate()), :shipping_cost, :shipping_instruction, :seller, DATEADD(DD, $duration, getDate()), CONVERT(TIME, getDate()), :auction_closed) 
 						SQL,
 					array(
 						":title" => $title,
