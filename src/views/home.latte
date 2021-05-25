@@ -14,9 +14,8 @@
 		<div n:foreach="$auctionItems as $auctionItem" class="col-md-3 col-sm-5 col-xs-12 mx-auto my-4 auction-item">
 			<div class="card">
 				<img class="card-img-top"
-					src="{( is_null( $auctionItem['filename'] ) || substr( $auctionItem['filename'], 0, 5 ) === 'file-' ) ? 'https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg' : '/resources/images/bidding/' . $auctionItem['filename']}"
-					alt="{$auctionItem['title']}">
-				
+					 src="/resources/images/noImage.png"
+					 alt="Card image cap">
 				<div class="card-body">
 					<h4 class="card-title">{$auctionItem['title']}</h4>
 					<h6 class="card-subtitle mb-2 text-muted">&euro;{$auctionItem['bid_amount']}</h6>
