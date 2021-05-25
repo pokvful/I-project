@@ -14,11 +14,15 @@
 		<div n:foreach="$auctionItems as $auctionItem" class="col-md-3 col-sm-5 col-xs-12 mx-auto my-4 auction-item">
 			<div class="card">
 				<img class="card-img-top"
-					 src="https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg"
-					 alt="Card image cap">
+					src="{( is_null( $auctionItem['filename'] ) || substr( $auctionItem['filename'], 0, 5 ) === 'file-' ) ? 'https://productresearchlab.com/wp-content/uploads/2017/11/2965109_300x300.jpeg' : '/resources/images/bidding/' . $auctionItem['filename']}"
+					alt="{$auctionItem['title']}">
+				
 				<div class="card-body">
-					<p class="card-text">{$auctionItem["title"]} {$auctionItem["description"]}</p>
-					<a href="/biddingItem?item_number={$auctionItem['item_number']}" class="btn btn-primary">Bekijk veiling</a>
+					<h4 class="card-title">{$auctionItem['title']}</h4>
+					<h6 class="card-subtitle mb-2 text-muted">&euro;{$auctionItem['bid_amount']}</h6>
+
+					<p class="card-text">{cutString( $auctionItem['description'], 75, true )}</p>
+					<a href="/biddingItem/?item_number={$auctionItem['item_number']}" class="btn btn-primary">Bekijken</a>
 				</div>
 			</div>
 		</div>
