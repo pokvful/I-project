@@ -4,6 +4,8 @@
 	<h1>{$hasAnswer ? $questionItem[0]["questionText"] : "FAQ"}</h1>
 	<h5 n:if="!$hasAnswer" class="mt-5">Op deze pagina vindt u de meest voorkomende vragen over de website. Druk op een
 		vraag om naar het antwoord te gaan.</h5>
+
+	{getBreadCrumbs()|noescape}
 </div>
 
 {if !$hasAnswer}
