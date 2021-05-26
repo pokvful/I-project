@@ -62,10 +62,10 @@ class BiddingItemController extends BaseController {
 				$minimumBid = $this->calculateMinimumBid($this->data["highestBid"][0]["highestBid"]);
 			}
 
-			if ( is_null( $this->data["highestBid"][0]["highestBid"] ) ) {
+			if (is_null($this->data["highestBid"][0]["highestBid"])) {
 				$this->data["minimumBid"] = $this->data["itemInformation"][0]["starting_price"];
 			} else {
-				$this-> data["minimumBid"] = $this->data["highestBid"][0]["highestBid"] + $minimumBid;
+				$this->data["minimumBid"] = $this->data["highestBid"][0]["highestBid"] + $minimumBid;
 			}
 
 			$this->data["bidError"] = $_GET["bid-error"] ?? null;
