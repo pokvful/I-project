@@ -24,6 +24,23 @@
 					</div>
 				<button type="submit" class="btn btn-primary">Pas filters toe</button>
 				</div>
+		<div class="col-12 col-md-3 mb-4 mb-md-0">
+			<div class="border rounded p-3">
+				<h4>Filters</h4>
+				<form method="POST" action="/items/?rubric=2">
+				<div class="row mb-3 py-2">
+                	<label for="input-distance" class="form-label">Afstand:</label>
+      				<select name="distance" id="distance" class="form-select">
+      					<ul>
+      						<option value="5">5km</option>
+      						<option value="10">10km</option>
+      						<option value="15">15km</option>
+      						<option value="20">20km</option>
+      					</ul>
+      				</select>
+                </div>
+               <button type="submit" class="btn btn-primary" name="apply-filter">Pas filters toe</button>
+               </form>
 			</div>
 		</form>
 		<form method="GET" action="/items/" class="col-12 col-md-9">

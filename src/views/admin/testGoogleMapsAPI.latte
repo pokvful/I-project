@@ -1,75 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Google map</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <style type="text/css">
-      #map {
-        height: 50%;
-        width: 50%;
-      }
+{include '../includes/header.latte'}
 
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+<div class="container bg-white py-5">
+	<div class="row">
+		<h1>Google Maps API test<h1>
+	</div>
+	<p>Output: {*$output*}</p>
+</div>
 
-      #data {
-        display: none;
-      }
-    </style>
-    <script>
-    let map;
-    let geocoder;
-      
-    function initMap() {
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 8,
-      });
-
-    let jsonData = JSON.parse(document.getElementById('data').innerHTML);
-    geocoder = new google.maps.Geocoder();
-    codeAddress(jsonData);
-    }
-
-    function codeAddress(jsonData) {
-      Array.prototype.forEach.call(jsonData, function(data){
-        let address = data.city + ' ' + data.address;
-        geocoder.geocode( { 'address': address}, function(results, status) {
-          if (status == 'OK') {
-            map.setCenter(results[0].geometry.location);
-            alert(results[0].geometry.location)
-            let points = {};
-            points.lat = map.getCenter().lat();
-            points.lon = map.getCenter().lng();
-            updateDatabase(points);
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-    });
-  }
-
-	function updateDatabase(points) {
-  		$.ajax({
-    	url:"action.php",
-    	method:"post",
-    	data: points,
-    	success: function(res) {
-      	console.log(res);
-    	}
-  	})
-  }
-  </script>
-  </head>
-    <body>
-      <div id="map"></div>
-      <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAYUeFKWJVsIt6kgwLE_359y7_pWCEsc&callback=initMap&libraries=&v=weekly"
-        async>
-      </script>
-    </body>
-</html>
+{include '../includes/footer.latte'}
