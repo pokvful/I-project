@@ -20,8 +20,21 @@ class ChangeProfileHandler extends BaseHandler {
 		$bankAccount = $_POST["bankAccount"];
 		$creditcard = $_POST["creditcard"];
 		$phoneNumbers = $_POST["phone"];
-		var_dump($phoneNumbers);
-		die();
+		//Builds URL for signup-errors
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/sellerSignup/";
+		$redirectAddress = $addressRoot;
+
+		$this->data["phoneNumberCount"] = $dbh->query(
+			"SELECT COUNT(*) AS amount FROM User_Phone WHERE [user] = :user",
+			array(
+				":user" => $_SESSION["username"]
+			)
+		);
+		$this->data["firstId"] = $dbh->query("SELECT FIRST_VALUE(id) OVER (ORDER BY [user]) AS firstId FROM User_phone WHERE [user] = :user",
+		array(
+			":user" => $_SESSION["username"]
+			)
+		);
 
 		if (!isset($firstname)) {
 			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
@@ -48,6 +61,7 @@ class ChangeProfileHandler extends BaseHandler {
 			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Land is niet ingevuld.")
 			);
 		}
+
 
 		$dbh->query(
 			<<<SQL
@@ -77,6 +91,22 @@ class ChangeProfileHandler extends BaseHandler {
 
 			)
 		);
+
+		for($i = 0; $i < $this->data["phoneNumberCount"][0]["amount"]; $i++) {
+			$dbh->query(
+				<<<SQL
+				UPDATE 	User_phone
+				SET phone = :phone
+	
+				WHERE [user] = :username AND id = :id
+				SQL,
+				array(
+					":username" => $_SESSION["username"],
+					":phone" => $phoneNumbers[$i],
+					"id" => $this->data["firstId"][0]["firstId"]+$i
+				)
+			);
+		}
 
 		$this->redirect("/profile/");
 	}
