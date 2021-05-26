@@ -47,6 +47,7 @@ class ChangeProfileHandler extends BaseHandler {
 		} else if (!isset($country)) {
 			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Land is niet ingevuld.")
 			);
+		}
 
 		$dbh->query(
 			<<<SQL
@@ -60,7 +61,7 @@ class ChangeProfileHandler extends BaseHandler {
 			country = :country,
 			day_of_birth = :birthdate,
 			mailbox = :email
-			WHERE [username] = :username							
+			WHERE [username] = :username
 			SQL,
 			array(
 				":username" => $_SESSION["username"],
@@ -78,6 +79,5 @@ class ChangeProfileHandler extends BaseHandler {
 		);
 
 		$this->redirect("/profile/");
-
 	}
 }
