@@ -18,8 +18,65 @@ class ItemsController extends BaseController {
 		for ($i = $currPage - 2; $i < $currPage + 3; $i++) {
 			$ret[] = $i;
 		}
-
 		return $ret;
+	}
+
+	public function calculateRadius() {
+		$dbh = new DatabaseHandler();
+
+		if (isset($_POST["apply-filter"])) {
+			if (isset($_SESSION["username"])) {
+				$username = $_SESSION["username"];
+				$distance = $_POST["distance"];
+				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
+					":username" => $username
+				));
+
+				$getItemLocationQuery = $dbh->query("SELECT TOP 30 longitude, latitude FROM Item");
+
+				foreach ($getItemLocationQuery as $itemLocation) {
+					$result = $this->calculateDistance(
+						$getUserLocationQuery[0]["latitude"],
+						$getUserLocationQuery[0]["longitude"],
+						$getItemLocationQuery[0]["latitude"],
+						$getItemLocationQuery[0]["longitude"]
+					);
+
+					bdump($result);
+
+					if ($result < $distance) {
+						//Show item
+					} else {
+						//Show NULL
+					}
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * @param $lat1
+	 * @param $long1
+	 * @param $lat2
+	 * @param $long2
+	 * @return array
+	 */
+	public function calculateDistance($lat1, $long1, $lat2, $long2) {
+		$lat1 = 51.979729;
+		$long1 = 5.912400;
+		$lat2 = 52.370216;
+		$long2 = 4.895168;
+		$theta = $long1 - $long2;
+		$miles = (sin(deg2rad($lat1))) * sin(deg2rad($lat2)) + (cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta)));
+		$miles = acos($miles);
+		$miles = rad2deg($miles);
+		$result['miles'] = $miles * 60 * 1.1515;
+		$result['feet'] = $result['miles'] * 5280;
+		$result['yards'] = $result['feet'] / 3;
+		$result['kilometers'] = $result['miles'] * 1.609344;
+		bdump($result);
+		return $result;
 	}
 
 	public function run() {
@@ -60,7 +117,7 @@ class ItemsController extends BaseController {
 		// 	);
 		// }
 
-		bdump( $this->data["items"], 'items' );
+		bdump($this->data["items"], 'items');
 
 		$this->data["totalRows"] = $this->data["items"][0]["row_count"];
 		$this->data["nextPageNumbers"] = $this->getAvailablePageNumbers(
@@ -68,6 +125,7 @@ class ItemsController extends BaseController {
 			ceil($this->data["totalRows"] / $this->data["perPage"])
 		);
 
+		$this->calculateRadius();
 		$this->render();
 	}
 }
