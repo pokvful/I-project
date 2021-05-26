@@ -21,7 +21,7 @@ class ChangeProfileHandler extends BaseHandler {
 		$creditcard = $_POST["creditcard"];
 		$phoneNumbers = $_POST["phone"];
 		//Builds URL for signup-errors
-		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/sellerSignup/";
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
 		$redirectAddress = $addressRoot;
 
 		$this->data["phoneNumberCount"] = $dbh->query(
@@ -36,32 +36,10 @@ class ChangeProfileHandler extends BaseHandler {
 			)
 		);
 
-		if (!isset($firstname)) {
-			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
-			);
-		} else if (!isset($lastName)) {
-			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Achternaam is niet ingevuld.")
-			);
-		} else if (!isset($userName)) {
-			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Gebruikersnaam is niet ingevuld.")
-			);
-		} else if (!isset($birthDate)) {
-			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Geboortedatum is niet ingevuld.")
-			);
-		} else if (!isset($adress1)) {
-			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Adres is niet ingevuld.")
-			);
-		} else if (!isset($postalCode)) {
-			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Postcode is niet ingevuld.")
-			);
-		} else if (!isset($city)) {
-			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Plaats is niet ingevuld.")
-			);
-		} else if (!isset($country)) {
-			$this->redirect($redirectAddress . "&signup-error=" . urlencode("Land is niet ingevuld.")
-			);
-		}
-
+			if (strlen($zipCode) < 6) {
+				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Ongeldige postcode.")
+				);
+			}
 
 		$dbh->query(
 			<<<SQL
