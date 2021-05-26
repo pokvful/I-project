@@ -12,9 +12,9 @@
 				<form method="GET" action="/items/">
 					<div class="border rounded p-3">
 						<h4>Filters</h4>
-						<div class="row mb-3 py-2">
-							<label for="input-distance" class="form-label">Afstand:</label>
-							<select name="distance" id="distance" class="form-select">
+						<label for="input-distance" class="form-label">Afstand:</label>
+						<div class="row mb-3 mx-auto">
+						<select name="distance" id="distance" class="form-select">
 								<ul>
 									<option value="5">5km</option>
 									<option value="10">10km</option>
@@ -23,11 +23,14 @@
 								</ul>
 							</select>
 						</div>
+						<div class="row mb-3">
 						<label for="input-distance" class="form-label">Prijs:</label>
-						<div class="row mb-3 ms-1 input-group">
+							<div class="input-group"> 
 							<input type="number" class="form-control " name="minPrice" placeholder="min">
 							<input type="number" class="form-control" name="maxPrice" placeholder="max">
+							</div>
 						</div>
+						<button type="submit" class="btn btn-primary" name="apply-filter">Pas filters toe</button>
 					</div>
 				</form>
 			</div>
