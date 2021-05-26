@@ -20,42 +20,26 @@ class ChangeProfileHandler extends BaseHandler {
 		$bankAccount = $_POST["bankAccount"];
 		$creditcard = $_POST["creditcard"];
 		$phoneNumbers = $_POST["phone"];
-		var_dump($phoneNumbers);
-		die();
+		//Builds URL for signup-errors
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
+		$redirectAddress = $addressRoot;
 
-		if (!isset($firstname)) {
-			$this->redirect(
-				$redirectAddress . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
-			);
-		} else if (!isset($lastName)) {
-			$this->redirect(
-				$redirectAddress . "&signup-error=" . urlencode("Achternaam is niet ingevuld.")
-			);
-		} else if (!isset($userName)) {
-			$this->redirect(
-				$redirectAddress . "&signup-error=" . urlencode("Gebruikersnaam is niet ingevuld.")
-			);
-		} else if (!isset($birthDate)) {
-			$this->redirect(
-				$redirectAddress . "&signup-error=" . urlencode("Geboortedatum is niet ingevuld.")
-			);
-		} else if (!isset($adress1)) {
-			$this->redirect(
-				$redirectAddress . "&signup-error=" . urlencode("Adres is niet ingevuld.")
-			);
-		} else if (!isset($postalCode)) {
-			$this->redirect(
-				$redirectAddress . "&signup-error=" . urlencode("Postcode is niet ingevuld.")
-			);
-		} else if (!isset($city)) {
-			$this->redirect(
-				$redirectAddress . "&signup-error=" . urlencode("Plaats is niet ingevuld.")
-			);
-		} else if (!isset($country)) {
-			$this->redirect(
-				$redirectAddress . "&signup-error=" . urlencode("Land is niet ingevuld.")
-			);
-		}
+		$this->data["phoneNumberCount"] = $dbh->query(
+			"SELECT COUNT(*) AS amount FROM User_Phone WHERE [user] = :user",
+			array(
+				":user" => $_SESSION["username"]
+			)
+		);
+		$this->data["firstId"] = $dbh->query("SELECT FIRST_VALUE(id) OVER (ORDER BY [user]) AS firstId FROM User_phone WHERE [user] = :user",
+		array(
+			":user" => $_SESSION["username"]
+			)
+		);
+
+			if (strlen($zipCode) < 6) {
+				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Ongeldige postcode.")
+				);
+			}
 
 		$dbh->query(
 			<<<SQL
@@ -85,6 +69,22 @@ class ChangeProfileHandler extends BaseHandler {
 
 			)
 		);
+
+		for($i = 0; $i < $this->data["phoneNumberCount"][0]["amount"]; $i++) {
+			$dbh->query(
+				<<<SQL
+				UPDATE 	User_phone
+				SET phone = :phone
+	
+				WHERE [user] = :username AND id = :id
+				SQL,
+				array(
+					":username" => $_SESSION["username"],
+					":phone" => $phoneNumbers[$i],
+					"id" => $this->data["firstId"][0]["firstId"]+$i
+				)
+			);
+		}
 
 		$this->redirect("/profile/");
 	}

@@ -8,10 +8,22 @@
 	</div>
 
 	<div class="row">
+			<div class="col-12 col-md-3 mb-4 mb-md-0">
+			<form method="GET" action="/items/">
+				<div class="border rounded p-3">
+					<h4>Filters</h4>
+					<div class="row mb-3 py-2">
+						<label for="input-distance" class="form-label">Afstand:</label>
+						<input type="number" class="form-control" name="distance" placeholder="Afstand in kilometers" id="input-distance">
+					</div>
+					<label for="input-distance" class="form-label">Prijs:</label>
+				<div class="row mb-3 ms-1 input-group">
+						<input type="number" class="form-control " name="minPrice" placeholder="min">
+						<input type="number" class="form-control" name="maxPrice" placeholder="max">
+					</div>
+				</div>
 		<div class="col-12 col-md-3 mb-4 mb-md-0">
 			<div class="border rounded p-3">
-				<h4>Filters</h4>
-				<form method="POST" action="/items/?rubric=2">
 				<div class="row mb-3 py-2">
                 	<label for="input-distance" class="form-label">Afstand:</label>
       				<select name="distance" id="distance" class="form-select">
@@ -24,10 +36,8 @@
       				</select>
                 </div>
                <button type="submit" class="btn btn-primary" name="apply-filter">Pas filters toe</button>
-               </form>
 			</div>
-		</div>
-
+		</form>
 		<form method="GET" action="/items/" class="col-12 col-md-9">
 			<input type="hidden" name="count" value="{$perPage}">
 

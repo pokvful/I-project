@@ -4,8 +4,9 @@
 </div>
 <div class="d-flex justify-content-center"> <!-- flexbox -->
 	<form method="POST" action="" class="mb-3 needs-validation" novalidate>
-		{* <div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
-		</div> *}
+		<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
+			{$signupError}
+		</div>
 		{getCsrfInput()|noescape}
 		<div class="container">
 			<div class="row">
@@ -30,7 +31,7 @@
 						</div>
 						<div class="col mt-3">
 							<p>
-								Klik <a href="#">hier</a>  om uw wachtwoord te wijzigen.
+								Klik <a href="/reset/">hier</a>  om uw wachtwoord te wijzigen.
 							</p>
 						</div>
 					</div>
