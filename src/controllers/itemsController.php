@@ -86,19 +86,19 @@ class ItemsController extends BaseController {
 			<<<SQL
 				SELECT item_number, title, [description], [filename], bid_amount, row_count
 					FROM vw_ItemsList
-					WHERE bid_amount BETWEEN :minprice AND :maxprice
+					-- WHERE bid_amount BETWEEN :minprice AND :maxprice
 					ORDER BY item_number
 					OFFSET :offset ROWS
 					FETCH FIRST :per_page ROWS ONLY;
-				SELECT COUNT(*) AS 'count'
-					FROM vw_ItemsList
-					WHERE bid_amount BETWEEN :minprice AND :maxprice;
+				-- SELECT COUNT(*) AS 'count'
+				-- 	FROM vw_ItemsList
+				-- 	WHERE bid_amount BETWEEN :minprice AND :maxprice;
 			SQL,
 			array(
 				":offset" => $this->data["page"] * $this->data["perPage"],
 				":per_page" => $this->data["perPage"],
-				":minprice" => $this->data["minPrice"],
-				":maxprice" => $this->data["maxPrice"],
+				// ":minprice" => $this->data["minPrice"],
+				// ":maxprice" => $this->data["maxPrice"],
 			)
 		);
 
@@ -123,7 +123,7 @@ class ItemsController extends BaseController {
 		bdump($this->data["items"], 'items');
 
 
-		$this->data["totalRows"] = $this->data["items"][1]["count"];
+		$this->data["totalRows"] = $this->data["items"][0]["row_count"];
 		$this->data["nextPageNumbers"] = $this->getAvailablePageNumbers(
 			$this->data["page"],
 			ceil($this->data["totalRows"] / $this->data["perPage"])
