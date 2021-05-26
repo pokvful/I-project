@@ -20,14 +20,13 @@ class BaseHandler {
 		) {
 			header("Content-Type: application/json");
 			http_response_code(403);
-			die(
-			json_encode(
-				array(
-					"error" => true,
-					"code" => 403,
-					"message" => "Forbidden",
-				))
-			);
+			die(json_encode(
+					array(
+						"error" => true,
+						"code" => 403,
+						"message" => "Forbidden",
+					)
+				));
 		}
 	}
 
@@ -55,7 +54,7 @@ class BaseHandler {
 	public function run() {
 		throw new NotImplementedException(
 			"Api \"/src/api{$this->filePath}{$this->fileName}\""
-			. " hasn't been implemented"
+				. " hasn't been implemented"
 		);
 	}
 }

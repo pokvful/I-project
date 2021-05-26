@@ -85,7 +85,7 @@ class BaseController {
 	protected function render() {
 		$this->latteEngine->render(
 			$_SERVER["DOCUMENT_ROOT"] . "/src/views/"
-			. $this->filePath . "{$this->fileName}.latte",
+				. $this->filePath . "{$this->fileName}.latte",
 			$this->data,
 		);
 	}
@@ -96,7 +96,7 @@ class BaseController {
 	public function run() {
 		throw new NotImplementedException(
 			"Controller \"/src/controllers{$this->filePath}{$this->fileName}\""
-			. " hasn't been implemented"
+				. " hasn't been implemented"
 		);
 	}
 }

@@ -11,7 +11,7 @@ class LoginHandler extends BaseHandler {
 		if (!(isset($_POST["password"]) && $_POST["password"])) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Geen wachtwoord opgegeven!")
-				. "&username=" . urlencode($_POST["username"])
+					. "&username=" . urlencode($_POST["username"])
 			);
 		}
 
@@ -38,7 +38,7 @@ class LoginHandler extends BaseHandler {
 		if (!password_verify($password, $user["password"])) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Het wachtwoord is incorrect.")
-				. "&username=" . urlencode($username)
+					. "&username=" . urlencode($username)
 			);
 		}
 

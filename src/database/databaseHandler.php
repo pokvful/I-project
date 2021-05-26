@@ -74,14 +74,22 @@ class DatabaseHandler {
 		foreach ($params as $key => $value) {
 			$type = NULL;
 
-			switch ( gettype($value) ) {
-				case 'NULL': $type = PDO::PARAM_NULL; break;
-				case 'boolean': $type = PDO::PARAM_BO; break;
-				case 'integer': $type = PDO::PARAM_INT; break;
+			switch (gettype($value)) {
+				case 'NULL':
+					$type = PDO::PARAM_NULL;
+					break;
+				case 'boolean':
+					$type = PDO::PARAM_BO;
+					break;
+				case 'integer':
+					$type = PDO::PARAM_INT;
+					break;
 				case 'string':
-				default: $type = PDO::PARAM_STR; break;
+				default:
+					$type = PDO::PARAM_STR;
+					break;
 			}
-			
+
 			$stmt->bindValue($key, $value, $type);
 		}
 

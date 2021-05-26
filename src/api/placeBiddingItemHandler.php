@@ -65,7 +65,8 @@ class PlaceBiddingItemHandler extends BaseHandler {
 						":shipping_instruction" => $shipping_instructions,
 						":seller" => $seller,
 						":auction_closed" => $auction_closed
-					));
+					)
+				);
 
 				$getItemNumberQuery = $dbh->query("SELECT @@IDENTITY AS highestID");
 
@@ -77,13 +78,15 @@ class PlaceBiddingItemHandler extends BaseHandler {
 					array(
 						":file_name" => $file_name,
 						"item_number" => $getItemNumberQuery[0]["highestID"]
-					));
-
+					)
+				);
 			} else {
-				$this->redirect("/placeBiddingItem/?bidding-error=" . urlencode("U moet een verkoper zijn om een item te plaatsen.")
+				$this->redirect(
+					"/placeBiddingItem/?bidding-error=" . urlencode("U moet een verkoper zijn om een item te plaatsen.")
 				);
 			}
-			$this->redirect("/placeBiddingItem/?bidding-success=" . urlencode("Veiling is succesvol geplaatst.")
+			$this->redirect(
+				"/placeBiddingItem/?bidding-success=" . urlencode("Veiling is succesvol geplaatst.")
 			);
 		}
 	}

@@ -50,7 +50,6 @@ class ItemsController extends BaseController {
 						//Show NULL
 					}
 				}
-
 			}
 		}
 	}

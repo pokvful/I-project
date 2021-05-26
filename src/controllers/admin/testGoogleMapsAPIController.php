@@ -78,7 +78,6 @@ class TestGoogleMapsAPIController extends BaseController {
 				":longitude" => $longitude,
 				":username" => $username
 			));
-
 		} else {
 			$this->redirect('/');
 		}
@@ -99,9 +98,9 @@ class TestGoogleMapsAPIController extends BaseController {
 		$long = $response['results'][0]['geometry']['location']['lng'];
 
 		//Debugging purposes
-//		print_r($response);
+		//		print_r($response);
 
-//		echo "latitude: " . $lat . " longitude: " . $long;
+		//		echo "latitude: " . $lat . " longitude: " . $long;
 		return $lat . "+" . $long;
 	}
 
@@ -130,10 +129,9 @@ class TestGoogleMapsAPIController extends BaseController {
 	}
 
 	public function run() {
-//		$this->insertLatitudeAndLongitude();
-//		$this->importAllLocationsUsers();
+		//		$this->insertLatitudeAndLongitude();
+		//		$this->importAllLocationsUsers();
 		$this->importAllLocationsItems();
 		$this->render();
-
 	}
 }
