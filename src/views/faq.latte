@@ -2,9 +2,9 @@
 
 {if !$hasAnswer}
 <div class="container mt-5">
-	{getBreadCrumbs()|noescape}
 	<div class="col-12 text-center mb-3 mt-5">
 		<h1>{$hasAnswer ? $questionItem[0]["questionText"] : "FAQ"}</h1>
+		{getBreadCrumbs()|noescape}
 		<h5 n:if="!$hasAnswer" class="mt-5">Op deze pagina vindt u de meest voorkomende vragen over de website. Druk op een
 		vraag om naar het antwoord te gaan.</h5>
 	</div>
