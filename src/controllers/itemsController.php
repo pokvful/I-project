@@ -23,11 +23,12 @@ class ItemsController extends BaseController {
 
 	public function calculateRadius() {
 		$dbh = new DatabaseHandler();
-
+		
 		if (isset($_POST["apply-filter"])) {
 			if (isset($_SESSION["username"])) {
 				$username = $_SESSION["username"];
 				$distance = $_POST["distance"];
+
 				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
 					":username" => $username
 				));
@@ -35,7 +36,7 @@ class ItemsController extends BaseController {
 				$getItemLocationQuery = $dbh->query("SELECT TOP 30 longitude, latitude FROM Item");
 
 				foreach ($getItemLocationQuery as $itemLocation) {
-					$result = $this->calculateDistance(
+						$result = $this->calculateDistance(
 						$getUserLocationQuery[0]["latitude"],
 						$getUserLocationQuery[0]["longitude"],
 						$itemLocation["latitude"],
@@ -90,9 +91,9 @@ class ItemsController extends BaseController {
 					ORDER BY item_number
 					OFFSET :offset ROWS
 					FETCH FIRST :per_page ROWS ONLY;
-				-- SELECT COUNT(*) AS 'count'
-				-- 	FROM vw_ItemsList
-				-- 	WHERE bid_amount BETWEEN :minprice AND :maxprice;
+					-- SELECT COUNT(*) AS 'count'
+					-- 	FROM vw_ItemsList
+					-- 	WHERE bid_amount BETWEEN :minprice AND :maxprice;
 			SQL,
 			array(
 				":offset" => $this->data["page"] * $this->data["perPage"],
@@ -101,6 +102,8 @@ class ItemsController extends BaseController {
 				// ":maxprice" => $this->data["maxPrice"],
 			)
 		);
+
+		bdump( $this->data, 'data' );
 
 		if (count($this->data["items"]) <= 0) {
 			$this->redirect("/items/?page=1");
@@ -121,7 +124,6 @@ class ItemsController extends BaseController {
 		// }
 
 		bdump($this->data["items"], 'items');
-
 
 		$this->data["totalRows"] = $this->data["items"][0]["row_count"];
 		$this->data["nextPageNumbers"] = $this->getAvailablePageNumbers(
