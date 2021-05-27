@@ -1,26 +1,27 @@
 {include './includes/header.latte'}
 
 <div class="container p-5">
-	{getBreadCrumbs()|noescape}
+	<div class="col-12 text-center mb-3">
+		<h1 class="mb-3">Inloggen</h1>
 
-	<form method="POST" action="/login/" class="row needs-validation" novalidate>
-		{getCsrfInput()|noescape}
-		<div n:if="$signupSuccess" class="col-12 alert alert-success mb-5" role="alert">
-			{$signupSuccess}
-		</div>
-		<div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
-			{$resetSuccess}
-		</div>
-		<div class="col-12 text-center mb-5">
-			<h1>Inloggen</h1>
-		</div>
+		{getBreadCrumbs()|noescape}
+	</div>
 
-		<div n:if="$loginError" class="col-12 alert alert-danger mb-5" role="alert">
-			{$loginError}
-		</div>
+	<div class="row d-flex justify-content-center">
+		<form method="POST" action="/login/" class="col-lg-4 needs-validation" novalidate>
+			{getCsrfInput()|noescape}
+			<div n:if="$signupSuccess" class="col-12 alert alert-success mb-5" role="alert">
+				{$signupSuccess}
+			</div>
+			<div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
+				{$resetSuccess}
+			</div>
 
-		<div class="d-flex justify-content-center w-100">
-			<div class="row mb-3">
+			<div n:if="$loginError" class="col-12 alert alert-danger mb-5" role="alert">
+				{$loginError}
+			</div>
+
+			<div class="col-12 mb-3">
 				<label for="username" class="form-label">Gebruikersnaam</label>
 
 				{if $username}
@@ -29,30 +30,24 @@
 					<input type="text" name="username" id="username" class="form-control" placeholder="Gebruikersnaam" required >
 				{/if}
 			</div>
-		</div>
 
-		<div class="d-flex justify-content-center w-100">
-			<div class="row mb-3">
+			<div class="col-12 mb-3">
 				<label for="password" class="form-label">Wachtwoord</label>
 				<input type="password" name="password" id="password" placeholder="Wachtwoord" class="form-control" required>
 			</div>
-		</div>
 
-		<div class="row">
-			<p class="col text-center mb-2">Nog geen account? Klik <a href="/signup">hier</a> om je te
+			<p class="col-12 text-center mb-2">Nog geen account? Klik <a href="/signup">hier</a> om je te
 				registreren.</p>
-		</div>
 
-		<div class="col text-center mb-3">
-			<a href="/reset">Wachtwoord vergeten?</a>
-		</div>
+			<div class="col-12 text-center mb-3">
+				<a href="/reset">Wachtwoord vergeten?</a>
+			</div>
 
-		<div class="row mb-3">
-			<div class="col d-flex justify-content-center">
+			<div class="col-12 d-flex justify-content-center mb-3">
 				<button type="submit" class="btn btn-primary">Aanmelden</button>
 			</div>
-		</div>
-	</form>
+		</form>
+	</div>
 </div>
 
 <script>
