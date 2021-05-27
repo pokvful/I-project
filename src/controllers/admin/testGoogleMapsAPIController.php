@@ -88,7 +88,7 @@ class TestGoogleMapsAPIController extends BaseController {
 	 * @return string
 	 */
 	public function getGeoCode($address) {
-		//API KEY (Dit moet veiliger)
+		//TODO:API KEY (Dit moet veiliger)
 		$url = "https://maps.google.com/maps/api/geocode/json?address=$address&key=AIzaSyCbAYUeFKWJVsIt6kgwLE_359y7_pWCEsc";
 
 		//Decodes json and returns latitude and longitude data
