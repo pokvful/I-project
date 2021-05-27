@@ -1,58 +1,45 @@
 {include './includes/header.latte'}
 {if !$eligibleForReset}
-	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
-		<!--- ResetPassword form --->
-		<form method="POST" action="/reset/" class="col-lg-4 mb-3">
-			{getCsrfInput()|noescape}
+	<div class="container p-3 w-100">
+		<div class="col-12 my-5 text-center">
+			<h1 class="mb-3">Wachtwoord opnieuw instellen</h1>
 
-			<div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
-				{$resetError}
-			</div>
-			<div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
-				{$resetSuccess}
-			</div>
+			<h5 class="text-muted mb-3">Vul hieronder uw email adres in om een nieuw wachtwoord aan te vragen</h5>
 
-			<div class="row mb-3">
-				<label for="input-email" class="form-label">E-mailadres</label>
-				<input type="email" class="form-control" name="email" placeholder="E-mailadres" id="input-email"
-					   required>
-			</div>
+			{getBreadCrumbs()|noescape}
+		</div>
 
-			<div class="row mb-3">
-				<div class="col d-flex justify-content-center">
-					<button type="submit" class="btn btn-primary">Verstuur mail</button>
+		<div class="row d-flex justify-content-center">
+			<form method="POST" action="/reset/" class="col-lg-4 mb-3">
+				{getCsrfInput()|noescape}
+
+				<div n:if="$resetError" class="col-12 alert alert-danger mb-5" role="alert">
+					{$resetError}
 				</div>
-			</div>
-
-			<div class="row mb-3">
-				<div class="col text-center">
-					<a href="/login" class="link-primary">Klik hier om in te loggen</a>
+				<div n:if="$resetSuccess" class="col-12 alert alert-success mb-5" role="alert">
+					{$resetSuccess}
 				</div>
-			</div>
-		</form>
+
+				<div class="row mb-3">
+					<label for="input-email" class="form-label">E-mailadres</label>
+					<input type="email" class="form-control" name="email" placeholder="E-mailadres" id="input-email"
+						required>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col d-flex justify-content-center">
+						<button type="submit" class="btn btn-primary">Verstuur mail</button>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col text-center">
+						<a href="/login" class="link-primary">Klik hier om in te loggen</a>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
-
-	<script>
-		(function () {
-			'use strict'
-
-			// Fetch all the forms we want to apply custom Bootstrap validation styles to
-			let forms = document.querySelectorAll('.needs-validation');
-
-			// Loop over them and prevent submission
-			Array.prototype.slice.call(forms)
-				.forEach(function (form) {
-					form.addEventListener('submit', function (event) {
-						if (!form.checkValidity()) {
-							event.preventDefault();
-							event.stopPropagation();
-						}
-
-						form.classList.add('was-validated');
-					}, false);
-				});
-		})();
-	</script>
 
 	<script>
 		// from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
@@ -79,6 +66,7 @@
 		})();
 	</script>
 {else}
+	{* TODO: probably need to fix the layout *}
 	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
 		<!--- ResetPassword form --->
 		<form method="POST" action="/reset/" class="needs-validation col-lg-4 mb-3" novalidate>
