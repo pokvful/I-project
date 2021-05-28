@@ -24,11 +24,13 @@ class ItemsController extends BaseController {
 	public function calculateRadius() {
 		$dbh = new DatabaseHandler();
 
-		if (isset($_POST["apply-filter"])) {
+		if (isset($_GET["distance"])) {
 			if (isset($_SESSION["username"])) {
+
 				$username = $_SESSION["username"];
 				$distance = $_GET["distance"];
 
+				bdump('afstand: ' . $distance);
 				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
 					":username" => $username
 				));
@@ -43,10 +45,8 @@ class ItemsController extends BaseController {
 						$itemLocation["longitude"]
 					);
 
-					bdump($result);
-
-					if ($result < $distance) {
-						//Show item
+					if ($result <= $distance) {
+						bdump($result);
 					} else {
 						//Show NULL
 					}
@@ -78,13 +78,40 @@ class ItemsController extends BaseController {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
+		// $this->calculateRadius();
+
+		if (isset($_GET["distance"])) {
+			if (isset($_SESSION["username"])) {
+				$username = $_SESSION["username"];
+				$distance = $_GET["distance"];
+
+				bdump('afstand: ' . $distance);
+				print_r($distance);
+
+				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
+					":username" => $username
+				));
+
+				$getItemLocationQuery = $dbh->query("SELECT TOP 30 longitude, latitude FROM Item");
+
+				foreach ($getItemLocationQuery as $itemLocation) {
+					$result = $this->calculateDistance(
+						$getUserLocationQuery[0]["latitude"],
+						$getUserLocationQuery[0]["longitude"],
+						$itemLocation["latitude"],
+						$itemLocation["longitude"]
+					);
+				}
+			}
+		}
+
 		$this->data["page"] = $this->getSafePageNumber() - 1;
 		$this->data["perPage"] = intval($_GET["count"] ?? 30);
 		$this->data["minPrice"] = $_GET["minPrice"] ?? 0;
 		$this->data["maxPrice"] = $_GET["maxPrice"] ?? 99999999999;
 		$this->data["minPrice1"] = $_GET["minPrice"] ?? 0;
 		$this->data["maxPrice1"] = $_GET["maxPrice"] ?? 99999999999;
-
+		$this->data["distance"] = $_GET["distance"] ?? 0;
 
 		$this->data["items"] = $dbh->query(
 			<<<SQL
@@ -100,7 +127,6 @@ class ItemsController extends BaseController {
 				":per_page" => $this->data["perPage"],
 				":minprice" => $this->data["minPrice"],
 				":maxprice" => $this->data["maxPrice"],
-
 			)
 		);
 
@@ -145,7 +171,6 @@ class ItemsController extends BaseController {
 			ceil($this->data["totalRows"] / $this->data["perPage"])
 		);
 
-		// $this->calculateRadius();
 		$this->render();
 	}
 }
