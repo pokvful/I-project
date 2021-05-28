@@ -66,6 +66,7 @@ class BaseController {
 			"_loggedin" => $_SESSION["loggedin"] ?? false,
 			"_username" => $_SESSION["username"] ?? null,
 			"_admin" => $_SESSION["admin"] ?? false,
+			"_seller" => $_SESSION["seller"] ?? false,
 		);
 	}
 
