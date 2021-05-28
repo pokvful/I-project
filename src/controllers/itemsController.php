@@ -15,8 +15,14 @@ class ItemsController extends BaseController {
 		$ret = array();
 		$currPage = min($maxPages - 3, max(2, $currPage));
 
-		for ($i = $currPage - 2; $i < $currPage + 3; $i++) {
-			$ret[] = $i;
+		if($maxPages > 5) {
+			for ($i = $currPage - 2; $i < $currPage + 3; $i++) {
+				$ret[] = $i;
+			}
+		} else {
+			for($i = 0; $i < $maxPages; $i++) {
+				$ret[] = $i;
+			}
 		}
 		return $ret;
 	}
@@ -71,7 +77,6 @@ class ItemsController extends BaseController {
 		$result['feet'] = $result['miles'] * 5280;
 		$result['yards'] = $result['feet'] / 3;
 		$result['kilometers'] = $result['miles'] * 1.609344;
-		bdump($result);
 		return $result;
 	}
 
@@ -81,10 +86,7 @@ class ItemsController extends BaseController {
 		$this->data["page"] = $this->getSafePageNumber() - 1;
 		$this->data["perPage"] = intval($_GET["count"] ?? 30);
 		$this->data["minPrice"] = $_GET["minPrice"] ?? 0;
-		$this->data["maxPrice"] = $_GET["maxPrice"] ?? 99999999999;
-		$this->data["minPrice1"] = $_GET["minPrice"] ?? 0;
-		$this->data["maxPrice1"] = $_GET["maxPrice"] ?? 99999999999;
-
+		$this->data["maxPrice"] = $_GET["maxPrice"] ?? PHP_INT_MAX;
 
 		$this->data["items"] = $dbh->query(
 			<<<SQL
@@ -111,8 +113,8 @@ class ItemsController extends BaseController {
 					WHERE bid_amount BETWEEN :minprice1 AND :maxprice1;
 			SQL,
 			array(
-				":minprice1" => $this->data["minPrice1"],
-				":maxprice1" => $this->data["maxPrice1"],
+				":minprice1" => $this->data["minPrice"],
+				":maxprice1" => $this->data["maxPrice"],
 			)
 		);
 
@@ -135,9 +137,6 @@ class ItemsController extends BaseController {
 		// 		)
 		// 	);
 		// }
-
-		bdump($this->data["itemCount"]);
-
 
 		$this->data["totalRows"] = $this->data["itemCount"][0]["count"];
 		$this->data["nextPageNumbers"] = $this->getAvailablePageNumbers(
