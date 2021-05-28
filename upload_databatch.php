@@ -10,22 +10,18 @@ const DATABASE = "test";
 
 $conn = null;
 
-try
-{
+try {
 	$dbh = "sqlsrv:Server=" . HOST . ";ConnectionPooling=0";
 	$conn = new PDO($dbh, USERNAME, PASSWORD);
 
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	echo "Connected to database" . PHP_EOL;
-}
-catch (PDOException $e)
-{
-	die( "Connection failed: " . $e->getMessage() );
+} catch (PDOException $e) {
+	die("Connection failed: " . $e->getMessage());
 }
 
-try
-{
+try {
 	$conn->exec("CREATE DATABASE $TEMP_DATABASE");
 
 	$conn->beginTransaction();
@@ -90,39 +86,33 @@ try
 
 	$conn->exec("USE $TEMP_DATABASE");
 
-	for ($i = 0; $i < count($files); ++$i )
-	{
+	for ($i = 0; $i < count($files); ++$i) {
 		$file = $files[$i];
 		echo "Executing file \"$file\"" . PHP_EOL;
 
 		$fileContents = file_get_contents($file);
 
-		$result = $conn->query( mb_convert_encoding($fileContents, 'utf-8', mb_detect_encoding($fileContents)) );
+		$result = $conn->query(mb_convert_encoding($fileContents, 'utf-8', mb_detect_encoding($fileContents)));
 
-		if ( $result->errorCode() === '00000' )
-		{
+		if ($result->errorCode() === '00000') {
 			echo "Successfully executed file \"$file\"" . PHP_EOL;
-		}
-		else
-		{
+		} else {
 			throw new Exception(
 				"An error occurred while processing file \"$file\": "
-				. ( $result->errorInfo()[2] ?? "no error information" )
+					. ($result->errorInfo()[2] ?? "no error information")
 			);
 		}
 	}
-}
-catch(Exception $e)
-{
+} catch (Exception $e) {
 	echo "Something went wrong, rolling back" . PHP_EOL;
 
-	if ( $conn->inTransaction() )
+	if ($conn->inTransaction())
 		$conn->rollBack();
 
-	die( $e->getMessage() );
+	die($e->getMessage());
 }
 
-if ( $conn->inTransaction() )
+if ($conn->inTransaction())
 	$conn->commit();
 
 $conn = null;

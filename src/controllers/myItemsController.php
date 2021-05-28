@@ -13,7 +13,8 @@ class myItemsController extends BaseController {
 		}
 		$dbh = new DatabaseHandler();
 		// Selects all items a user has a bid on
-		$this->data["userMyItems"] = $dbh->query("SELECT * FROM vw_MyItems WHERE [user] = :user",
+		$this->data["userMyItems"] = $dbh->query(
+			"SELECT * FROM vw_MyItems WHERE [user] = :user",
 			array(
 				":user" => $_SESSION["username"]
 			)
@@ -29,13 +30,13 @@ class myItemsController extends BaseController {
 		// Checks if the user is a seller
 		if (isset($_SESSION["seller"]) && $_SESSION["seller"]) {
 			// Selects the items the seller sells
-			$this->data["sellerMyItems"] = $dbh->query("SELECT * FROM vw_MySellerItems WHERE seller = :seller",
+			$this->data["sellerMyItems"] = $dbh->query(
+				"SELECT * FROM vw_MySellerItems WHERE seller = :seller",
 				array(
 					":seller" => $_SESSION["username"]
 				)
 			);
 		}
-
 	}
 
 	public function run() {

@@ -71,7 +71,7 @@ class ItemsController extends BaseController {
 		$result['feet'] = $result['miles'] * 5280;
 		$result['yards'] = $result['feet'] / 3;
 		$result['kilometers'] = $result['miles'] * 1.609344;
-		bdump($result);
+
 		return $result;
 	}
 
@@ -80,13 +80,10 @@ class ItemsController extends BaseController {
 
 		// $this->calculateRadius();
 
-		if (isset($_GET["distance"])) {
+		if (isset($_GET["distance"]) && ($_GET["distance"] > 0)) {
 			if (isset($_SESSION["username"])) {
 				$username = $_SESSION["username"];
 				$distance = $_GET["distance"];
-
-				bdump('afstand: ' . $distance);
-				print_r($distance);
 
 				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
 					":username" => $username
@@ -101,6 +98,9 @@ class ItemsController extends BaseController {
 						$itemLocation["latitude"],
 						$itemLocation["longitude"]
 					);
+					if ($distance <= $result) {
+						bdump($result);
+					}
 				}
 			}
 		}
