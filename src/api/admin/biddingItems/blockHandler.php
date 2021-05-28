@@ -47,7 +47,7 @@ class BlockHandler extends BaseHandler {
 			$this->redirect(
 				"/admin/biddingItems/?error=" . urlencode(
 					"Er ging iets mis tijdens het (de)blokkeren van een item: "
-					. $e->getMessage()
+						. $e->getMessage()
 				)
 			);
 		}

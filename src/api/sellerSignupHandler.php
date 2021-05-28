@@ -8,7 +8,8 @@ class SellerSignupHandler extends BaseHandler {
 
 	public function run() {
 		$dbh = new DatabaseHandler();
-		$this->data["isSeller"] = $dbh->query("SELECT Seller FROM [User] WHERE [username] = :user",
+		$this->data["isSeller"] = $dbh->query(
+			"SELECT Seller FROM [User] WHERE [username] = :user",
 			array(
 				":user" => $_SESSION["username"]
 			)
@@ -27,19 +28,23 @@ class SellerSignupHandler extends BaseHandler {
 
 			//Filters form inputs
 			if (!isset($bank) || !$bank) {
-				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Banknaam is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "?signup-error=" . urlencode("Banknaam is niet ingevuld.")
 				);
 			}
 			if (!isset($bankAccount) || !$bankAccount) {
-				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
+				$this->redirect(
+					$redirectAddress . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
 				);
 			}
 			if ($paymentMethod == 'creditcard' && !$creditcard) {
-				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
 				);
 			}
 			if ($paymentMethod == 'post' && $creditcard != '') {
-				$this->redirect($redirectAddress . "?signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
+				$this->redirect(
+					$redirectAddress . "?signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
 				);
 			}
 
@@ -68,7 +73,6 @@ class SellerSignupHandler extends BaseHandler {
 			);
 
 			$this->redirect("/profile/");
-
 		}
 	}
 }

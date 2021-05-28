@@ -14,7 +14,8 @@ class ResetHandler extends BaseHandler {
 		if (isset($_POST["email"])) {
 			$mailbox = $_POST["email"];
 			if (!filter_var($mailbox, FILTER_VALIDATE_EMAIL)) {
-				$this->redirect("/reset/?reset-error=" . urlencode("Vul een geldig e-mailadres in.")
+				$this->redirect(
+					"/reset/?reset-error=" . urlencode("Vul een geldig e-mailadres in.")
 				);
 			}
 
@@ -32,10 +33,12 @@ class ResetHandler extends BaseHandler {
 			if (count($resetQuestionQuery) > 0) {
 				$securityQuestion = $resetQuestionQuery[0]["text_question"];
 				$this->sendVerifyEmail($mailbox, $securityQuestion);
-				$this->redirect("$addressRoot" . "?reset-success=" . urlencode("Er is een mail verstuurd waarmee u uw wachtwoord opnieuw kunt instellen.")
+				$this->redirect(
+					"$addressRoot" . "?reset-success=" . urlencode("Er is een mail verstuurd waarmee u uw wachtwoord opnieuw kunt instellen.")
 				);
 			} else {
-				$this->redirect("$addressRoot" . "?reset-error=" . urlencode("Onjuiste gegevens.")
+				$this->redirect(
+					"$addressRoot" . "?reset-error=" . urlencode("Onjuiste gegevens.")
 				);
 			}
 		}
@@ -49,13 +52,16 @@ class ResetHandler extends BaseHandler {
 
 			//Invalid password gets redirected
 			if (strlen($password) < 8) {
-				$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
+				$this->redirect(
+					"$redirectAddress" . "&reset-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
 				);
 			} else if (!preg_match("#[0-9]+#", $password)) {
-				$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Het wachtwoord moet minimaal 1 cijfer bevatten.")
+				$this->redirect(
+					"$redirectAddress" . "&reset-error=" . urlencode("Het wachtwoord moet minimaal 1 cijfer bevatten.")
 				);
 			} else if (!preg_match("#[a-zA-Z]+#", $password)) {
-				$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Het wachtwoord moet minimaal één letter bevatten.")
+				$this->redirect(
+					"$redirectAddress" . "&reset-error=" . urlencode("Het wachtwoord moet minimaal één letter bevatten.")
 				);
 			}
 
@@ -72,24 +78,27 @@ class ResetHandler extends BaseHandler {
 					":passwordUser" => $hashedPassword,
 					":mailbox" => $mail
 				));
-				$this->redirect("$addressRoot" . "?reset-success=" . urlencode("Uw wachtwoord is succesvol gewijzigd.")
+				$this->redirect(
+					"$addressRoot" . "?reset-success=" . urlencode("Uw wachtwoord is succesvol gewijzigd.")
 				);
 			} else {
-				$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Beveiligingsvraag verkeerd beantwoord.")
+				$this->redirect(
+					"$redirectAddress" . "&reset-error=" . urlencode("Beveiligingsvraag verkeerd beantwoord.")
 				);
 			}
-
 		} else if (!isset($_POST["questionAnswer"]) && isset($_POST["password"])) {
 			$security = $_POST["questionFromUser"];
 			$mail = $_POST["mail"];
 			$redirectAddress = $addressRoot . "?question=" . "$security" . "&mail=" . "$mail";
-			$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Onjuist wachtwoord ingevoerd.")
+			$this->redirect(
+				"$redirectAddress" . "&reset-error=" . urlencode("Onjuist wachtwoord ingevoerd.")
 			);
 		} else if (!isset($_POST["password"]) && isset($_POST["questionAnswer"])) {
 			$security = $_POST["questionFromUser"];
 			$mail = $_POST["mail"];
 			$redirectAddress = $addressRoot . "?question=" . "$security" . "&mail=" . "$mail";
-			$this->redirect("$redirectAddress" . "&reset-error=" . urlencode("Onjuist antwoord beveiligingsvraag ingevoerd.")
+			$this->redirect(
+				"$redirectAddress" . "&reset-error=" . urlencode("Onjuist antwoord beveiligingsvraag ingevoerd.")
 			);
 		}
 	}
@@ -103,4 +112,3 @@ class ResetHandler extends BaseHandler {
 		echo "Done :)";
 	}
 }
-

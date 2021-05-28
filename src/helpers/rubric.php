@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/src/database/databaseHandler.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/database/databaseHandler.php';
 
 class Rubric {
 	public string $name;

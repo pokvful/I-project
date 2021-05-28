@@ -1,15 +1,12 @@
 {include './includes/header.latte'}
 
-<div class="col-12 text-center mb-3 mt-5">
-	<h1>{$hasAnswer ? $questionItem[0]["questionText"] : "FAQ"}</h1>
-	<h5 n:if="!$hasAnswer" class="mt-5">Op deze pagina vindt u de meest voorkomende vragen over de website. Druk op een
-		vraag om naar het antwoord te gaan.</h5>
-
-	{getBreadCrumbs()|noescape}
-</div>
-
 {if !$hasAnswer}
-<div class="container">
+<div class="container mt-5">
+	<div class="col-12 text-center mt-5">
+		<h1>{$hasAnswer ? $questionItem[0]["questionText"] : "FAQ"}</h1>
+		<h5 n:if="!$hasAnswer" class="text-muted">Op deze pagina vindt u antwoorden op de meest voorkomende vragen over de website. </h5>
+	</div>
+	{getBreadCrumbs()|noescape}
 	<div class="row">
 		<div class="col-2"></div>
 		<div class="col-8 mt-5">

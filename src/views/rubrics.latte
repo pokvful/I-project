@@ -2,7 +2,10 @@
 
 <div class="container">
 	<div class="col-12 text-center my-5">
-		<h1>Categorie&euml;n</h1>
+		<h1 class="mb-3">Categorie&euml;n</h1>
+		<h5 class="mb-3 text-muted">Kies een categorie om veilingen op te filteren</h5>
+
+		{$breadcrumbs|noescape}
 	</div>
 
 	<div class="list-group">
@@ -13,9 +16,10 @@
 
 			<a href="/items/?rubric={$rubric->id}" class="d-flex align-items-center flex-grow-1 text-decoration-none text-dark">{$rubric->name}</a>
 
+			{var $path = $rubricTree ? $rubricTree . '\\' . urlencode($rubric->name) : urlencode($rubric->name)}
 			<a
 				n:if="count( $rubric->rubrics ) > 0"
-				href="/rubrics/?rubric={$rubricTree}\{$rubric->name}"
+				href="/rubrics/?rubric={$path}"
 				class="d-inline-block btn btn-primary"
 			>
 				&gt;&gt;

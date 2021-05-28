@@ -22,7 +22,8 @@ class BiddingItemHandler extends BaseHandler {
 					":item" => $item,
 					":bid_amount" => $bid_amount,
 					":user" => $user
-				));
+				)
+			);
 
 			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/biddingItem/";
 			$this->redirect("$addressRoot" . "?item_number=" . $item . "&bid-error=" . urlencode("Bod is succesvol geplaatst."));

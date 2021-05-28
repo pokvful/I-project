@@ -46,63 +46,81 @@ class SignupHandler extends BaseHandler {
 
 			//Filters form inputs
 			if (!isset($firstname)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Voornaam is niet ingevuld.")
 				);
 			} else if (!isset($lastname)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Achternaam is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Achternaam is niet ingevuld.")
 				);
 			} else if (!isset($username)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Gebruikersnaam is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Gebruikersnaam is niet ingevuld.")
 				);
 			} else if (!isset($unhashedPassword)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Wachtwoord is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Wachtwoord is niet ingevuld.")
 				);
 			} else if (!isset($dateOfBirth)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Geboortedatum is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Geboortedatum is niet ingevuld.")
 				);
 			} else if (!isset($phoneNumbers)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Telefoonnummer is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Telefoonnummer is niet ingevuld.")
 				);
 			} else if (!isset($address)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Adres is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Adres is niet ingevuld.")
 				);
 			} else if (!isset($postalCode)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Postcode is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Postcode is niet ingevuld.")
 				);
 			} else if (!isset($city)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Plaats is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Plaats is niet ingevuld.")
 				);
 			} else if (!isset($country)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Land is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Land is niet ingevuld.")
 				);
 			} else if (!isset($question)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
 				);
 			} else if (!isset($answerText)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Antwoord beveiligingsvraag is niet ingevuld.")
 				);
 			} else if (count($usernameQuery) > 0) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Deze gebruikersnaam is al in gebruik.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Deze gebruikersnaam is al in gebruik.")
 				);
 			} else if (strlen($unhashedPassword) < 8) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Het wachtwoord moet minimaal 8 karakters bevatten.")
 				);
 			} else if (!preg_match("#[0-9]+#", $unhashedPassword)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Het wachtoord moet minimaal één cijfer bevatten.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Het wachtoord moet minimaal één cijfer bevatten.")
 				);
 			} else if (!preg_match("#[a-zA-Z]+#", $unhashedPassword)) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Het wachtoord moet minimaal één letter bevatten.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Het wachtoord moet minimaal één letter bevatten.")
 				);
 			} else if (count($mailboxQuery) > 0) {
 				$this->redirect("/");
 			} else if (strlen($postalCode) > 6) {
-				$this->redirect($redirectAddress . "&signup-error=" . urlencode("Ongeldige postcode.")
+				$this->redirect(
+					$redirectAddress . "&signup-error=" . urlencode("Ongeldige postcode.")
 				);
 			}
 
 			foreach ($phoneNumbers as $phoneNumber) {
 				if (strlen($phoneNumber) > 10 && !preg_match('/^[0-9-+]$/', $phoneNumber)) {
-					$this->redirect($redirectAddress . "&signup-error=" . urlencode("Ongeldig telefoonnummer.")
+					$this->redirect(
+						$redirectAddress . "&signup-error=" . urlencode("Ongeldig telefoonnummer.")
 					);
 				}
 			}
@@ -145,7 +163,8 @@ class SignupHandler extends BaseHandler {
 				":mailbox" => $mailbox
 			));
 
-			$this->redirect("/login/?signup-success=" . urlencode("Uw account is succesvol aangemaakt.")
+			$this->redirect(
+				"/login/?signup-success=" . urlencode("Uw account is succesvol aangemaakt.")
 			);
 		} else { // user didn't come from verification email
 			$mail = $_POST["user"];
@@ -164,7 +183,8 @@ class SignupHandler extends BaseHandler {
 
 			//Checks if e-mail already exists in the database
 			if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-				$this->redirect("/signup/?signup-error=" . urlencode("Ongeldig e-mailadres.")
+				$this->redirect(
+					"/signup/?signup-error=" . urlencode("Ongeldig e-mailadres.")
 				);
 			}
 
@@ -180,7 +200,8 @@ class SignupHandler extends BaseHandler {
 					":verification_link" => $verificationLink
 				));
 				$this->sendVerifyEmail($mail, $verificationLink);
-				$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
+				$this->redirect(
+					"/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
 				);
 			} else if ($userVerifyTableCount == 0) {
 				$dbh->query("INSERT INTO UserVerify(mailbox, verification_code) VALUES(:email, :verificationLink)", array(
@@ -188,10 +209,12 @@ class SignupHandler extends BaseHandler {
 					":verificationLink" => $verificationLink
 				));
 				$this->sendVerifyEmail($mail, $verificationLink);
-				$this->redirect("/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
+				$this->redirect(
+					"/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
 				);
 			} else if ($userVerifyTableCount > 0 && $userTableQuery > 0) {
-				$this->redirect("/signup/?signup-success=" . urlencode("U heeft al reeds een account aangemaakt met dit e-mailadres.")
+				$this->redirect(
+					"/signup/?signup-success=" . urlencode("U heeft al reeds een account aangemaakt met dit e-mailadres.")
 				);
 			}
 		}
@@ -215,4 +238,3 @@ class SignupHandler extends BaseHandler {
 		echo "Done :)";
 	}
 }
-

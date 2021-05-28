@@ -46,7 +46,7 @@ class BlockHandler extends BaseHandler {
 			$this->redirect(
 				"/admin/users/?error=" . urlencode(
 					"Er ging iets mis tijdens het (de)blokkeren van een gebruiker: "
-					. $e->getMessage()
+						. $e->getMessage()
 				)
 			);
 		}
