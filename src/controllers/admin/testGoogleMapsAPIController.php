@@ -18,15 +18,18 @@ class TestGoogleMapsAPIController extends BaseController {
 			$address = $getItemLocation["city"] . ' ' . $getItemLocation["country"];
 			$address = str_replace(' ', '+', $address);
 
-			bdump($this->getGeoCode($address));
+			$longitude = substr($this->getGeoCode($address), 0, strpos($this->getGeoCode($address), '+'));
+			$latitude = substr($this->getGeoCode($address), strlen($longitude) + 1);
 
-			$longitude = substr($this->getGeoCode($address), strpos($this->getGeoCode($address), '+'));
-			$latitude = substr($this->getGeoCode($address), -0, strpos($this->getGeoCode($address), '+'));
+			bdump(("longitude: " . $longitude . "latitude: " . $latitude));
 
-			$updateLatLongQuery = $dbh->query("UPDATE Item SET latitude = :latitude, longitude = :longitude WHERE item_number = :item_number", array(
+			$updateLatLongQuery = $dbh->query("UPDATE Item SET latitude = :latitude, longitude = :longitude 
+			WHERE item_number = :item_number", array(
+
 				":latitude" => $latitude,
 				":longitude" => $longitude,
 				":item_number" => $item_number
+
 			));
 		}
 	}
@@ -42,10 +45,10 @@ class TestGoogleMapsAPIController extends BaseController {
 			$address = $getUserLocation["city"] . ' ' . $getUserLocation["country"];
 			$address = str_replace(' ', '+', $address);
 
-			bdump($this->getGeoCode($address));
+			$longitude = substr($this->getGeoCode($address), 0, strpos($this->getGeoCode($address), '+'));
+			$latitude = substr($this->getGeoCode($address), strlen($longitude) + 1);
 
-			$longitude = substr($this->getGeoCode($address), strpos($this->getGeoCode($address), '+'));
-			$latitude = substr($this->getGeoCode($address), -0, strpos($this->getGeoCode($address), '+'));
+			bdump(("longitude: " . $longitude . "latitude: " . $latitude));
 
 			$updateLatLongQuery = $dbh->query("UPDATE [User] SET latitude = :latitude, longitude = :longitude WHERE username = :username", array(
 				":latitude" => $latitude,
@@ -129,9 +132,9 @@ class TestGoogleMapsAPIController extends BaseController {
 	}
 
 	public function run() {
-		//		$this->insertLatitudeAndLongitude();
-		//		$this->importAllLocationsUsers();
-		$this->importAllLocationsItems();
+		// $this->insertLatitudeAndLongitude();
+		$this->importAllLocationsUsers();
+		// $this->importAllLocationsItems();
 		$this->render();
 	}
 }
