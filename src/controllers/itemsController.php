@@ -23,11 +23,11 @@ class ItemsController extends BaseController {
 
 	public function calculateRadius() {
 		$dbh = new DatabaseHandler();
-		
+
 		if (isset($_POST["apply-filter"])) {
 			if (isset($_SESSION["username"])) {
 				$username = $_SESSION["username"];
-				$distance = $_POST["distance"];
+				$distance = $_GET["distance"];
 
 				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
 					":username" => $username
@@ -36,7 +36,7 @@ class ItemsController extends BaseController {
 				$getItemLocationQuery = $dbh->query("SELECT TOP 30 longitude, latitude FROM Item");
 
 				foreach ($getItemLocationQuery as $itemLocation) {
-						$result = $this->calculateDistance(
+					$result = $this->calculateDistance(
 						$getUserLocationQuery[0]["latitude"],
 						$getUserLocationQuery[0]["longitude"],
 						$itemLocation["latitude"],
@@ -116,7 +116,7 @@ class ItemsController extends BaseController {
 			)
 		);
 
-		bdump( $this->data, 'data' );
+		bdump($this->data, 'data');
 
 		if (count($this->data["items"]) <= 0) {
 			$this->redirect("/items/?page=1");
