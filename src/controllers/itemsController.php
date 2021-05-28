@@ -36,7 +36,7 @@ class ItemsController extends BaseController {
 				$getItemLocationQuery = $dbh->query("SELECT TOP 30 longitude, latitude FROM Item");
 
 				foreach ($getItemLocationQuery as $itemLocation) {
-						$result = $this->calculateDistance(
+					$result = $this->calculateDistance(
 						$getUserLocationQuery[0]["latitude"],
 						$getUserLocationQuery[0]["longitude"],
 						$itemLocation["latitude"],
