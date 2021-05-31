@@ -20,7 +20,6 @@ class myItemsController extends BaseController {
 			)
 		);
 
-		isset($this->data["myItemsError"]);
 		if (count($this->data["userMyItems"]) <= 0 && !isset($_GET["myItems-error"])) {
 			$this->redirect(
 				"/myItems/?myItems-error=" . urlencode("Er zijn nog geen items waarop u geboden heeft.")
@@ -36,12 +35,19 @@ class myItemsController extends BaseController {
 					":seller" => $_SESSION["username"]
 				)
 			);
+
+			if (count($this->data["sellerMyItems"]) <= 0 && !isset($_GET["mySellerItems-error"])) {
+				$this->redirect(
+					"/myItems/?mySellerItems-error=" . urlencode("Er zijn geen items die u aanbiedt.")
+				);
+			}
 		}
 	}
 
 	public function run() {
 		$this->checkUserItems();
 		$this->data["myItemsError"] = $_GET["myItems-error"] ?? null;
+		$this->data["mySellerItems"] = $_GET["mySellerItems-error"] ?? null;
 		$this->render();
 	}
 }
