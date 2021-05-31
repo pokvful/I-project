@@ -15,8 +15,14 @@ class ItemsController extends BaseController {
 		$ret = array();
 		$currPage = min($maxPages - 3, max(2, $currPage));
 
-		for ($i = $currPage - 2; $i < $currPage + 3; $i++) {
-			$ret[] = $i;
+		if ($maxPages > 5) {
+			for ($i = $currPage - 2; $i < $currPage + 3; $i++) {
+				$ret[] = $i;
+			}
+		} else {
+			for ($i = 0; $i < $maxPages; $i++) {
+				$ret[] = $i;
+			}
 		}
 		return $ret;
 	}
@@ -63,7 +69,6 @@ class ItemsController extends BaseController {
 		$result['feet'] = $result['miles'] * 5280;
 		$result['yards'] = $result['feet'] / 3;
 		$result['kilometers'] = $result['miles'] * 1.609344;
-
 		return $result;
 	}
 
@@ -83,6 +88,54 @@ class ItemsController extends BaseController {
 		$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
 			":username" => $username
 		));
+		// $this->calculateRadius();
+
+		if (isset($_GET["distance"]) && ($_GET["distance"] > 0)) {
+			if (isset($_SESSION["username"])) {
+				$username = $_SESSION["username"];
+				$distance = $_GET["distance"];
+
+				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
+					":username" => $username
+				));
+
+				$getItemLocationQuery = $dbh->query("SELECT TOP 30 longitude, latitude FROM Item");
+
+				foreach ($getItemLocationQuery as $itemLocation) {
+					$result = $this->calculateDistance(
+						$getUserLocationQuery[0]["latitude"],
+						$getUserLocationQuery[0]["longitude"],
+						$itemLocation["latitude"],
+						$itemLocation["longitude"]
+					);
+					if ($distance <= $result) {
+						bdump($result);
+					}
+				}
+			}
+		}
+
+
+		$this->data["page"] = $this->getSafePageNumber() - 1;
+		$this->data["perPage"] = intval($_GET["count"] ?? 30);
+		$this->data["minPrice"] = $_GET["minPrice"] ?? 0;
+		$this->data["maxPrice"] = $_GET["maxPrice"] ?? PHP_INT_MAX;
+
+		//Builds URL for signup-errors
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
+		$redirectAddress = $addressRoot;
+
+		if ($this->data["minPrice"] > $this->data["maxPrice"]) {
+			$this->redirect(
+				$redirectAddress . "?signup-error=" . urlencode("Prijs filter ongeldig.")
+			);
+		} else if (($this->data["minPrice"] || $this->data["maxPrice"]) < 1) {
+			$this->redirect(
+				$redirectAddress . "?signup-error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
+			);
+		}
+
+		$this->data["signupError"] = $_GET["signup-error"] ?? null;
 
 		$this->data["items"] = $dbh->query(
 			<<<SQL
