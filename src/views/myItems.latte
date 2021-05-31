@@ -7,7 +7,7 @@
 
         {getBreadCrumbs()|noescape}
 
-        <h4 n:if="!$myItemsError" class="bg-primary text-dark w-50 m-auto mt-5">Items waarop geboden:</h4>
+        <h4 n:if="!$myItemsError" class="bg-primary text-dark w-50 m-auto mt-5 p-3">Items waarop geboden:</h4>
         <div n:if="$myItemsError" class="col-12 alert alert-danger mb-5" role="alert">
             {$myItemsError}
         </div>
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <h4 n:if="$_seller" class="bg-primary text-dark w-50 m-auto mt-5">Items die je aanbiedt:</h4>
+        <h4 n:if="$_seller" class="bg-primary text-dark w-50 m-auto mt-5 p-3">Items die je aanbiedt:</h4>
         <div n:if="$mySellerItems" class="col-12 alert alert-danger mb-5" role="alert">
             {$mySellerItems}
         </div>
