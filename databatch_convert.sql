@@ -171,18 +171,25 @@ BEGIN TRY
 	SET IDENTITY_INSERT test.dbo.Item OFF;
 
 	/**
+	 * Item in Rubric
+	 */
+	INSERT INTO test.dbo.Item_in_rubric (item, rubric_at_lowest_level)
+		SELECT ID, Categorie
+			FROM TEMP_DataBatch.dbo.Items;
+
+	/**
 	 * Pictures
 	 */
-	--INSERT INTO test.dbo.[File] (item, [filename])
-		--SELECT ItemID, IllustratieFile
-		--	FROM (
-		--		SELECT
-		--			ItemID,
-		--			ROW_NUMBER() OVER( PARTITION BY ItemID ORDER BY ItemID ASC, IllustratieFile ASC ) AS 'row',
-		--			IllustratieFile
-		--			FROM TEMP_DataBatch.dbo.Illustraties
-		--	) AS Files
-		--	WHERE [row] < 5;
+	INSERT INTO test.dbo.[File] (item, [filename])
+		SELECT ItemID, IllustratieFile
+			FROM (
+				SELECT
+					ItemID,
+					ROW_NUMBER() OVER( PARTITION BY ItemID ORDER BY ItemID ASC, IllustratieFile ASC ) AS 'row',
+					IllustratieFile
+					FROM TEMP_DataBatch.dbo.Illustraties
+			) AS Files
+			WHERE [row] < 5;
 END TRY
 BEGIN CATCH
 	SELECT
@@ -206,4 +213,3 @@ BEGIN
 	PRINT N'Commiting!';
 	COMMIT TRANSACTION DatabatchConvert;
 END
-GO

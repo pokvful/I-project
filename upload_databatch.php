@@ -1,28 +1,34 @@
 <?php
-array_shift($argv);
+$executable = array_shift($argv);
+$executablePath = substr( $executable, 0, strrpos($executable, DIRECTORY_SEPARATOR) + 1 );
 $files = $argv;
 
 const HOST = "localhost";
 const USERNAME = "admin_iproject";
-const PASSWORD = 'EenBeterWachtwoord!$'; // D1tW4chtw00rdK4nN13m4nd$cht3rh4l3n!
+const PASSWORD = 'EenBeterWachtwoord!$';
 $TEMP_DATABASE = "TEMP_DataBatch";
 const DATABASE = "test";
 
 $conn = null;
 
-try {
+try
+{
 	$dbh = "sqlsrv:Server=" . HOST . ";ConnectionPooling=0";
 	$conn = new PDO($dbh, USERNAME, PASSWORD);
 
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	echo "Connected to database" . PHP_EOL;
-} catch (PDOException $e) {
-	die("Connection failed: " . $e->getMessage());
+}
+catch (PDOException $e)
+{
+	die( "Connection failed: " . $e->getMessage() );
 }
 
-try {
+try
+{
 	$conn->exec("CREATE DATABASE $TEMP_DATABASE");
+	$conn->exec("ALTER DATABASE $TEMP_DATABASE SET AUTO_CLOSE OFF"); // https://dba.stackexchange.com/a/134676
 
 	$conn->beginTransaction();
 
@@ -86,33 +92,65 @@ try {
 
 	$conn->exec("USE $TEMP_DATABASE");
 
-	for ($i = 0; $i < count($files); ++$i) {
+	for ($i = 0; $i < count($files); ++$i)
+	{
 		$file = $files[$i];
 		echo "Executing file \"$file\"" . PHP_EOL;
 
 		$fileContents = file_get_contents($file);
 
-		$result = $conn->query(mb_convert_encoding($fileContents, 'utf-8', mb_detect_encoding($fileContents)));
+		$result = $conn->query(
+			mb_convert_encoding(
+				$fileContents, 'utf-8', mb_detect_encoding($fileContents)
+			)
+		);
 
-		if ($result->errorCode() === '00000') {
+		if ( $result->errorCode() === '00000' )
+		{
 			echo "Successfully executed file \"$file\"" . PHP_EOL;
-		} else {
+
+			sleep(10);
+		}
+		else
+		{
 			throw new Exception(
 				"An error occurred while processing file \"$file\": "
-					. ($result->errorInfo()[2] ?? "no error information")
+					. ( $result->errorInfo()[2] ?? "no error information" )
 			);
 		}
 	}
-} catch (Exception $e) {
+
+	$convertScript = file_get_contents($executablePath . "databatch_convert.sql");
+
+	$result = $conn->query($convertScript);
+
+	if ( $result->errorCode() !== '00000' )
+	{
+		throw new Exception(
+			"An error occurred while executing the convert script: "
+				. ( $result->errorInfo()[2] ?? "no error information" )
+		);
+	}
+}
+catch (Exception $e)
+{
 	echo "Something went wrong, rolling back" . PHP_EOL;
 
-	if ($conn->inTransaction())
+	if ( $conn->inTransaction() )
 		$conn->rollBack();
 
-	die($e->getMessage());
+	$conn->query("USE master");
+	$conn->query("DROP DATABASE $TEMP_DATABASE");
+
+	die( $e->getMessage() );
 }
 
-if ($conn->inTransaction())
+if ( $conn->inTransaction() )
 	$conn->commit();
+
+$conn->query("USE master");
+$conn->query("DROP DATABASE $TEMP_DATABASE");
+
+echo "Successfully converted all the data";
 
 $conn = null;
