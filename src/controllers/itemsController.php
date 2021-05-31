@@ -113,23 +113,25 @@ class ItemsController extends BaseController {
 		
 		$this->data["page"] = $this->getSafePageNumber() - 1;
 		$this->data["perPage"] = intval($_GET["count"] ?? 30);
-		$this->data["minPrice"] = $_GET["minPrice"] ?? 0;
-		$this->data["maxPrice"] = $_GET["maxPrice"] ?? PHP_INT_MAX;
-		
+		$this->data["maxBid"] = $dbh->query("SELECT MAX(bid_amount) as maxBid FROM vw_ItemsList");
+
+		$maxPrice = $_GET["maxPrice"] ?? $this->data["maxBid"][0]["maxBid"];
+		$minPrice = $_GET["minPrice"] ?? 1;
+
+		if(!$maxPrice) {
+			$maxPrice = $this->data["maxBid"][0]["maxBid"];	
+		}
+
+
 		//Builds URL for signup-errors
 		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
 		$redirectAddress = $addressRoot;
 
-		if ($this->data["minPrice"] > $this->data["maxPrice"]) {
+		if ($minPrice >= $maxPrice) {
 			$this->redirect(
-				$redirectAddress . "?signup-error=" . urlencode("Prijs filter ongeldig.")
-			);
-		} else if (($this->data["minPrice"] || $this->data["maxPrice"]) < 1) {
-			$this->redirect(
-				$redirectAddress . "?signup-error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
+				$redirectAddress . "?signup-error=" . urlencode("De minimum prijs mag niet hoger zijn dan de maximum prijs.")
 			);
 		}	
-
 		$this->data["signupError"] = $_GET["signup-error"] ?? null;
 
 		$this->data["items"] = $dbh->query(
@@ -144,8 +146,8 @@ class ItemsController extends BaseController {
 			array(
 				":offset" => $this->data["page"] * $this->data["perPage"],
 				":per_page" => $this->data["perPage"],
-				":minprice" => $this->data["minPrice"],
-				":maxprice" => $this->data["maxPrice"],
+				":minprice" => $minPrice,
+				":maxprice" => $maxPrice,
 			)
 		);
 
@@ -156,8 +158,8 @@ class ItemsController extends BaseController {
 					WHERE bid_amount BETWEEN :minprice AND :maxprice;
 			SQL,
 			array(
-				":minprice" => $this->data["minPrice"],
-				":maxprice" => $this->data["maxPrice"],
+				":minprice" => $minPrice,
+				":maxprice" => $maxPrice,
 			)
 		);
 
@@ -184,7 +186,8 @@ class ItemsController extends BaseController {
 			$this->data["page"],
 			ceil($this->data["totalRows"] / $this->data["perPage"])
 		);
-
+		$this->data["minPrice"] = $minPrice;
+		$this->data["maxPrice"] = $maxPrice;
 		$this->render();
 	}
 }
