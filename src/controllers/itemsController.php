@@ -136,7 +136,7 @@ class ItemsController extends BaseController {
 			<<<SQL
 				SELECT item_number, title, [description], [filename], bid_amount, row_count
 					FROM vw_ItemsList
-					WHERE (bid_amount BETWEEN :minprice AND :maxprice)
+					WHERE bid_amount BETWEEN :minprice AND :maxprice
 					ORDER BY item_number
 					OFFSET :offset ROWS
 					FETCH FIRST :per_page ROWS ONLY;
@@ -146,9 +146,8 @@ class ItemsController extends BaseController {
 				":per_page" => $this->data["perPage"],
 				":minprice" => $this->data["minPrice"],
 				":maxprice" => $this->data["maxPrice"],
-				)
-			);
-			
+			)
+		);
 
 		$this->data["itemCount"] = $dbh->query(
 			<<<SQL
@@ -161,9 +160,6 @@ class ItemsController extends BaseController {
 				":maxprice" => $this->data["maxPrice"],
 			)
 		);
-
-		// $this->data["auctionClosed"] = $dbh->query("SELECT item_number, auction_closed FROM item");
-		// bdump(	$this->data["auctionClosed"]);		
 
 		if (count($this->data["items"]) <= 0) {
 			$this->redirect("/items/?page=1");
