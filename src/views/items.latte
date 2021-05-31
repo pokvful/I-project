@@ -30,8 +30,8 @@
 						<div class="row mb-3">
 						<label for="input-distance" class="form-label">Prijs:</label>
 							<div class="input-group"> 
-							<input type="number" class="form-control " name="minPrice" placeholder="min">
-							<input type="number" class="form-control" name="maxPrice" placeholder="max">
+							<input type="number" class="form-control " name="minPrice" placeholder="min" min="0" max ="{$maxBid[0]['maxBid']}" >
+							<input type="number" class="form-control" name="maxPrice" placeholder="max" min="0" max ="{$maxBid[0]['maxBid']}">
 							</div>
 						</div>
 						<button type="submit" class="btn btn-primary" name="apply-filter">Pas filters toe</button>
