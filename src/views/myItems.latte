@@ -15,7 +15,7 @@
             <div n:foreach="$userMyItems as $userMyItem" class="col-12 col-md-6 col-lg-3 py-3">
                 <div class="card">
                     <img class="card-img-top"
-                         src="{( is_null( $userMyItem['filename'] ) || substr( $userMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
+                         src="{( is_null( $userMyItem['filename'] ) || substr( $userMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $userMyItem['filename']}"
                          alt="{$userMyItem['title']}">
 
                     <div class="card-body">
@@ -34,12 +34,12 @@
             <div n:foreach="$sellerMyItems as $sellerMyItem" class="col-12 col-md-6 col-lg-3 py-3">
                 <div class="card">
                     <img class="card-img-top"
-                         src="{( is_null( $sellerMyItem['filename'] ) || substr( $sellerMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
+                         src="{( is_null( $sellerMyItem['filename'] ) || substr( $sellerMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $sellerMyItem['filename']}"
                          alt="{$sellerMyItem['title']}">
 
                     <div class="card-body">
                         <h4 class="card-title">{$sellerMyItem['title']}</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">&euro;{$sellerMyItem['bid']}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">&euro;{$sellerMyItem['bid_amount']}</h6>
                         <p class="card-text">{cutString( $sellerMyItem['description'], 75, true )}</p>
                         <a href="/biddingItem/?item_number={$sellerMyItem['item_number']}" class="btn btn-primary">Bekijken</a>
                     </div>

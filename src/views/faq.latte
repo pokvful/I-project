@@ -30,8 +30,11 @@
 			<a class="btn btn-link" href="/Faq" role="button">Terug</a>
 		</div>
 		<div class="col 8">
+			<h1 class="text-center mb-3 mt-5">
+				{$questionItem[0]["questionText"]}
+			</h1>
 			<hr>
-			{$questionItem[0]['answerText']|noescape}
+			{$questionItem[0]["answerText"]|noescape}
 		</div>
 		<div class="col-2"></div>
 	</div>
