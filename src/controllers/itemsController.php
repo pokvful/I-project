@@ -52,7 +52,14 @@ class ItemsController extends BaseController {
 		// 	);
 		// }
 
-		$username = $_SESSION["username"];
+		if (isset($_SESSION["username"])) {
+			$username = $_SESSION["username"];
+		} else {
+			$this->redirect(
+				"/"
+			);
+		}
+
 
 		$getUserLocationQuery = $dbh->query("SELECT latitude, longitude FROM [User] WHERE username = :username", array(
 			":username" => $username

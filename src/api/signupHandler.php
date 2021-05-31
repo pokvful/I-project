@@ -265,7 +265,7 @@ class SignupHandler extends BaseHandler {
 		$emailBuilder = new Email("Signup Email");
 		$emailBuilder->addAddress($mail);
 		$address = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
-		$emailBuilder->setText("Hey, <b>dit</b> is een test, je verificatielink is <a href=\"" . $address . "?hash=" . $verificationLink . "&user=$mail\">Klik hier</a>");
+		$emailBuilder->setText("Leuk dat je hebt gekozen voor <b>EenmaalAndermaal!</b> Je verificatielink is <a href=\"" . $address . "?hash=" . $verificationLink . "&user=$mail\">Klik hier</a>");
 		$emailBuilder->send();
 		echo "Done :)";
 	}
