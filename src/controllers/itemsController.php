@@ -29,12 +29,14 @@ class ItemsController extends BaseController {
 
 	public function calculateRadius() {
 		$dbh = new DatabaseHandler();
-		
-		if (isset($_POST["apply-filter"])) {
-			if (isset($_SESSION["username"])) {
-				$username = $_SESSION["username"];
-				$distance = $_POST["distance"];
 
+		if (isset($_GET["distance"])) {
+			if (isset($_SESSION["username"])) {
+
+				$username = $_SESSION["username"];
+				$distance = $_GET["distance"];
+
+				bdump('afstand: ' . $distance);
 				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
 					":username" => $username
 				));
@@ -42,17 +44,15 @@ class ItemsController extends BaseController {
 				$getItemLocationQuery = $dbh->query("SELECT TOP 30 longitude, latitude FROM Item");
 
 				foreach ($getItemLocationQuery as $itemLocation) {
-						$result = $this->calculateDistance(
+					$result = $this->calculateDistance(
 						$getUserLocationQuery[0]["latitude"],
 						$getUserLocationQuery[0]["longitude"],
 						$itemLocation["latitude"],
 						$itemLocation["longitude"]
 					);
 
-					bdump($result);
-
-					if ($result < $distance) {
-						//Show item
+					if ($result <= $distance) {
+						bdump($result);
 					} else {
 						//Show NULL
 					}
@@ -83,6 +83,33 @@ class ItemsController extends BaseController {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
+		// $this->calculateRadius();
+
+		if (isset($_GET["distance"]) && ($_GET["distance"] > 0)) {
+			if (isset($_SESSION["username"])) {
+				$username = $_SESSION["username"];
+				$distance = $_GET["distance"];
+
+				$getUserLocationQuery = $dbh->query("SELECT longitude, latitude FROM [User] WHERE username = :username", array(
+					":username" => $username
+				));
+
+				$getItemLocationQuery = $dbh->query("SELECT TOP 30 longitude, latitude FROM Item");
+
+				foreach ($getItemLocationQuery as $itemLocation) {
+					$result = $this->calculateDistance(
+						$getUserLocationQuery[0]["latitude"],
+						$getUserLocationQuery[0]["longitude"],
+						$itemLocation["latitude"],
+						$itemLocation["longitude"]
+					);
+					if ($distance <= $result) {
+						bdump($result);
+					}
+				}
+			}
+		}
+
 		$this->data["page"] = $this->getSafePageNumber() - 1;
 		$this->data["perPage"] = intval($_GET["count"] ?? 30);
 		$this->data["minPrice"] = $_GET["minPrice"] ?? 0;
@@ -102,7 +129,6 @@ class ItemsController extends BaseController {
 				":per_page" => $this->data["perPage"],
 				":minprice" => $this->data["minPrice"],
 				":maxprice" => $this->data["maxPrice"],
-
 			)
 		);
 
@@ -118,7 +144,7 @@ class ItemsController extends BaseController {
 			)
 		);
 
-		bdump( $this->data, 'data' );
+		bdump($this->data, 'data');
 
 		if (count($this->data["items"]) <= 0) {
 			$this->redirect("/items/?page=1");
@@ -144,7 +170,6 @@ class ItemsController extends BaseController {
 			ceil($this->data["totalRows"] / $this->data["perPage"])
 		);
 
-		// $this->calculateRadius();
 		$this->render();
 	}
 }

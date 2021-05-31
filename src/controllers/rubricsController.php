@@ -7,7 +7,7 @@ class RubricsController extends BaseController {
 		$rubrics = RubricHelper::getRubricsFromDataBase();
 
 		$rubricTree = array_filter(
-			explode( '\\', urldecode( $_GET["rubric"] ?? "" ) ),
+			explode('\\', urldecode($_GET["rubric"] ?? "")),
 			function ($v) {
 				return !!$v;
 			}
@@ -30,7 +30,7 @@ class RubricsController extends BaseController {
 				$breadcrumbs .= "<li class=\"breadcrumb-item active\"> {$text} </li>";
 			} else {
 				$breadcrumbs .= "<li class=\"breadcrumb-item\"><a href=\"/rubrics/?rubric="
-					. urlencode( implode('\\', $currentPath) ) . "\"> {$text} </a></li>";
+					. urlencode(implode('\\', $currentPath)) . "\"> {$text} </a></li>";
 			}
 
 			$i++;
@@ -46,7 +46,7 @@ class RubricsController extends BaseController {
 			$rubrics = $rubrics->getByName($rubric);
 		}
 
-		$this->data["rubricTree"] = urlencode( implode('\\', $rubricTree) );
+		$this->data["rubricTree"] = urlencode(implode('\\', $rubricTree));
 		$this->data["rubrics"] = $rubrics;
 		$this->data["breadcrumbs"] = $breadcrumbs;
 

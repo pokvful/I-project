@@ -30,16 +30,18 @@ class ChangeProfileHandler extends BaseHandler {
 				":user" => $_SESSION["username"]
 			)
 		);
-		$this->data["firstId"] = $dbh->query("SELECT FIRST_VALUE(id) OVER (ORDER BY [user]) AS firstId FROM User_phone WHERE [user] = :user",
-		array(
-			":user" => $_SESSION["username"]
+		$this->data["firstId"] = $dbh->query(
+			"SELECT FIRST_VALUE(id) OVER (ORDER BY [user]) AS firstId FROM User_phone WHERE [user] = :user",
+			array(
+				":user" => $_SESSION["username"]
 			)
 		);
 
-			if (strlen($zipCode) < 6) {
-				$this->redirect($redirectAddress . "?signup-error=" . urlencode("Ongeldige postcode.")
-				);
-			}
+		if (strlen($zipCode) < 6) {
+			$this->redirect(
+				$redirectAddress . "?signup-error=" . urlencode("Ongeldige postcode.")
+			);
+		}
 
 		$dbh->query(
 			<<<SQL
@@ -70,7 +72,7 @@ class ChangeProfileHandler extends BaseHandler {
 			)
 		);
 
-		for($i = 0; $i < $this->data["phoneNumberCount"][0]["amount"]; $i++) {
+		for ($i = 0; $i < $this->data["phoneNumberCount"][0]["amount"]; $i++) {
 			$dbh->query(
 				<<<SQL
 				UPDATE 	User_phone
@@ -81,7 +83,7 @@ class ChangeProfileHandler extends BaseHandler {
 				array(
 					":username" => $_SESSION["username"],
 					":phone" => $phoneNumbers[$i],
-					"id" => $this->data["firstId"][0]["firstId"]+$i
+					"id" => $this->data["firstId"][0]["firstId"] + $i
 				)
 			);
 		}
