@@ -28,8 +28,7 @@ class BiddingItemController extends BaseController {
 				":item_number" => $_GET["item_number"]
 			)
 		);
-		var_dump($this->data["auctionClosed"]);
-		if (!isset($_GET["item_number"]) || ($this->data["auctionClosed"][0]["auction_closed"]) == 1) {
+		if (!isset($_GET["item_number"])) {
 			$this->redirect("/items/");
 		} else {
 			$this->data["itemInformation"] = $dbh->query(

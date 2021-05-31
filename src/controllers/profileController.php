@@ -6,8 +6,8 @@ class ProfileController extends BaseController {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
-		if (!isset($_SESSION["loggedin"])) {
-			$this->redirect("/login/?redirect_uri=" . urlencode("/profile/"));
+		if (!isset($_SESSION["loggedin"]) || (!$_SESSION["loggedin"])) {
+			$this->redirect("/");
 		} else {
 			$this->data["userInformation"] = $dbh->query(
 				"SELECT * FROM [User] WHERE username = :username",

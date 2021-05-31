@@ -15,19 +15,8 @@
 					</div>
 					<div class="border rounded p-3">
 						<h4>Filters</h4>
-						<label for="input-distance" class="form-label">Afstand:</label>
-						<div class="row mb-3 mx-auto">
-						<select name="distance" id="distance" class="form-select">
-								<ul>
-									<option selected="all-distances" value="">Alle afstanden</option>
-									<option value="5">5km</option>
-									<option value="10">10km</option>
-									<option value="15">15km</option>
-									<option value="20">20km</option>
-								</ul>
-							</select>
-						</div>
-						<div class="row mb-3">
+						<label class="form-label" name="input-distance">Afstand</label>
+							<input name="distance" placeholder="Afstand" type="number" class="form-control" />
 						<label for="input-distance" class="form-label">Prijs:</label>
 							<div class="input-group"> 
 							<input type="number" class="form-control " name="minPrice" placeholder="min" min="0" max ="{$maxBid[0]['maxBid']}" >
@@ -72,20 +61,26 @@
 				</div>
 			</div>
 			<div class="row">
-				<div n:foreach="$items as $item" class="ocl-12 col-md-6 col-lg-4 py-3">
-					<div class="card">
-						<img class="card-img-top"
-							src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
-							alt="{$item['title']}">
-						
-						<div class="card-body">
-							<h4 class="card-title">{$item['title']}</h4>
-							<h6 class="card-subtitle mb-2 text-muted">&euro;{$item['bid_amount']}</h6>
-							<p class="card-text">{cutString( $item['description'], 75, true )}</p>
-							<a href="/biddingItem/?item_number={$item['item_number']}" class="btn btn-primary">Bekijken</a>
+				{foreach $items as $item}
+					<div class="ocl-12 col-md-6 col-lg-4 py-3">
+						<div class="card">
+							<img class="card-img-top"
+								src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
+								alt="{$item['title']}">
+							
+							<div class="card-body">
+								<h4 class="card-title">{$item['title']}</h4>
+								<h6 class="card-subtitle mb-2 text-muted">&euro;{$item['bid_amount']}</h6>
+								<p class="card-text">{cutString( $item['description'], 75, true )}</p>
+								<a href="/biddingItem/?item_number={$item['item_number']}" class="btn btn-primary">Bekijken</a>
+							</div>
 						</div>
 					</div>
-				</div>
+				{else}
+					<div>
+						<h3 class="text-center py-5">Geen zoekresultaten<h3>
+					</div>
+				{/foreach}
 			</div>
 
 			<div class="row mt-2">

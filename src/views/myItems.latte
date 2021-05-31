@@ -7,7 +7,7 @@
 
         {getBreadCrumbs()|noescape}
 
-        <h4 n:if="!$myItemsError" class="bg-primary text-dark w-50 m-auto mt-5">Items waarop geboden:</h4>
+        <h4 n:if="!$myItemsError" class="bg-primary text-dark w-50 m-auto mt-5 p-3">Items waarop geboden:</h4>
         <div n:if="$myItemsError" class="col-12 alert alert-danger mb-5" role="alert">
             {$myItemsError}
         </div>
@@ -15,7 +15,7 @@
             <div n:foreach="$userMyItems as $userMyItem" class="col-12 col-md-6 col-lg-3 py-3">
                 <div class="card">
                     <img class="card-img-top"
-                         src="{( is_null( $userMyItem['filename'] ) || substr( $userMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
+                         src="{( is_null( $userMyItem['filename'] ) || substr( $userMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $userMyItem['filename']}"
                          alt="{$userMyItem['title']}">
 
                     <div class="card-body">
@@ -29,12 +29,15 @@
             </div>
         </div>
 
-        <h4 n:if="$_seller" class="bg-primary text-dark w-50 m-auto mt-5">Items waarop geboden:</h4>
-        <div n:if="$_seller" class="row">
+        <h4 n:if="$_seller" class="bg-primary text-dark w-50 m-auto mt-5 p-3">Items die je aanbiedt:</h4>
+        <div n:if="$mySellerItems" class="col-12 alert alert-danger mb-5" role="alert">
+            {$mySellerItems}
+        </div>
+        <div n:if="$_seller && !$mySellerItems" class="row">
             <div n:foreach="$sellerMyItems as $sellerMyItem" class="col-12 col-md-6 col-lg-3 py-3">
                 <div class="card">
                     <img class="card-img-top"
-                         src="{( is_null( $sellerMyItem['filename'] ) || substr( $sellerMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
+                         src="{( is_null( $sellerMyItem['filename'] ) || substr( $sellerMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $sellerMyItem['filename']}"
                          alt="{$sellerMyItem['title']}">
 
                     <div class="card-body">

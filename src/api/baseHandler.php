@@ -43,7 +43,6 @@ class BaseHandler {
 
 			$url = $_POST["redirect_uri"];
 		}
-
 		header("Location: $url");
 		exit();
 	}

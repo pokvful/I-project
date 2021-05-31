@@ -7,7 +7,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/helpers/rubric.php";
 class PlaceBiddingItemController extends BaseController {
 
 	public function showPageToSeller() {
-		if (!$_SESSION["loggedin"]) {
+		if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 			$this->redirect("/");
 		}
 	}
