@@ -1,0 +1,17 @@
+{include '../includes/header.latte'}
+
+<div class="container">
+	<div class="col-12 text-center my-5">
+		<h1 class="mb-3">
+			Dashboard EenmaalAndermaal
+		</h1>
+
+		{getBreadCrumbs()|noescape}
+	</div> 	
+
+	<div class="col-12">
+		<iframe class="w-100" style="min-height:90vh" src="https://app.powerbi.com/reportEmbed?reportId=1341dde1-6ec4-4a99-98f8-f0df9e53f7ea&autoAuth=true&pageName=ReportSection" frameborder="0"></iframe>
+	</div>
+</div>
+
+{include '../includes/footer.latte'}
