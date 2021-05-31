@@ -110,16 +110,33 @@ class ItemsController extends BaseController {
 			}
 		}
 
+		
 		$this->data["page"] = $this->getSafePageNumber() - 1;
 		$this->data["perPage"] = intval($_GET["count"] ?? 30);
 		$this->data["minPrice"] = $_GET["minPrice"] ?? 0;
 		$this->data["maxPrice"] = $_GET["maxPrice"] ?? PHP_INT_MAX;
+		
+		//Builds URL for signup-errors
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
+		$redirectAddress = $addressRoot;
+
+		if ($this->data["minPrice"] > $this->data["maxPrice"]) {
+			$this->redirect(
+				$redirectAddress . "?signup-error=" . urlencode("Prijs filter ongeldig.")
+			);
+		} else if (($this->data["minPrice"] || $this->data["maxPrice"]) < 1) {
+			$this->redirect(
+				$redirectAddress . "?signup-error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
+			);
+		}	
+
+		$this->data["signupError"] = $_GET["signup-error"] ?? null;
 
 		$this->data["items"] = $dbh->query(
 			<<<SQL
 				SELECT item_number, title, [description], [filename], bid_amount, row_count
 					FROM vw_ItemsList
-					WHERE bid_amount BETWEEN :minprice AND :maxprice
+					WHERE (bid_amount BETWEEN :minprice AND :maxprice)
 					ORDER BY item_number
 					OFFSET :offset ROWS
 					FETCH FIRST :per_page ROWS ONLY;
@@ -129,8 +146,9 @@ class ItemsController extends BaseController {
 				":per_page" => $this->data["perPage"],
 				":minprice" => $this->data["minPrice"],
 				":maxprice" => $this->data["maxPrice"],
-			)
-		);
+				)
+			);
+			
 
 		$this->data["itemCount"] = $dbh->query(
 			<<<SQL
@@ -144,7 +162,8 @@ class ItemsController extends BaseController {
 			)
 		);
 
-		bdump($this->data, 'data');
+		// $this->data["auctionClosed"] = $dbh->query("SELECT item_number, auction_closed FROM item");
+		// bdump(	$this->data["auctionClosed"]);		
 
 		if (count($this->data["items"]) <= 0) {
 			$this->redirect("/items/?page=1");
