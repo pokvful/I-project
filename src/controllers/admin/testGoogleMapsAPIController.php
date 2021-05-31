@@ -53,7 +53,7 @@ class TestGoogleMapsAPIController extends BaseController {
 			$updateLatLongQuery = $dbh->query("UPDATE [User] SET latitude = :latitude, longitude = :longitude WHERE username = :username AND latitude IS NULL", array(
 				":latitude" => $latitude,
 				":longitude" => $longitude,
-				":username" => $username
+				":username" => 'Gebruikersnaam5'
 			));
 		}
 	}
@@ -133,8 +133,8 @@ class TestGoogleMapsAPIController extends BaseController {
 
 	public function run() {
 		// $this->insertLatitudeAndLongitude();
-		// $this->importAllLocationsUsers();
-		$this->importAllLocationsItems();
+		$this->importAllLocationsUsers();
+		// $this->importAllLocationsItems();
 		$this->render();
 	}
 }
