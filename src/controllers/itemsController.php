@@ -136,11 +136,11 @@ class ItemsController extends BaseController {
 			<<<SQL
 				SELECT COUNT(*) AS 'count'
 					FROM vw_ItemsList
-					WHERE bid_amount BETWEEN :minprice1 AND :maxprice1;
+					WHERE bid_amount BETWEEN :minprice AND :maxprice;
 			SQL,
 			array(
-				":minprice1" => $this->data["minPrice"],
-				":maxprice1" => $this->data["maxPrice"],
+				":minprice" => $this->data["minPrice"],
+				":maxprice" => $this->data["maxPrice"],
 			)
 		);
 
