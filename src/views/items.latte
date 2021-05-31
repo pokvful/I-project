@@ -67,20 +67,26 @@
 			</div>
 
 			<div class="row">
-				<div n:foreach="$items as $item" class="ocl-12 col-md-6 col-lg-4 py-3">
-					<div class="card">
-						<img class="card-img-top"
-							src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
-							alt="{$item['title']}">
-						
-						<div class="card-body">
-							<h4 class="card-title">{$item['title']}</h4>
-							<h6 class="card-subtitle mb-2 text-muted">&euro;{$item['bid_amount']}</h6>
-							<p class="card-text">{cutString( $item['description'], 75, true )}</p>
-							<a href="/biddingItem/?item_number={$item['item_number']}" class="btn btn-primary">Bekijken</a>
+				{foreach $items as $item}
+					<div class="ocl-12 col-md-6 col-lg-4 py-3">
+						<div class="card">
+							<img class="card-img-top"
+								src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
+								alt="{$item['title']}">
+							
+							<div class="card-body">
+								<h4 class="card-title">{$item['title']}</h4>
+								<h6 class="card-subtitle mb-2 text-muted">&euro;{$item['bid_amount']}</h6>
+								<p class="card-text">{cutString( $item['description'], 75, true )}</p>
+								<a href="/biddingItem/?item_number={$item['item_number']}" class="btn btn-primary">Bekijken</a>
+							</div>
 						</div>
 					</div>
-				</div>
+				{else}
+					<div>
+						<h1>Mooie tekst<h1>
+					</div>
+				{/foreach}
 			</div>
 
 			<div class="row mt-2">
