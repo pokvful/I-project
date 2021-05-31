@@ -17,15 +17,7 @@
 						<h4>Filters</h4>
 						<label for="input-distance" class="form-label">Afstand:</label>
 						<div class="row mb-3 mx-auto">
-						<select name="distance" id="distance" class="form-select">
-								<ul>
-									<option selected="all-distances" value="">Alle afstanden</option>
-									<option value="5">5km</option>
-									<option value="10">10km</option>
-									<option value="15">15km</option>
-									<option value="20">20km</option>
-								</ul>
-							</select>
+						<input name="distance" id="distance" type="number" class="form-input">
 						</div>
 						<div class="row mb-3">
 						<label for="input-distance" class="form-label">Prijs:</label>
@@ -89,7 +81,7 @@
 					</div>
 				{else}
 					<div>
-						<h1>Mooie tekst<h1>
+						<h3 class="text-center py-5">Geen zoekresultaten<h3>
 					</div>
 				{/foreach}
 			</div>

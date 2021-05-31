@@ -24,7 +24,7 @@ class TestGoogleMapsAPIController extends BaseController {
 			bdump(("longitude: " . $longitude . "latitude: " . $latitude));
 
 			$updateLatLongQuery = $dbh->query("UPDATE Item SET latitude = :latitude, longitude = :longitude 
-			WHERE item_number = :item_number", array(
+			WHERE item_number = :item_number AND latitude IS NULL", array(
 
 				":latitude" => $latitude,
 				":longitude" => $longitude,
@@ -50,7 +50,7 @@ class TestGoogleMapsAPIController extends BaseController {
 
 			bdump(("longitude: " . $longitude . "latitude: " . $latitude));
 
-			$updateLatLongQuery = $dbh->query("UPDATE [User] SET latitude = :latitude, longitude = :longitude WHERE username = :username", array(
+			$updateLatLongQuery = $dbh->query("UPDATE [User] SET latitude = :latitude, longitude = :longitude WHERE username = :username AND latitude IS NULL", array(
 				":latitude" => $latitude,
 				":longitude" => $longitude,
 				":username" => $username
@@ -133,8 +133,8 @@ class TestGoogleMapsAPIController extends BaseController {
 
 	public function run() {
 		// $this->insertLatitudeAndLongitude();
-		$this->importAllLocationsUsers();
-		// $this->importAllLocationsItems();
+		// $this->importAllLocationsUsers();
+		$this->importAllLocationsItems();
 		$this->render();
 	}
 }
