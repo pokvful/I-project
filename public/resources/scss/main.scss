@@ -26,6 +26,11 @@ $font-family-base: "Poppins", sans-serif !default;
 	} 
 }
 
+.card-body a {
+	position: absolute;
+	bottom: 1em;
+}
+
 .center-image {
 	background-repeat: no-repeat;
 	background-position: center center;
