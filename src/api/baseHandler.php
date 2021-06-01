@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . '/src/database/databaseHandler.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/settings.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
 
 class BaseHandler {
@@ -13,11 +13,7 @@ class BaseHandler {
 		$this->filePath = $filePath;
 		$this->fileName = $fileName;
 
-		if (
-			!isset($_POST["csrf-token"])
-			|| !$_POST["csrf-token"]
-			|| $_POST["csrf-token"] !== $_SESSION["csrf-token"]
-		) {
+		if ( !BaseHandler::isValidRequest() ) {
 			header("Content-Type: application/json");
 			http_response_code(403);
 			die(json_encode(
@@ -28,6 +24,21 @@ class BaseHandler {
 				)
 			));
 		}
+	}
+
+	private static function isValidRequest(): bool {
+		$headers = null;
+
+		return !(
+			!isset($_POST["csrf-token"])
+				|| !$_POST["csrf-token"]
+				|| $_POST["csrf-token"] !== $_SESSION["csrf-token"]
+		) || (
+			( $headers = getallheaders() )
+				&& isset( $headers["X-cronjob"] )
+				&& $headers
+				&& $headers["X-cronjob"] === SETTINGS["cronjob"]
+		);
 	}
 
 	/**
