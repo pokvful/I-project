@@ -21,6 +21,8 @@
 				{$loginError}
 			</div>
 
+			<input n:ifset="$_params['redirect_uri']" type="hidden" name="redirect_uri" value="{urldecode($_params['redirect_uri'])}">
+
 			<div class="col-12 mb-3">
 				<label for="username" class="form-label">Gebruikersnaam</label>
 
