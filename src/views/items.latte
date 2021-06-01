@@ -1,6 +1,6 @@
 {include './includes/header.latte'}
 
-<div class="container">
+<div class="container center-cropped">
 	<div class="col-12 text-center my-5">
 		<h1>Veilingsitems</h1>
 
@@ -61,9 +61,9 @@
 			</div>
 			<div class="row">
 				{foreach $items as $item}
-					<div class="ocl-12 col-md-6 col-lg-4 py-3">
-						<div class="card">
-							<img class="card-img-top"
+					<div class="col-12 col-md-6 col-lg-4 py-3">
+						<div class="card" style="min-height: 570px!important">
+							<img class="card-img-top "
 								src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
 								alt="{$item['title']}">
 							

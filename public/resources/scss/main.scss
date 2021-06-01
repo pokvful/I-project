@@ -17,13 +17,30 @@ $font-family-base: "Poppins", sans-serif !default;
 	.auction-item {
 		padding-left: 1em !important;
 		padding-right: 1em !important;
-	}
+	} .center-cropped img {
+		width: 1em;
+		height: 1em;
+		background-position: center center;
+		background-repeat: no-repeat;
+		margin: auto;
+	} 
 }
 
 .center-image {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
+}
+
+.center-cropped img {
+	width: 19em;
+	height: 20em;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.card {
+	box-shadow: 0 5px 10px 3px #000000d1;
 }
 
 // align items to the right in a .d-flex container
