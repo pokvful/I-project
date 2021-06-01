@@ -5,14 +5,14 @@
   style="background-image: url('/resources/images/homepage-img.png');
     height: 90vh;">
       <h1 class="flex-align-bottom">EenmaalAndermaal</h1>
-	  <h2>Voor veilingen waar je U tegen zegt.</h2>
+	<h2 id="slogan"></h2>
   </div>
 </div>
 
 <div class="container bg-white py-5">
 	<div class="row">
 		<div n:foreach="$auctionItems as $auctionItem" class="col-md-3 col-sm-5 col-xs-12 mx-auto my-4 auction-item">
-			<div class="card">
+			<div class="card" style="min-height: 570px!important">
 				<img class="card-img-top"
 					 src="/resources/images/noImage.jpg"
 					 alt="Card image cap">
@@ -27,5 +27,19 @@
 		</div>
 	</div>
 </div>
+<script>
+	var i = 0;
+	var txt = 'Voor veiling items waar je U tegen zegt!';
+	var speed = 60;
+
+	function typeWriter() {
+		if (i < txt.length) {
+			document.getElementById("slogan").innerHTML += txt.charAt(i);
+			i++;
+			setTimeout(typeWriter, speed);
+		}
+	}
+</script>
+
 
 {include './includes/footer.latte'}
