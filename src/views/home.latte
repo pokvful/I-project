@@ -5,7 +5,7 @@
   style="background-image: url('/resources/images/homepage-img.png');
     height: 90vh;">
       <h1 class="flex-align-bottom">EenmaalAndermaal</h1>
-	  <h2>Voor veilingen waar je U tegen zegt.</h2>
+	<h2 id="slogan"></h2>
   </div>
 </div>
 
@@ -27,5 +27,19 @@
 		</div>
 	</div>
 </div>
+<script>
+	var i = 0;
+	var txt = 'Voor veiling items waar je U tegen zegt!';
+	var speed = 60;
+
+	function typeWriter() {
+		if (i < txt.length) {
+			document.getElementById("slogan").innerHTML += txt.charAt(i);
+			i++;
+			setTimeout(typeWriter, speed);
+		}
+	}
+</script>
+
 
 {include './includes/footer.latte'}
