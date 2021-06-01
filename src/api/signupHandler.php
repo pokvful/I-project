@@ -11,6 +11,19 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/signupHandler.php';
  */
 class SignupHandler extends BaseHandler {
 
+	public function getGeoCode($address) {
+		//TODO:API KEY (Dit moet veiliger)
+		$url = "https://maps.google.com/maps/api/geocode/json?address=$address&key=AIzaSyCbAYUeFKWJVsIt6kgwLE_359y7_pWCEsc";
+
+		//Decodes json and returns latitude and longitude data
+		$response = file_get_contents($url);
+		$response = json_decode($response, true);
+		$lat = $response['results'][0]['geometry']['location']['lat'];
+		$long = $response['results'][0]['geometry']['location']['lng'];
+
+		return $lat . "+" . $long;
+	}
+
 	public function run() {
 		$dbh = new DatabaseHandler();
 
@@ -151,6 +164,24 @@ class SignupHandler extends BaseHandler {
 				)
 			);
 
+			$getUserLocations = $dbh->query("SELECT city, country FROM [User] WHERE username = :username", array(
+				":username" => $username
+			));
+
+			$address = $getUserLocations[0]["city"] . ' ' . $getUserLocations[0]["country"];
+			$address = str_replace(' ', '+', $address);
+
+			$longitude = substr($this->getGeoCode($address), 0, strpos($this->getGeoCode($address), '+'));
+			$latitude = substr($this->getGeoCode($address), strlen($longitude) + 1);
+
+			$updateLatLongQuery = $dbh->query("UPDATE [User] SET latitude = :latitude, longitude = :longitude WHERE username = :username", array(
+
+				":latitude" => $latitude,
+				":longitude" => $longitude,
+				":username" => $username
+
+			));
+
 			// TODO: This isn't the most optimal solution
 			foreach ($phoneNumbers as $phoneNumber) {
 				$dbh->query("INSERT INTO User_Phone ([user], phone) VALUES (:username, :phoneNumber)", array(
@@ -204,7 +235,7 @@ class SignupHandler extends BaseHandler {
 					"/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
 				);
 			} else if ($userVerifyTableCount == 0) {
-				$dbh->query("INSERT INTO UserVerify(mailbox, verification_code) VALUES(:email, :verificationLink)", array(
+				$dbh->query("INSERT INTO UserVerify (mailbox, verification_code) VALUES (:email, :verificationLink)", array(
 					":email" => $mail,
 					":verificationLink" => $verificationLink
 				));
@@ -233,7 +264,7 @@ class SignupHandler extends BaseHandler {
 		$emailBuilder = new Email("Signup Email");
 		$emailBuilder->addAddress($mail);
 		$address = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/signup/";
-		$emailBuilder->setText("Hey, <b>dit</b> is een test, je verificatielink is <a href=\"" . $address . "?hash=" . $verificationLink . "&user=$mail\">Klik hier</a>");
+		$emailBuilder->setText("Leuk dat je hebt gekozen voor <b>EenmaalAndermaal!</b> Je verificatielink is <a href=\"" . $address . "?hash=" . $verificationLink . "&user=$mail\">Klik hier</a>");
 		$emailBuilder->send();
 		echo "Done :)";
 	}
