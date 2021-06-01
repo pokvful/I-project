@@ -164,16 +164,15 @@ class SignupHandler extends BaseHandler {
 				)
 			);
 
-			$getUserLocations = $dbh->query("SELECT city, country, username FROM [User]");
+			$getUserLocations = $dbh->query("SELECT city, country FROM [User] WHERE username = :username", array(
+				":username" => $username
+			));
 
-			$username = $getUserLocations[0]["username"];
 			$address = $getUserLocations[0]["city"] . ' ' . $getUserLocations[0]["country"];
 			$address = str_replace(' ', '+', $address);
 
 			$longitude = substr($this->getGeoCode($address), 0, strpos($this->getGeoCode($address), '+'));
 			$latitude = substr($this->getGeoCode($address), strlen($longitude) + 1);
-
-			bdump(("longitude: " . $longitude . "latitude: " . $latitude));
 
 			$updateLatLongQuery = $dbh->query("UPDATE [User] SET latitude = :latitude, longitude = :longitude WHERE username = :username", array(
 
@@ -184,7 +183,6 @@ class SignupHandler extends BaseHandler {
 			));
 
 			// TODO: This isn't the most optimal solution
-
 			foreach ($phoneNumbers as $phoneNumber) {
 				$dbh->query("INSERT INTO User_Phone ([user], phone) VALUES (:username, :phoneNumber)", array(
 					":username" => $username,
