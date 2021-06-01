@@ -37,8 +37,8 @@ class ItemsController extends BaseController {
 		$maxPrice = $_GET["maxPrice"] ?? $this->data["maxBid"][0]["maxBid"];
 		$minPrice = $_GET["minPrice"] ?? 1;
 
-		if(!$maxPrice) {
-			$maxPrice = $this->data["maxBid"][0]["maxBid"];	
+		if (!$maxPrice) {
+			$maxPrice = $this->data["maxBid"][0]["maxBid"];
 		}
 
 		$this->data["perPage"] = intval((isset($_GET["count"]) && $_GET["count"]) ? $_GET["count"] : 30);
@@ -50,23 +50,25 @@ class ItemsController extends BaseController {
 		$this->data["signupError"] = $_GET["signup-error"] ?? null;
 
 		//Builds URL for signup-errors
-		// $addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
 
 		if ($minPrice >= $maxPrice) {
 			$this->redirect(
-				$redirectAddress . "?signup-error=" . urlencode("De minimum prijs mag niet hoger zijn dan de maximum prijs.")
+				$addressRoot . "?signup-error=" . urlencode("De minimum prijs mag niet hoger zijn dan de maximum prijs.")
 			);
-		}	
+		}
+
 		$this->data["signupError"] = $_GET["signup-error"] ?? null;
-		// if ($this->data["minPrice"] > $this->data["maxPrice"]) {
-		// 	$this->redirect(
-		// 		$addressRoot . "?signup-error=" . urlencode("Prijs filter ongeldig.")
-		// 	);
-		// } else if (($this->data["minPrice"] || $this->data["maxPrice"]) < 1) {
-		// 	$this->redirect(
-		// 		$addressRoot . "?signup-error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
-		// 	);
-		// }
+
+		if ($this->data["minPrice"] > $this->data["maxPrice"]) {
+			$this->redirect(
+				$addressRoot . "?signup-error=" . urlencode("Prijs filter ongeldig.")
+			);
+		} else if (($this->data["minPrice"] || $this->data["maxPrice"]) < 1) {
+			$this->redirect(
+				$addressRoot . "?signup-error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
+			);
+		}
 
 		if (isset($_SESSION["username"])) {
 			$username = $_SESSION["username"];
@@ -75,7 +77,6 @@ class ItemsController extends BaseController {
 				"/"
 			);
 		}
-
 
 		$getUserLocationQuery = $dbh->query("SELECT latitude, longitude FROM [User] WHERE username = :username", array(
 			":username" => $username
@@ -106,7 +107,7 @@ class ItemsController extends BaseController {
 			<<<SQL
 				SELECT COUNT(*) AS 'count'
 					FROM vw_ItemsList
-					WHERE bid_amount BETWEEN :minprice1 AND :maxprice1
+					WHERE bid_amount BETWEEN :minprice AND :maxprice
 						AND dbo.fnCalcDistanceKM(latitude, :latUser, longitude, :lonUser) < :distance
 			SQL,
 			array(

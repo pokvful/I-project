@@ -184,6 +184,7 @@ class SignupHandler extends BaseHandler {
 			));
 
 			// TODO: This isn't the most optimal solution
+
 			foreach ($phoneNumbers as $phoneNumber) {
 				$dbh->query("INSERT INTO User_Phone ([user], phone) VALUES (:username, :phoneNumber)", array(
 					":username" => $username,
@@ -236,7 +237,7 @@ class SignupHandler extends BaseHandler {
 					"/signup/?signup-success=" . urlencode("Er is een verificatiecode verstuurd naar het e-mailadres: {$mail}")
 				);
 			} else if ($userVerifyTableCount == 0) {
-				$dbh->query("INSERT INTO UserVerify(mailbox, verification_code) VALUES(:email, :verificationLink)", array(
+				$dbh->query("INSERT INTO UserVerify (mailbox, verification_code) VALUES (:email, :verificationLink)", array(
 					":email" => $mail,
 					":verificationLink" => $verificationLink
 				));
