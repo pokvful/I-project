@@ -135,6 +135,7 @@ try
 catch (Exception $e)
 {
 	echo "Something went wrong, rolling back" . PHP_EOL;
+	echo $e->getMessage() . PHP_EOL;
 
 	if ( $conn->inTransaction() )
 		$conn->rollBack();
@@ -142,7 +143,7 @@ catch (Exception $e)
 	$conn->query("USE master");
 	$conn->query("DROP DATABASE $TEMP_DATABASE");
 
-	die( $e->getMessage() );
+	die();
 }
 
 if ( $conn->inTransaction() )
