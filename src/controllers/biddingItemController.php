@@ -22,14 +22,7 @@ class BiddingItemController extends BaseController {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
-		$this->data["auctionClosed"] = $dbh->query(
-			"SELECT item_number, auction_closed FROM item WHERE item_number = :item_number",
-			array(
-				":item_number" => $_GET["item_number"]
-			)
-		);
-		var_dump($this->data["auctionClosed"]);
-		if (!isset($_GET["item_number"]) || ($this->data["auctionClosed"][0]["auction_closed"]) == 1) {
+		if ( !isset($_GET["item_number"]) ) {
 			$this->redirect("/items/");
 		} else {
 			$this->data["itemInformation"] = $dbh->query(
