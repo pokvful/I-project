@@ -22,7 +22,7 @@ class BiddingItemController extends BaseController {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
-		if ( !isset($_GET["item_number"]) ) {
+		if (!isset($_GET["item_number"])) {
 			$this->redirect("/items/");
 		} else {
 			$this->data["itemInformation"] = $dbh->query(
@@ -31,6 +31,17 @@ class BiddingItemController extends BaseController {
 					":item_number" => $_GET["item_number"]
 				)
 			);
+
+			$userblocked = $dbh->query("SELECT blocked FROM [user] WHERE username = :username",
+				array(
+					":username" => $this->data["itemInformation"][0]["seller"]
+				)
+			);
+
+			if($this->data["itemInformation"][0]["blocked"] == 1 || $userblocked[0]["blocked"] == 1) {
+				$this->redirect("/biddingItemBlocked/");
+			}
+
 			$this->data["startingTime"] = $dbh->query(
 				"SELECT LEFT(duration_start_time,8) AS starting_time FROM item WHERE item_number = :item_number",
 				array(
@@ -49,6 +60,19 @@ class BiddingItemController extends BaseController {
 			);
 			$this->data["highestBid"] = $dbh->query(
 				"SELECT MAX(bid_amount) AS highestBid FROM Bid WHERE item = :item_number",
+				array(
+					":item_number" => $_GET["item_number"]
+				)
+			);
+
+			$this->data["items"] = $dbh->query(
+				<<<SQL
+				
+					SELECT title, [filename]
+						FROM vw_ItemsList
+						WHERE item_number = :item_number
+
+				SQL,
 				array(
 					":item_number" => $_GET["item_number"]
 				)
