@@ -3,6 +3,12 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/controllers/baseController.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
 class ItemsController extends BaseController {
+	public function loadRubrics() {
+		$dbh = new DatabaseHandler();
+		$this->data['categories'] = $dbh->query("SELECT rubric_number, rubric_name from Rubric");
+		bdump($this->data['categories']);
+	}
+
 	private function getSafePageNumber() {
 		$unsafePageNumber = intval($_GET["page"] ?? 1);
 
@@ -29,6 +35,8 @@ class ItemsController extends BaseController {
 
 	public function run() {
 		$dbh = new DatabaseHandler();
+		$this->loadRubrics();
+		$rubrics = RubricHelper::getRubricsFromDataBase();
 
 		$this->data["page"] = $this->getSafePageNumber() - 1;
 		$this->data["perPage"] = intval($_GET["count"] ?? 30);
