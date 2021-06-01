@@ -108,8 +108,6 @@ try
 		if ( $result->errorCode() === '00000' )
 		{
 			echo "Successfully executed file \"$file\"" . PHP_EOL;
-
-			sleep(10);
 		}
 		else
 		{
