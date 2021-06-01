@@ -88,6 +88,23 @@ class ChangeProfileHandler extends BaseHandler {
 			);
 		}
 
+		$dbh->query(
+			<<<SQL
+			UPDATE 	[Seller]
+			SET bank = :bank, 
+			bank_account = :bankAccount, 
+			creditcard = :creditcard 
+			WHERE [user] = :username
+			SQL,
+			array(
+				":username" => $_SESSION["username"],
+				":bank" => $_POST["bank"],
+				":bankAccount" => $_POST["bankAccount"],
+				":creditcard" => $_POST["creditcard"],
+
+
+			)
+		);
 		$this->redirect("/profile/");
 	}
 }

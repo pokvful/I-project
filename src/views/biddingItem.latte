@@ -48,19 +48,21 @@
 						{ifset $highestBid[0]["highestBid"]}
 							&euro;{$highestBid[0]["highestBid"]}
 						{else}
-							<p>
-								Er is nog geen bod gedaan op deze veiling.
-							</p>
+							Er is nog geen bod gedaan op deze veiling.
 						{/ifset}
 					</div>
 					<div class="list-group-item">
-						Minimum bod <br>
-						&euro;{$minimumBid}
+						{if $itemInformation[0]['auction_closed'] == 0}
+							Minimum bod <br>
+							&euro;{$minimumBid}
+						{else}
+							Deze veiling is gesloten. U kunt niet meer bieden
+						{/if}
 					</div>
-					<div class="list-group-item">
+					<div n:if="$itemInformation[0]['auction_closed'] == 0" class="list-group-item">
 						<div class="input-group">
 							<div class="input-group mb-2 mt-2">
-								{if $_SESSION["loggedin"]}
+								{if $_loggedin}
 									<form class="row needs-validation" method="POST" action="">
 										{getCsrfInput()|noescape}
 										<input n:if="$item_number" type="hidden" name="item_number" value="{$item_number}">
@@ -71,7 +73,7 @@
 									</form>
 								{else}
 									<div class="input-group-append">
-									Om op dit item te bieden, moet u <a href="/login/">inloggen</a>
+										Om op dit item te bieden, moet u <a href="/login/?redirect_uri={urlencode('/biddingItem/?item_number=' . $item_number)}">inloggen</a>
 									</div>
 								{/if}
 							</div>
