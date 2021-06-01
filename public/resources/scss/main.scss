@@ -69,3 +69,33 @@ $font-family-base: "Poppins", sans-serif !default;
 	}
 }
 
+
+
+#container {
+	text-align: center;
+}
+
+#text {
+	min-height: 38px;
+	display: inline-block;
+	vertical-align: middle;
+	letter-spacing: 2px;
+}
+
+#cursor {
+	display: inline-block;
+	vertical-align: middle;
+	width: 3px;
+	height: 40px;
+	background-color: #212529;
+	animation: blink .75s step-end infinite;
+}
+
+@keyframes blink {
+	from, to {
+		background-color: transparent
+	}
+	50% {
+		background-color: #212529;
+	}
+}
