@@ -26,17 +26,22 @@ $font-family-base: "Poppins", sans-serif !default;
 	} 
 }
 
-.card-body a {
+//Places shadow around auction items, places button in bottom left
+.card {
+	box-shadow: 0 5px 10px 3px #000000d1;
+} .card-body a {
 	position: absolute;
 	bottom: 1em;
 }
 
+//Centers homepage image
 .center-image {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
 }
 
+//Crops images of auction items
 .center-cropped img {
 	width: 19em;
 	height: 20em;
@@ -44,11 +49,12 @@ $font-family-base: "Poppins", sans-serif !default;
 	background-repeat: no-repeat;
 }
 
-.card {
-	box-shadow: 0 5px 10px 3px #000000d1;
+//Makes footer text black
+.footer-text a{
+	color: #212529;
 }
 
-// align items to the right in a .d-flex container
+// Aligns items to the right in a .d-flex container
 @each $breakpoint in map-keys($grid-breakpoints) {
 	@include media-breakpoint-up($breakpoint) {
 		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
@@ -68,8 +74,6 @@ $font-family-base: "Poppins", sans-serif !default;
 		}
 	}
 }
-
-
 
 #container {
 	text-align: center;
