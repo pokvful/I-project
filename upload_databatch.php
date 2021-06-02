@@ -99,13 +99,13 @@ try
 
 		$fileContents = file_get_contents($file);
 
-		$result = $conn->query(
+		$result = $conn->exec(
 			mb_convert_encoding(
 				$fileContents, 'utf-8', mb_detect_encoding($fileContents)
 			)
 		);
 
-		if ( $result->errorCode() === '00000' )
+		if ( $result !== false )
 		{
 			echo "Successfully executed file \"$file\"" . PHP_EOL;
 		}
@@ -113,20 +113,20 @@ try
 		{
 			throw new Exception(
 				"An error occurred while processing file \"$file\": "
-					. ( $result->errorInfo()[2] ?? "no error information" )
+					. ( $conn->errorInfo()[2] ?? "no error information" )
 			);
 		}
 	}
 
 	$convertScript = file_get_contents($executablePath . "databatch_convert.sql");
 
-	$result = $conn->query($convertScript);
+	$result = $conn->exec($convertScript);
 
-	if ( $result->errorCode() !== '00000' )
+	if ( $result === false )
 	{
 		throw new Exception(
 			"An error occurred while executing the convert script: "
-				. ( $result->errorInfo()[2] ?? "no error information" )
+				. ( $conn->errorInfo()[2] ?? "no error information" )
 		);
 	}
 }
