@@ -28,7 +28,7 @@ $font-family-base: "Poppins", sans-serif !default;
 
 //Places shadow around auction items, places button in bottom left
 .card {
-	box-shadow: 0 5px 10px 3px #000000d1;
+	box-shadow: .1em .3em .5em 0 rgba($color: #000000, $alpha: .25);
 } .card-body a {
 	position: absolute;
 	bottom: 1em;
