@@ -21,10 +21,13 @@
 				<label for="cars">Kies een categorie:</label>
 
 				<select name="category" id="category" class="form-select">
-					<ul n:if="$categories">
-						{foreach $categories as $category}
-						<option value="{$category['rubric_number']}">{$category["rubric_name"]}</option>
-						{/foreach}
+					<ul n:if="$rubrics">
+						<option
+							n:foreach="$rubrics as $rubric"
+							value="{$rubric->id}"
+						>
+							{$rubric->name}
+						</option>
 					</ul>
 				</select>
 			</div>
