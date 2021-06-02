@@ -7,6 +7,19 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
  */
 class TestGoogleMapsAPIController extends BaseController {
 
+	public function checkIfUserIsAdmin() {
+		$dbh = new DatabaseHandler();
+		$checkIfUserIsAdmin = $dbh->query("SELECT * FROM [User] WHERE username = :username AND [admin] = 1", array(
+
+			":username" => $_SESSION["username"]
+
+		));
+
+		if (count($checkIfUserIsAdmin) <= 0) {
+			$this->redirect("/");
+		}
+	}
+
 	//SPECIFICALLY FOR TESTING
 	public function importAllLocationsItems() {
 		$dbh = new DatabaseHandler();
@@ -132,8 +145,9 @@ class TestGoogleMapsAPIController extends BaseController {
 	}
 
 	public function run() {
+		$this->checkIfUserIsAdmin();
 		// $this->insertLatitudeAndLongitude();
-		$this->importAllLocationsUsers();
+		// $this->importAllLocationsUsers();
 		// $this->importAllLocationsItems();
 		$this->render();
 	}
