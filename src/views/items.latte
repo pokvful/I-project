@@ -8,32 +8,35 @@
 	</div>
 
 	<div class="row">
-			<div class="col-12 col-md-3 mb-4 mb-md-0">
-				<form method="GET" action="/items/">
-					<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
-					{$signupError}
-					</div>
-					<div class="border rounded p-3">
-						<h4>Filters</h4>
-					<label class="form-label" for="category">Kies een categorie:</label>
-						<select name="category" id="category" class="form-select">
-							<ul n:if="$categories">
-							{foreach $categories as $category}
-								<option value="{$category['rubric_number']}">{$category["rubric_name"]}</option>
-							{/foreach}
-							</ul>
-						</select>
-						<label class="form-label mt-2" name="input-distance">Afstand:</label>
-							<input name="distance" placeholder="Afstand in km" type="number" min="0" max ="999999999999" class="form-select" />
-						<label class="form-label mt-2" for="price">Prijs:</label>
-							<div class="input-group"> 
-							<input type="number" class="form-control " name="minPrice" placeholder="min" min="0" max ="{$maxBid[0]['maxBid']}" >
-							<input type="number" class="form-control" name="maxPrice" placeholder="max" min="0" max ="{$maxBid[0]['maxBid']}">
-							</div>
-						<button type="submit" class="btn btn-primary mt-3" name="apply-filter">Pas filters toe</button>
-					</div>
+		<div class="col-12 col-md-3 mb-4 mb-md-0">
+			<form method="GET" action="/items/">
+				<div n:if="$error" class="col-12 alert alert-danger mb-5" role="alert">
+					{$error}
 				</div>
-				</form>
+				<div class="border rounded p-3">
+					<h4>Filters</h4>
+
+					<label class="form-label" for="rubric">Kies een categorie:</label>
+					<select name="rubric" id="rubric" class="form-select">
+						{foreach $rubrics as $rubric}
+							<option value="{$rubric->id}">{$rubric->name}</option>
+						{/foreach}
+					</select>
+
+					<label class="form-label mt-2" name="input-distance">Afstand:</label>
+					<input name="distance" placeholder="Afstand in km" type="number" min="0" max ="999999999" class="form-select" />
+
+					<label class="form-label mt-2" for="price">Prijs:</label>
+					<div class="input-group"> 
+						<input type="number" class="form-control " name="minPrice" placeholder="min" min="0" max ="999999999" >
+						<input type="number" class="form-control" name="maxPrice" placeholder="max" min="0" max ="999999999">
+					</div>
+
+					<button type="submit" class="btn btn-primary mt-3" name="apply-filter">Pas filters toe</button>
+				</div>
+			</form>
+		</div>
+
 		<form method="GET" action="/items/" class="col-12 col-md-9">
 			<input type="hidden" name="count" value="{$perPage}">
 			<input type="hidden" name="page" value="{$page}">
@@ -67,6 +70,7 @@
 					</button>
 				</div>
 			</div>
+
 			<div class="row">
 				{foreach $items as $item}
 					<div class="col-12 col-md-6 col-lg-4 py-3">

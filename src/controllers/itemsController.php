@@ -3,12 +3,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/controllers/baseController.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
 class ItemsController extends BaseController {
-	public function loadRubrics() {
-		$dbh = new DatabaseHandler();
-		$this->data['categories'] = $dbh->query("SELECT rubric_number, rubric_name from Rubric");
-		bdump($this->data['categories']);
-	}
-
 	private function getSafePageNumber() {
 		$unsafePageNumber = intval($_GET["page"] ?? 1);
 
@@ -35,46 +29,28 @@ class ItemsController extends BaseController {
 
 	public function run() {
 		$dbh = new DatabaseHandler();
-		$this->loadRubrics();
+		
 		$rubrics = RubricHelper::getRubricsFromDataBase();
+		$this->data["rubrics"] = RubricHelper::getEndRubrics($rubrics);
 
 		$this->data["page"] = $this->getSafePageNumber() - 1;
-		$this->data["perPage"] = intval($_GET["count"] ?? 30);
-		$this->data["maxBid"] = $dbh->query("SELECT MAX(bid_amount) as maxBid FROM vw_ItemsList");
-
-		$maxPrice = $_GET["maxPrice"] ?? $this->data["maxBid"][0]["maxBid"];
-		$minPrice = $_GET["minPrice"] ?? 1;
-
-		if (!$maxPrice) {
-			$maxPrice = $this->data["maxBid"][0]["maxBid"];
-		}
-
 		$this->data["perPage"] = intval((isset($_GET["count"]) && $_GET["count"]) ? $_GET["count"] : 30);
 		$this->data["minPrice"] = (isset($_GET["minPrice"]) && $_GET["minPrice"]) ? $_GET["minPrice"] : 0;
 		$this->data["maxPrice"] = (isset($_GET["maxPrice"]) && $_GET["maxPrice"]) ? $_GET["maxPrice"] : 999999999;
-		$this->data["minPrice1"] = (isset($_GET["minPrice1"]) && $_GET["minPrice1"]) ? $_GET["minPrice1"] : 0;
-		$this->data["maxPrice1"] = (isset($_GET["maxPrice1"]) && $_GET["maxPrice1"]) ? $_GET["maxPrice1"] : 999999999;
 		$this->data["distance"] = (isset($_GET["distance"]) && $_GET["distance"]) ? $_GET["distance"] : 999999999;
-		$this->data["signupError"] = $_GET["signup-error"] ?? null;
+		$this->data["error"] = $_GET["error"] ?? null;
 
-		//Builds URL for signup-errors
 		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
 
-		if ($minPrice >= $maxPrice) {
-			$this->redirect(
-				$addressRoot . "?signup-error=" . urlencode("De minimum prijs mag niet hoger zijn dan de maximum prijs.")
-			);
-		}
-
-		$this->data["signupError"] = $_GET["signup-error"] ?? null;
+		$this->data["error"] = $_GET["error"] ?? null;
 
 		if ($this->data["minPrice"] > $this->data["maxPrice"]) {
 			$this->redirect(
-				$addressRoot . "?signup-error=" . urlencode("Prijs filter ongeldig.")
+				$addressRoot . "?error=" . urlencode("De minimum prijs mag niet hoger zijn dan de maximum prijs.")
 			);
 		} else if (($this->data["minPrice"] || $this->data["maxPrice"]) < 1) {
 			$this->redirect(
-				$addressRoot . "?signup-error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
+				$addressRoot . "?error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
 			);
 		}
 
@@ -103,8 +79,8 @@ class ItemsController extends BaseController {
 			array(
 				":offset" => $this->data["page"] * $this->data["perPage"],
 				":per_page" => $this->data["perPage"],
-				":minprice" => $minPrice,
-				":maxprice" => $maxPrice,
+				":minprice" => $this->data["minPrice"],
+				":maxprice" => $this->data["maxPrice"],
 				":distance" => $this->data["distance"],
 				":latUser" => $getUserLocationQuery[0]["latitude"],
 				":lonUser" => $getUserLocationQuery[0]["longitude"]
@@ -119,8 +95,8 @@ class ItemsController extends BaseController {
 						AND dbo.fnCalcDistanceKM(latitude, :latUser, longitude, :lonUser) < :distance
 			SQL,
 			array(
-				":minprice" => $minPrice,
-				":maxprice" => $maxPrice,
+				":minprice" => $this->data["minPrice"],
+				":maxprice" => $this->data["maxPrice"],
 				":distance" => $this->data["distance"],
 				":latUser" => $getUserLocationQuery[0]["latitude"],
 				":lonUser" => $getUserLocationQuery[0]["longitude"]
@@ -136,8 +112,6 @@ class ItemsController extends BaseController {
 			$this->data["page"],
 			ceil($this->data["totalRows"] / $this->data["perPage"])
 		);
-		$this->data["minPrice"] = $minPrice;
-		$this->data["maxPrice"] = $maxPrice;
 
 		$calculateItemQuery = $dbh->query("SELECT latitude, longitude FROM vw_ItemsList");
 
