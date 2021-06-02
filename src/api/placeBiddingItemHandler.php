@@ -63,11 +63,12 @@ class PlaceBiddingItemHandler extends BaseHandler {
 				$getItemLocations = $dbh->query("SELECT city, country, item_number FROM Item");
 
 				$item_number = $getItemLocations[0]["item_number"];
-				$address = $getItemLocations[0]["city"] . ' ' . $getItemLocations[0]["country"];
-				$address = str_replace(' ', '+', $address);
+				$address = $_POST["city"] . '+' . $_POST["country"];
 
-				$longitude = substr($this->getGeoCode($address), 0, strpos($this->getGeoCode($address), '+'));
-				$latitude = substr($this->getGeoCode($address), strlen($longitude) + 1);
+				$result = $this->getGeoCode($address);
+
+				$latitude = substr($result, 0, strpos($result, '+'));
+				$longitude = substr($result, strlen($latitude) + 1);
 
 				$placeItemQuery = $dbh->query(
 					<<<SQL

@@ -106,8 +106,6 @@ class ChangeProfileHandler extends BaseHandler {
 					":bank" => $_POST["bank"],
 					":bankAccount" => $_POST["bankAccount"],
 					":creditcard" => $_POST["creditcard"],
-
-
 				)
 			);
 		} else {

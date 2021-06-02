@@ -32,7 +32,7 @@ class SellerSignupHandler extends BaseHandler {
 			}
 			if (!isset($bankAccount) || !$bankAccount) {
 				$this->redirect(
-					$addressRoot . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
+					$addressRoot . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld.")
 				);
 			}
 			if ($paymentMethod == 'creditcard' && !$creditcard) {
@@ -47,7 +47,7 @@ class SellerSignupHandler extends BaseHandler {
 			}
 			if (!isset($paymentMethod) || !$paymentMethod) {
 				$this->redirect(
-					$addressRoot . "?signup-error=" . urlencode("betaalmethode is niet ingevuld.")
+					$addressRoot . "?signup-error=" . urlencode("Betaalmethode is niet ingevuld.")
 				);
 			}
 			if ($creditcard == '') {

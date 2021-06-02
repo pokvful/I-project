@@ -168,11 +168,12 @@ class SignupHandler extends BaseHandler {
 				":username" => $username
 			));
 
-			$address = $getUserLocations[0]["city"] . ' ' . $getUserLocations[0]["country"];
-			$address = str_replace(' ', '+', $address);
+			$address = $getUserLocations[0]["city"] . '+' . $getUserLocations[0]["country"];
 
-			$longitude = substr($this->getGeoCode($address), 0, strpos($this->getGeoCode($address), '+'));
-			$latitude = substr($this->getGeoCode($address), strlen($longitude) + 1);
+			$result = $this->getGeoCode($address);
+
+			$latitude = substr($result, 0, strpos($result, '+'));
+			$longitude = substr($result, strlen($latitude) + 1);
 
 			$updateLatLongQuery = $dbh->query("UPDATE [User] SET latitude = :latitude, longitude = :longitude WHERE username = :username", array(
 

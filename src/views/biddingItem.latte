@@ -25,8 +25,8 @@
 							src="{( is_null( $image['filename'] ) || substr( $image['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $image['filename']}"
 							alt="{$itemInformation[0]['title']}">
 					</div>
-				</div>
 				{/foreach}
+				</div>
 				<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 					<span class="sr-only"></span>
