@@ -148,6 +148,8 @@ class ItemsController extends BaseController {
 			":lonUser" => $getUserLocationQuery[0]["longitude"]
 		));
 
+		$this->data["itemBlocked"] = $_GET["item-error"] ?? null;
+		
 		bdump($calculateDistanceQuery);
 
 		$this->render();
