@@ -15,9 +15,17 @@
 					</div>
 					<div class="border rounded p-3">
 						<h4>Filters</h4>
-						<label class="form-label" name="input-distance">Afstand</label>
-							<input name="distance" placeholder="Afstand" type="number" class="form-control" />
-						<label for="input-distance" class="form-label mt-2">Prijs:</label>
+					<label class="form-label" for="category">Kies een categorie:</label>
+						<select name="category" id="category" class="form-select">
+							<ul n:if="$categories">
+							{foreach $categories as $category}
+								<option value="{$category['rubric_number']}">{$category["rubric_name"]}</option>
+							{/foreach}
+							</ul>
+						</select>
+						<label class="form-label mt-2" name="input-distance">Afstand:</label>
+							<input name="distance" placeholder="Afstand in km" type="number" min="0" max ="999999999999" class="form-select" />
+						<label class="form-label mt-2" for="price">Prijs:</label>
 							<div class="input-group"> 
 							<input type="number" class="form-control " name="minPrice" placeholder="min" min="0" max ="{$maxBid[0]['maxBid']}" >
 							<input type="number" class="form-control" name="maxPrice" placeholder="max" min="0" max ="{$maxBid[0]['maxBid']}">

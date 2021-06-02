@@ -18,8 +18,14 @@ class ChangeProfileHandler extends BaseHandler {
 		$country = $_POST["country"];
 		$bank = $_POST["bank"];
 		$bankAccount = $_POST["bankAccount"];
-		$creditcard = $_POST["creditcard"];
+		isset($_POST["creditcard"]) ? $creditcard = $_POST["creditcard"] : $creditcardIsSet = null;
+
+
+		if (isset($creditcard)) {
+			$creditcard = $_POST["creditcard"];
+		}
 		$phoneNumbers = $_POST["phone"];
+
 		//Builds URL for signup-errors
 		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
 		$redirectAddress = $addressRoot;
@@ -77,7 +83,6 @@ class ChangeProfileHandler extends BaseHandler {
 				<<<SQL
 				UPDATE 	User_phone
 				SET phone = :phone
-	
 				WHERE [user] = :username AND id = :id
 				SQL,
 				array(
@@ -87,24 +92,39 @@ class ChangeProfileHandler extends BaseHandler {
 				)
 			);
 		}
-
-		$dbh->query(
-			<<<SQL
+		if (isset($creditcardIsSet)) {
+			$dbh->query(
+				<<<SQL
 			UPDATE 	[Seller]
 			SET bank = :bank, 
 			bank_account = :bankAccount, 
 			creditcard = :creditcard 
 			WHERE [user] = :username
 			SQL,
-			array(
-				":username" => $_SESSION["username"],
-				":bank" => $_POST["bank"],
-				":bankAccount" => $_POST["bankAccount"],
-				":creditcard" => $_POST["creditcard"],
+				array(
+					":username" => $_SESSION["username"],
+					":bank" => $_POST["bank"],
+					":bankAccount" => $_POST["bankAccount"],
+					":creditcard" => $_POST["creditcard"],
 
 
-			)
-		);
+				)
+			);
+		} else {
+			$dbh->query(
+				<<<SQL
+			UPDATE 	[Seller]
+			SET bank = :bank, 
+			bank_account = :bankAccount 
+			WHERE [user] = :username
+			SQL,
+				array(
+					":username" => $_SESSION["username"],
+					":bank" => $_POST["bank"],
+					":bankAccount" => $_POST["bankAccount"],
+				)
+			);
+		}
 		$this->redirect("/profile/");
 	}
 }

@@ -3,6 +3,20 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/src/controllers/baseController.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/src/database/databaseHandler.php";
 
 class UsersController extends BaseController {
+
+	public function checkIfUserIsAdmin() {
+		$dbh = new DatabaseHandler();
+		$checkIfUserIsAdmin = $dbh->query("SELECT * FROM [User] WHERE username = :username AND [admin] = 1", array(
+
+			":username" => $_SESSION["username"]
+
+		));
+
+		if (count($checkIfUserIsAdmin) <= 0) {
+			$this->redirect("/");
+		}
+	}
+
 	private function parseUsers(array $users): array {
 		foreach ($users as &$user) {
 			$user["blocked"] = $user["blocked"] == 1;
@@ -12,6 +26,8 @@ class UsersController extends BaseController {
 	}
 
 	public function run() {
+		$this->checkIfUserIsAdmin();
+
 		if (!$this->data["_admin"] || !$this->data["_loggedin"])
 			$this->redirect("/");
 
