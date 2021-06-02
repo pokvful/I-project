@@ -22,6 +22,9 @@ class BiddingItemController extends BaseController {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
+		//Builds URL for signup-errors
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
+
 		if (!isset($_GET["item_number"])) {
 			$this->redirect("/items/");
 		} else {
@@ -37,10 +40,11 @@ class BiddingItemController extends BaseController {
 					":username" => $this->data["itemInformation"][0]["seller"]
 				)
 			);
-
+			
 			if($this->data["itemInformation"][0]["blocked"] == 1 || $userblocked[0]["blocked"] == 1) {
-				$this->redirect("/biddingItemBlocked/");
+				$this->redirect($addressRoot . "?item-error=" . urlencode("Deze veiling is geblokkeerd"));
 			}
+			
 
 			$this->data["startingTime"] = $dbh->query(
 				"SELECT LEFT(duration_start_time,8) AS starting_time FROM item WHERE item_number = :item_number",
