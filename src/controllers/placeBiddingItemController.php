@@ -12,18 +12,13 @@ class PlaceBiddingItemController extends BaseController {
 		}
 	}
 
-	public function loadRubrics() {
-		$dbh = new DatabaseHandler();
-		$this->data['categories'] = $dbh->query("SELECT rubric_number, rubric_name from Rubric");
-		bdump($this->data['categories']);
-	}
-
 	public function run() {
 		$this->showPageToSeller();
+
 		$dbh = new DatabaseHandler();
-		$this->loadRubrics();
 		$rubrics = RubricHelper::getRubricsFromDataBase();
-		bdump($rubrics);
+		$this->data["rubrics"] = RubricHelper::getEndRubrics($rubrics);
+		bdump($this->data["rubrics"]);
 
 		$this->data["biddingSuccess"] = $_GET["bidding-success"] ?? null;
 		$this->data["biddingError"] = $_GET["bidding-error"] ?? null;
