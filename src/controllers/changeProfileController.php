@@ -9,7 +9,6 @@ class ChangeProfileController extends BaseController {
 		if (!isset($_SESSION["loggedin"]) || !$_SESSION["loggedin"]) {
 			$this->redirect("/");
 		} else {
-			$this->data["signupError"] = $_GET["signup-error"] ?? null;
 			$this->data["userInformation"] = $dbh->query(
 				"SELECT * FROM [User] WHERE username = :username",
 				array(
@@ -35,6 +34,7 @@ class ChangeProfileController extends BaseController {
 				)
 			);
 		}
+		$this->data["editProfileError"] = $_GET["editProfile-error"] ?? null;
 		$this->render();
 	}
 }

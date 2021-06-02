@@ -7,19 +7,30 @@ class ChangeProfileHandler extends BaseHandler {
 	public function run() {
 		$dbh = new DatabaseHandler();
 
-		$Email = $_POST["E-mail"];
+		$email = $_POST["email"];
 		$firstName = $_POST["firstName"];
 		$lastName = $_POST["lastName"];
 		$birthDate = $_POST["birthdate"];
-		$adress1 = $_POST["Adress1"];
-		$adress2 = $_POST["Adress2"];
-		$zipCode = $_POST["PostalCode"];
+		$address1 = $_POST["address1"];
+		$address2 = $_POST["address2"];
+		$zipCode = $_POST["postalCode"];
 		$city = $_POST["city"];
 		$country = $_POST["country"];
 		$bank = $_POST["bank"];
 		$bankAccount = $_POST["bankAccount"];
-		isset($_POST["creditcard"]) ? $creditcard = $_POST["creditcard"] : $creditcardIsSet = null;
-
+		if(isset($_POST["creditcard"])) {
+			$creditcard = $_POST["creditcard"];
+			if (!ctype_digit($creditcard) ) {
+				$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
+				$redirectAddress = $addressRoot;
+				$this->redirect(
+					$redirectAddress . "?editProfile-error=" . urlencode("Ongeldige creditcardnummer.")
+				);
+			}
+			$creditcardIsSet= true;
+		} else {
+			$creditcardIsSet = null;
+		}
 
 		if (isset($creditcard)) {
 			$creditcard = $_POST["creditcard"];
@@ -45,7 +56,7 @@ class ChangeProfileHandler extends BaseHandler {
 
 		if (strlen($zipCode) < 6) {
 			$this->redirect(
-				$redirectAddress . "?signup-error=" . urlencode("Ongeldige postcode.")
+				$redirectAddress . "?editProfile-error=" . urlencode("Ongeldige postcode.")
 			);
 		}
 
@@ -54,8 +65,8 @@ class ChangeProfileHandler extends BaseHandler {
 			UPDATE 	[User]
 			SET first_name = :firstname, 
 			last_name = :lastname, 
-			address_line1 = :adress1, 
-			address_line2 = :adress2, 
+			address_line1 = :address1, 
+			address_line2 = :address2, 
 			zip_code = :zipcode,
 			city = :city,
 			country = :country,
@@ -67,13 +78,13 @@ class ChangeProfileHandler extends BaseHandler {
 				":username" => $_SESSION["username"],
 				":firstname" => $_POST["firstName"],
 				":lastname" => $_POST["lastName"],
-				":adress1" => $_POST["Adress1"],
-				":adress2" => $_POST["Adress2"],
-				":zipcode" => $_POST["PostalCode"],
+				":address1" => $_POST["address1"],
+				":address2" => $_POST["address2"],
+				":zipcode" => $_POST["postalCode"],
 				":city" => $_POST["city"],
 				":country" => $_POST["country"],
 				":birthdate" => $_POST["birthdate"],
-				":email" => $_POST["E-mail"]
+				":email" => $_POST["email"]
 
 			)
 		);
@@ -105,7 +116,7 @@ class ChangeProfileHandler extends BaseHandler {
 					":username" => $_SESSION["username"],
 					":bank" => $_POST["bank"],
 					":bankAccount" => $_POST["bankAccount"],
-					":creditcard" => $_POST["creditcard"],
+					":creditcard" => $creditcard,
 				)
 			);
 		} else {
