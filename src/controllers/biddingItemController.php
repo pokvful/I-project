@@ -35,7 +35,8 @@ class BiddingItemController extends BaseController {
 				)
 			);
 
-			$userblocked = $dbh->query("SELECT blocked FROM [user] WHERE username = :username",
+			$userblocked = $dbh->query(
+				"SELECT blocked FROM [user] WHERE username = :username",
 				array(
 					":username" => $this->data["itemInformation"][0]["seller"]
 				)
@@ -69,18 +70,11 @@ class BiddingItemController extends BaseController {
 				)
 			);
 
-			$this->data["items"] = $dbh->query(
-				<<<SQL
-				
-					SELECT title, [filename]
-						FROM vw_ItemsList
-						WHERE item_number = :item_number
+			$this->data["images"] = $dbh->query("SELECT [filename] FROM [File] WHERE item = :item_number", array(
 
-				SQL,
-				array(
-					":item_number" => $_GET["item_number"]
-				)
-			);
+				":item_number" => $_GET["item_number"]
+
+			));
 
 			$minimumBid = 0;
 

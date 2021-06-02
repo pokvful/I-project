@@ -68,10 +68,10 @@ class RubricHelper {
 		$count = count($rubric->rubrics);
 
 		if ($count <= 0) {
-			return array( $rubric );
+			return array($rubric);
 		} else {
 			for ($i = 0; $i < $count; $i++) {
-				$results = self::getEndRubrics( $rubric->rubrics[$i] );
+				$results = self::getEndRubrics($rubric->rubrics[$i]);
 
 				foreach ($results as $result)
 					$end[] = $result;

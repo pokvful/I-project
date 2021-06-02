@@ -19,19 +19,11 @@
 					<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 				</ol>
 				<div class="carousel-inner">
-				{foreach $items as $item}
-					<div class="carousel-item active">
+				{foreach $images as $image}
+					<div n:class="carousel-item, $iterator->first ? active">
 						<img class="card-img-top"
-							src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
-							alt="{$item['title']}">
-					</div>
-					<div class="carousel-item">
-						<img class="d-block w-100" src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}" 
-							alt="Second slide">
-					</div>
-					<div class="carousel-item">
-						<img class="d-block w-100" src="{( is_null( $item['filename'] ) || substr( $item['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $item['filename']}"
-							alt="Third slide">
+							src="{( is_null( $image['filename'] ) || substr( $image['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $image['filename']}"
+							alt="{$itemInformation[0]['title']}">
 					</div>
 				</div>
 				{/foreach}
