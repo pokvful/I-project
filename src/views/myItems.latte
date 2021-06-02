@@ -2,52 +2,52 @@
 
 
 <div class="container">
-    <div class="col-12 my-5">
-        <h1>Mijn items:</h1>
+	<div class="col-12 my-5">
+		<h1>Mijn items:</h1>
 
-        {getBreadCrumbs()|noescape}
-        {if $bidOnItems}
-        <h4 class="text-center bg-primary text-dark w-50 m-auto mt-5 p-3">Items waarop geboden:</h4>
-        <div class="row">
-            <div n:foreach="$userMyItems as $userMyItem" class="col-12 col-md-6 col-lg-3 py-3">
-                <div class="card center-cropped" style="min-height: 570px!important">
-                    <img class="card-img-top" 
-                         src="{( is_null( $userMyItem['filename'] ) || substr( $userMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $userMyItem['filename']}"
-                         alt="{$userMyItem['title']}">
-                    <div class="card-body">
-                        <h4 class="card-title">{$userMyItem['title']}</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">&euro;{$userMyItem['bid_amount']}</h6>
-                        <p class="card-text">{cutString( $userMyItem['description'], 75, true )}</p>
-                        <a href="/biddingItem/?item_number={$userMyItem['item']}"
-                           class="btn btn-primary">Bekijken</a>
-                    </div>
-                </div>
-            </div>
-        {else}
-        <h4 class="bg-primary text-dark w-50 m-auto mt-5 p-3 text-center">U heeft nog niet op items geboden.</h4>
-        {/if}
-        </div>
+		{getBreadCrumbs()|noescape}
+		{if $bidOnItems}
+		<h4 class="text-center bg-primary text-dark w-50 m-auto mt-5 p-3">Items waarop geboden:</h4>
+		<div class="row">
+			<div n:foreach="$userMyItems as $userMyItem" class="col-12 col-md-6 col-lg-3 py-3">
+				<div class="card center-cropped" style="min-height: 570px!important">
+					<img class="card-img-top" 
+						 src="{( is_null( $userMyItem['filename'] ) || substr( $userMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $userMyItem['filename']}"
+						 alt="{$userMyItem['title']}">
+					<div class="card-body">
+						<h4 class="card-title">{$userMyItem['title']}</h4>
+						<h6 class="card-subtitle mb-2 text-muted">&euro;{$userMyItem['bid_amount']}</h6>
+						<p class="card-text">{cutString( $userMyItem['description'], 75, true )}</p>
+						<a href="/biddingItem/?item_number={$userMyItem['item']}"
+						   class="btn btn-primary">Bekijken</a>
+					</div>
+				</div>
+			</div>
+		{else}
+		<h4 class="bg-primary text-dark w-50 m-auto mt-5 p-3 text-center">U heeft nog niet op items geboden.</h4>
+		{/if}
+		</div>
 
-        {if $placedItems}
-        <h4 n:if="$_seller" class="text-center bg-primary text-dark w-50 m-auto mt-5 p-3">Items die je aanbiedt:</h4>
-        <div n:if="$_seller && !$mySellerItems" class="row">
-            <div n:foreach="$sellerMyItems as $sellerMyItem" class="col-12 col-md-6 col-lg-3 py-3">
-                <div class="card center-cropped" style="min-height: 570px!important">
-                    <img class="card-img-top"
-                         src="{( is_null( $sellerMyItem['filename'] ) || substr( $sellerMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $sellerMyItem['filename']}"
-                         alt="{$sellerMyItem['title']}">
-                    <div class="card-body">
-                        <h4 class="card-title">{$sellerMyItem['title']}</h4>
-                        <p class="card-text">{cutString( $sellerMyItem['description'], 75, true )}</p>
-                        <a href="/biddingItem/?item_number={$sellerMyItem['item_number']}" class="btn btn-primary">Bekijken</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {else}
-        <h4 class="text-center bg-danger w-50 m-auto mt-5 p-3">U heeft nog geen items aangeboden.</h4>
-        {/if}
-    </div>
+		{if $placedItems}
+		<h4 n:if="$_seller" class="text-center bg-primary text-dark w-50 m-auto mt-5 p-3">Items die je aanbiedt:</h4>
+		<div n:if="$_seller && !$mySellerItems" class="row">
+			<div n:foreach="$sellerMyItems as $sellerMyItem" class="col-12 col-md-6 col-lg-3 py-3">
+				<div class="card center-cropped" style="min-height: 570px!important">
+					<img class="card-img-top"
+						 src="{( is_null( $sellerMyItem['filename'] ) || substr( $sellerMyItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $sellerMyItem['filename']}"
+						 alt="{$sellerMyItem['title']}">
+					<div class="card-body">
+						<h4 class="card-title">{$sellerMyItem['title']}</h4>
+						<p class="card-text">{cutString( $sellerMyItem['description'], 75, true )}</p>
+						<a href="/biddingItem/?item_number={$sellerMyItem['item_number']}" class="btn btn-primary">Bekijken</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		{else}
+		<h4 class="text-center bg-danger w-50 m-auto mt-5 p-3">U heeft nog geen items aangeboden.</h4>
+		{/if}
+	</div>
 </div>
 
 
