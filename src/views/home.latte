@@ -33,6 +33,61 @@
 </div>
 
 <script>
+<<<<<<< HEAD
+{*  https://usefulangle.com/post/75/typing-effect-animation-javascript-css  *}
+    var _CONTENT = ["Voor veilingitems waar je U tegen zegt!", "Bekijk hieronder alle veilingitems"];
+    var _PART = 0;
+    var _PART_INDEX = 0;
+    var _INTERVAL_VAL;
+    var _ELEMENT = document.querySelector("#text");
+
+    function Type() {
+        var text = _CONTENT[_PART].substring(0, _PART_INDEX + 1);
+        _ELEMENT.innerHTML = text;
+        _PART_INDEX++;
+
+        if (text === _CONTENT[_PART]) {
+            clearInterval(_INTERVAL_VAL);
+            setTimeout(function () {
+                _INTERVAL_VAL = setInterval(Delete, 60);
+            }, 2500);
+        }
+    }
+
+    function Delete() {
+        var text = _CONTENT[_PART].substring(0, _PART_INDEX - 1);
+        _ELEMENT.innerHTML = text;
+        _PART_INDEX--;
+
+        if (text === '') {
+            clearInterval(_INTERVAL_VAL);
+
+            if (_PART == (_CONTENT.length - 1))
+                _PART = 0;
+            else
+                _PART++;
+            _PART_INDEX = 0;
+
+            setTimeout(function () {
+                _INTERVAL_VAL = setInterval(Type, 100);
+            }, 200);
+        }
+    }
+
+    _INTERVAL_VAL = setInterval(Type, 100);
+
+    var i = 0;
+    var txt = 'Voor veilingitems waar je U tegen zegt!';
+    var speed = 60;
+
+    function typeWriter() {
+        if (i < txt.length) {
+            document.getElementById("slogan").innerHTML += txt.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+=======
 	var _CONTENT = ["Voor veilingitems waar je U tegen zegt!", "Bekijk hieronder alle uitgelichte veilingitems!"];
 	var _PART = 0;
 	var _PART_INDEX = 0;
@@ -85,6 +140,7 @@
 			setTimeout(typeWriter, speed);
 		}
 	}
+>>>>>>> b6a5a061b81d92a185fc36eb9cb01244d19880ce
 </script>
 
 
