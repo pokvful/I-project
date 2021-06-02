@@ -38,6 +38,7 @@ class ItemsController extends BaseController {
 		$this->data["minPrice"] = (isset($_GET["minPrice"]) && $_GET["minPrice"]) ? $_GET["minPrice"] : 0;
 		$this->data["maxPrice"] = (isset($_GET["maxPrice"]) && $_GET["maxPrice"]) ? $_GET["maxPrice"] : 999999999;
 		$this->data["distance"] = (isset($_GET["distance"]) && $_GET["distance"]) ? $_GET["distance"] : 999999999;
+		$this->data["rubric_wanted"] = (isset($_GET["rubric"]) && $_GET["rubric"]) ? $_GET["rubric"] : -1;
 		$this->data["error"] = $_GET["error"] ?? null;
 
 		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
@@ -51,6 +52,17 @@ class ItemsController extends BaseController {
 		} else if (($this->data["minPrice"] || $this->data["maxPrice"]) < 1) {
 			$this->redirect(
 				$addressRoot . "?error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
+			);
+		} else if ( !(
+			$this->data["rubric_wanted"] == -1
+				|| count(
+					array_filter( $this->data["rubrics"], function(Rubric $v) {
+						return $v->id == $this->data["rubric_wanted"];
+					} )
+				) > 0
+			)) {
+			$this->redirect(
+				$addressRoot . "?error=" . urldecode("Ongeldige categorie opgegeven.")
 			);
 		}
 
@@ -72,6 +84,7 @@ class ItemsController extends BaseController {
 					FROM vw_ItemsList
 					WHERE bid_amount BETWEEN :minprice AND :maxprice
 						AND dbo.fnCalcDistanceKM(latitude, :latUser, longitude, :lonUser) < :distance
+						AND (:rubric = -1 OR rubric_number = :rubric_number)
 					ORDER BY item_number
 					OFFSET :offset ROWS
 					FETCH FIRST :per_page ROWS ONLY;
@@ -83,7 +96,9 @@ class ItemsController extends BaseController {
 				":maxprice" => $this->data["maxPrice"],
 				":distance" => $this->data["distance"],
 				":latUser" => $getUserLocationQuery[0]["latitude"],
-				":lonUser" => $getUserLocationQuery[0]["longitude"]
+				":lonUser" => $getUserLocationQuery[0]["longitude"],
+				":rubric" => $this->data["rubric_wanted"],
+				":rubric_number" => $this->data["rubric_wanted"],
 			)
 		);
 
@@ -93,36 +108,24 @@ class ItemsController extends BaseController {
 					FROM vw_ItemsList
 					WHERE bid_amount BETWEEN :minprice AND :maxprice
 						AND dbo.fnCalcDistanceKM(latitude, :latUser, longitude, :lonUser) < :distance
+						AND (:rubric = -1 OR rubric_number = :rubric_number)
 			SQL,
 			array(
 				":minprice" => $this->data["minPrice"],
 				":maxprice" => $this->data["maxPrice"],
 				":distance" => $this->data["distance"],
 				":latUser" => $getUserLocationQuery[0]["latitude"],
-				":lonUser" => $getUserLocationQuery[0]["longitude"]
+				":lonUser" => $getUserLocationQuery[0]["longitude"],
+				":rubric" => $this->data["rubric_wanted"],
+				":rubric_number" => $this->data["rubric_wanted"],
 			)
 		);
-
-		bdump($this->data, 'data');
-
-		bdump($this->data["itemCount"]);
 
 		$this->data["totalRows"] = $this->data["itemCount"][0]["count"];
 		$this->data["nextPageNumbers"] = $this->getAvailablePageNumbers(
 			$this->data["page"],
 			ceil($this->data["totalRows"] / $this->data["perPage"])
 		);
-
-		$calculateItemQuery = $dbh->query("SELECT latitude, longitude FROM vw_ItemsList");
-
-		$calculateDistanceQuery = $dbh->query("SELECT dbo.fnCalcDistanceKM(:latItem, :latUser, :lonItem, :lonUser)", array(
-			":latItem" => $calculateItemQuery[0]["latitude"],
-			":latUser" => $getUserLocationQuery[0]["latitude"],
-			":lonItem" => $calculateItemQuery[0]["longitude"],
-			":lonUser" => $getUserLocationQuery[0]["longitude"]
-		));
-
-		bdump($calculateDistanceQuery);
 
 		$this->render();
 	}

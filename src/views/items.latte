@@ -18,13 +18,14 @@
 
 					<label class="form-label" for="rubric">Kies een categorie:</label>
 					<select name="rubric" id="rubric" class="form-select">
+						<option value="-1" n:attr="selected: !isset($_params['rubric'])">Alle rubrieken</option>
 						{foreach $rubrics as $rubric}
-							<option value="{$rubric->id}">{$rubric->name}</option>
+							<option value="{$rubric->id}" n:attr="selected: isset($_params['rubric']) && $rubric->id == $_params['rubric']">{ucfirst($rubric->name)}</option>
 						{/foreach}
 					</select>
 
 					<label class="form-label mt-2" name="input-distance">Afstand:</label>
-					<input name="distance" placeholder="Afstand in km" type="number" min="0" max ="999999999" class="form-select" />
+					<input name="distance" placeholder="Afstand in km" type="number" min="0" max ="999999999" class="form-control" />
 
 					<label class="form-label mt-2" for="price">Prijs:</label>
 					<div class="input-group"> 
@@ -42,6 +43,7 @@
 			<input type="hidden" name="page" value="{$page}">
 			<input type="hidden" name="minPrice" value="{$minPrice}">
 			<input type="hidden" name="maxPrice" value="{$maxPrice}">
+			<input type="hidden" name="rubric" value="{$rubric_wanted}">
 
 			<div class="row mb-2">
 				<div class="d-flex flex-row justify-content-center">
