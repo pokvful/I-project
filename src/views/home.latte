@@ -1,90 +1,90 @@
 {include './includes/header.latte'}
 
 <div
-        class="center-image p-5 bg-image text-center text-dark d-flex flex-column"
-        style="background-image: url('/resources/images/homepage-img.png');
-    height: 90vh;">
-    <h1 class="flex-align-bottom">EenmaalAndermaal</h1>
-    <div id="container">
-        <h2 id="text"></h2>
-        <div id="cursor"></div>
-    </div>
+		class="center-image p-5 bg-image text-center text-dark d-flex flex-column"
+		style="background-image: url('/resources/images/homepage-img.png');
+	height: 90vh;">
+	<h1 class="flex-align-bottom">EenmaalAndermaal</h1>
+	<div id="container">
+		<h2 id="text"></h2>
+		<div id="cursor"></div>
+	</div>
 </div>
 </div>
 
 <div class="container bg-white py-5">
-    <div class="row">
-        <div n:foreach="$auctionItems as $auctionItem" class="col-md-3 col-sm-5 col-xs-12 mx-auto my-4 auction-item">
-            <div class="card center-cropped" style="min-height: 570px!important">
-                <img class="card-img-top"
-                     src="{( is_null( $auctionItem['filename'] ) || substr( $auctionItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $auctionItem['filename']}"
-                     alt="{$auctionItem['title']}">
-                <div class="card-body">
-                    <h4 class="card-title">{$auctionItem['title']}</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">&euro;{$auctionItem['bid_amount']}</h6>
+	<div class="row">
+		<div n:foreach="$auctionItems as $auctionItem" class="col-md-3 col-sm-5 col-xs-12 mx-auto my-4 auction-item">
+			<div class="card center-cropped" style="min-height: 570px!important">
+				<img class="card-img-top"
+					 src="{( is_null( $auctionItem['filename'] ) || substr( $auctionItem['filename'], 0, 5 ) === 'file-' ) ? '/resources/images/noImage.jpg' : '/resources/images/bidding/' . $auctionItem['filename']}"
+					 alt="{$auctionItem['title']}">
+				<div class="card-body">
+					<h4 class="card-title">{$auctionItem['title']}</h4>
+					<h6 class="card-subtitle mb-2 text-muted">&euro;{$auctionItem['bid_amount']}</h6>
 
-                    <p class="card-text">{cutString( $auctionItem['description'], 75, true )}</p>
-                    <a href="/biddingItem/?item_number={$auctionItem['item_number']}"
-                       class="btn btn-primary">Bekijken</a>
-                </div>
-            </div>
-        </div>
-    </div>
+					<p class="card-text">{cutString( $auctionItem['description'], 75, true )}</p>
+					<a href="/biddingItem/?item_number={$auctionItem['item_number']}"
+					   class="btn btn-primary">Bekijken</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
-    var _CONTENT = ["Voor veilingitems waar je U tegen zegt!", "Bekijk hieronder alle uitgelichte veilingitems!"];
-    var _PART = 0;
-    var _PART_INDEX = 0;
-    var _INTERVAL_VAL;
-    var _ELEMENT = document.querySelector("#text");
+	var _CONTENT = ["Voor veilingitems waar je U tegen zegt!", "Bekijk hieronder alle uitgelichte veilingitems!"];
+	var _PART = 0;
+	var _PART_INDEX = 0;
+	var _INTERVAL_VAL;
+	var _ELEMENT = document.querySelector("#text");
 
-    function Type() {
-        var text = _CONTENT[_PART].substring(0, _PART_INDEX + 1);
-        _ELEMENT.innerHTML = text;
-        _PART_INDEX++;
+	function Type() {
+		var text = _CONTENT[_PART].substring(0, _PART_INDEX + 1);
+		_ELEMENT.innerHTML = text;
+		_PART_INDEX++;
 
-        if (text === _CONTENT[_PART]) {
-            clearInterval(_INTERVAL_VAL);
-            setTimeout(function () {
-                _INTERVAL_VAL = setInterval(Delete, 60);
-            }, 2500);
-        }
-    }
+		if (text === _CONTENT[_PART]) {
+			clearInterval(_INTERVAL_VAL);
+			setTimeout(function () {
+				_INTERVAL_VAL = setInterval(Delete, 60);
+			}, 2500);
+		}
+	}
 
-    function Delete() {
-        var text = _CONTENT[_PART].substring(0, _PART_INDEX - 1);
-        _ELEMENT.innerHTML = text;
-        _PART_INDEX--;
+	function Delete() {
+		var text = _CONTENT[_PART].substring(0, _PART_INDEX - 1);
+		_ELEMENT.innerHTML = text;
+		_PART_INDEX--;
 
-        if (text === '') {
-            clearInterval(_INTERVAL_VAL);
+		if (text === '') {
+			clearInterval(_INTERVAL_VAL);
 
-            if (_PART == (_CONTENT.length - 1))
-                _PART = 0;
-            else
-                _PART++;
-            _PART_INDEX = 0;
+			if (_PART == (_CONTENT.length - 1))
+				_PART = 0;
+			else
+				_PART++;
+			_PART_INDEX = 0;
 
-            setTimeout(function () {
-                _INTERVAL_VAL = setInterval(Type, 100);
-            }, 200);
-        }
-    }
+			setTimeout(function () {
+				_INTERVAL_VAL = setInterval(Type, 100);
+			}, 200);
+		}
+	}
 
-    _INTERVAL_VAL = setInterval(Type, 100);
+	_INTERVAL_VAL = setInterval(Type, 100);
 
-    var i = 0;
-    var txt = 'Voor veilingitems waar je U tegen zegt!';
-    var speed = 60;
+	var i = 0;
+	var txt = 'Voor veilingitems waar je U tegen zegt!';
+	var speed = 60;
 
-    function typeWriter() {
-        if (i < txt.length) {
-            document.getElementById("slogan").innerHTML += txt.charAt(i);
-            i++;
-            setTimeout(typeWriter, speed);
-        }
-    }
+	function typeWriter() {
+		if (i < txt.length) {
+			document.getElementById("slogan").innerHTML += txt.charAt(i);
+			i++;
+			setTimeout(typeWriter, speed);
+		}
+	}
 </script>
 
 
