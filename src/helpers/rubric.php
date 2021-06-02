@@ -63,6 +63,24 @@ class RubricHelper {
 		}
 	}
 
+	public static function getEndRubrics(Rubric $rubric): array {
+		$end = array();
+		$count = count($rubric->rubrics);
+
+		if ($count <= 0) {
+			return array( $rubric );
+		} else {
+			for ($i = 0; $i < $count; $i++) {
+				$results = self::getEndRubrics( $rubric->rubrics[$i] );
+
+				foreach ($results as $result)
+					$end[] = $result;
+			}
+		}
+
+		return $end;
+	}
+
 	public static function getRubricsFromDataBase(): Rubric {
 		$db = new DatabaseHandler();
 
