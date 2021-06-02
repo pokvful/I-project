@@ -17,37 +17,42 @@ class SellerSignupHandler extends BaseHandler {
 		if ($this->data["isSeller"][0]["Seller"] == 1) {
 			$this->redirect("/");
 		} else {
-
 			$bank = $_POST["bank_name"];
 			$bankAccount = $_POST["bank_account"];
-			$paymentMethod = $_POST['payment_method'];
+			$paymentMethod = $_POST['payment_method'] ?? null;
 			$creditcard = $_POST["creditcard_number"];
 			//Builds URL for signup-errors
 			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/sellerSignup/";
-			$redirectAddress = $addressRoot;
 
 			//Filters form inputs
 			if (!isset($bank) || !$bank) {
 				$this->redirect(
-					$redirectAddress . "?signup-error=" . urlencode("Banknaam is niet ingevuld.")
+					$addressRoot . "?signup-error=" . urlencode("Banknaam is niet ingevuld.")
 				);
 			}
 			if (!isset($bankAccount) || !$bankAccount) {
 				$this->redirect(
-					$redirectAddress . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
+					$addressRoot . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld")
 				);
 			}
 			if ($paymentMethod == 'creditcard' && !$creditcard) {
 				$this->redirect(
-					$redirectAddress . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
+					$addressRoot . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
 				);
 			}
 			if ($paymentMethod == 'post' && $creditcard != '') {
 				$this->redirect(
-					$redirectAddress . "?signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
+					$addressRoot . "?signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
 				);
 			}
-
+			if (!isset($paymentMethod) || !$paymentMethod) {
+				$this->redirect(
+					$addressRoot . "?signup-error=" . urlencode("betaalmethode is niet ingevuld.")
+				);
+			}
+			if ($creditcard == '') {
+				$creditcard = null;
+			}
 			$dbh->query(
 				<<<SQL
 					INSERT INTO Seller ([user], bank, bank_account, control_option, creditcard)
