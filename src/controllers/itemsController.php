@@ -40,6 +40,7 @@ class ItemsController extends BaseController {
 		$this->data["distance"] = (isset($_GET["distance"]) && $_GET["distance"]) ? $_GET["distance"] : 999999999;
 		$this->data["rubric_wanted"] = (isset($_GET["rubric"]) && $_GET["rubric"]) ? $_GET["rubric"] : -1;
 		$this->data["error"] = $_GET["error"] ?? null;
+		$this->data["itemBlocked"] = $_GET["item-error"] ?? null;
 
 		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/items/";
 

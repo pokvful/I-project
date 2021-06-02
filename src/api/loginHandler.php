@@ -11,7 +11,7 @@ class LoginHandler extends BaseHandler {
 		if (!(isset($_POST["password"]) && $_POST["password"])) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Geen wachtwoord opgegeven!")
-					. "&username=" . urlencode($_POST["username"])
+				. "&username=" . urlencode($_POST["username"])
 			);
 		}
 
@@ -30,25 +30,25 @@ class LoginHandler extends BaseHandler {
 		$userBlocked = $db->query("SELECT blocked FROM [user] WHERE username = :username",
 			array(
 				":username" => $username,
-			) 
+			)
 		);
-
-		if ($userBlocked[0]["blocked"]) {
-			$this->redirect("/login/?login-error=" . urlencode("Dit account is geblokkeerd!"));
-		}
-
 		if (count($users) <= 0) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Geen gebruiker met de gebruikersnaam \"$username\" gevonden.")
 			);
 		}
 
+		if (!isset($userBlocked[0]["blocked"]) || $userBlocked[0]["blocked"]) {
+			$this->redirect("/login/?login-error=" . urlencode("Dit account is geblokkeerd!"));
+		}
+
+
 		$user = $users[0];
 
 		if (!password_verify($password, $user["password"])) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Het wachtwoord is incorrect.")
-					. "&username=" . urlencode($username)
+				. "&username=" . urlencode($username)
 			);
 		}
 
