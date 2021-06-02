@@ -34,6 +34,7 @@ class PlaceBiddingItemHandler extends BaseHandler {
 				$payment_instruction = $_POST["payment_instruction"];
 				$shipping_cost = $_POST["shipping_costs"];
 				$shipping_instructions = $_POST["shipping_instruction"];
+				$rubric = $_POST["category"];
 
 				bdump($_FILES);
 				//file
@@ -104,6 +105,17 @@ class PlaceBiddingItemHandler extends BaseHandler {
 					array(
 						":file_name" => $file_name,
 						"item_number" => $getItemNumberQuery[0]["highestID"]
+					)
+				);
+
+				$placeItemInRubricQuery = $dbh->query(
+					<<<SQL
+						INSERT INTO Item_in_rubric (item, rubric_at_lowest_level)
+							VALUES (:item, :rubric)
+					SQL,
+					array(
+						":item" => $getItemNumberQuery[0]["highestID"],
+						":rubric" => $rubric,
 					)
 				);
 			} else {
