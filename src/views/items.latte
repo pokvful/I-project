@@ -3,11 +3,13 @@
 <div class="container center-cropped">
 	<div class="col-12 text-center my-5">
 		<h1>Veilingitems</h1>
-
 		{getBreadCrumbs()|noescape}
 	</div>
 
 	<div class="row">
+		<div n:if="$itemBlocked" class="col-12 alert alert-danger mb-5" role="alert">
+			{$itemBlocked}
+		</div>
 			<div class="col-12 col-md-3 mb-4 mb-md-0">
 				<form method="GET" action="/items/">
 					<div n:if="$signupError" class="col-12 alert alert-danger mb-5" role="alert">
