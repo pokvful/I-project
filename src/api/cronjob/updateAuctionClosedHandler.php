@@ -34,7 +34,7 @@ class UpdateAuctionClosedHandler extends BaseHandler {
 					)
 				);
 
-				$diff = $end->diff( new DateTime('NOW', $TIME_ZONE) );
+				$diff = $end->diff(new DateTime('NOW', $TIME_ZONE));
 				// if the time is inverted, the difference between `$end` and
 				// now is not greater then `$duration`
 				$shouldClose = !$diff->invert;
@@ -55,8 +55,7 @@ class UpdateAuctionClosedHandler extends BaseHandler {
 						$closedAuctions[] = $openAuction["item_number"];
 					} catch (Exception $e) {
 						http_response_code(500);
-						die(
-							json_encode(
+						die(json_encode(
 								array(
 									"error" => true,
 									"code" => 500,
@@ -67,8 +66,7 @@ class UpdateAuctionClosedHandler extends BaseHandler {
 										"line" => $e->getLine(),
 									)
 								)
-							)
-						);
+							));
 					}
 				}
 			}
@@ -88,8 +86,7 @@ class UpdateAuctionClosedHandler extends BaseHandler {
 			exit();
 		} catch (Exception $e) {
 			http_response_code(500);
-			die(
-				json_encode(
+			die(json_encode(
 					array(
 						"error" => true,
 						"code" => 500,
@@ -100,8 +97,7 @@ class UpdateAuctionClosedHandler extends BaseHandler {
 							"line" => $e->getLine(),
 						)
 					)
-				)
-			);
+				));
 		}
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 $executable = array_shift($argv);
-$executablePath = substr( $executable, 0, strrpos($executable, DIRECTORY_SEPARATOR) + 1 );
+$executablePath = substr($executable, 0, strrpos($executable, DIRECTORY_SEPARATOR) + 1);
 $files = $argv;
 
 const HOST = "localhost";
@@ -11,22 +11,18 @@ const DATABASE = "test";
 
 $conn = null;
 
-try
-{
+try {
 	$dbh = "sqlsrv:Server=" . HOST . ";ConnectionPooling=0";
 	$conn = new PDO($dbh, USERNAME, PASSWORD);
 
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	echo "Connected to database" . PHP_EOL;
-}
-catch (PDOException $e)
-{
-	die( "Connection failed: " . $e->getMessage() );
+} catch (PDOException $e) {
+	die("Connection failed: " . $e->getMessage());
 }
 
-try
-{
+try {
 	$conn->exec("CREATE DATABASE $TEMP_DATABASE");
 	$conn->exec("ALTER DATABASE $TEMP_DATABASE SET AUTO_CLOSE OFF"); // https://dba.stackexchange.com/a/134676
 
@@ -92,8 +88,7 @@ try
 
 	$conn->exec("USE $TEMP_DATABASE");
 
-	for ($i = 0; $i < count($files); ++$i)
-	{
+	for ($i = 0; $i < count($files); ++$i) {
 		$file = $files[$i];
 		echo "Executing file \"$file\"" . PHP_EOL;
 
@@ -101,19 +96,18 @@ try
 
 		$result = $conn->exec(
 			mb_convert_encoding(
-				$fileContents, 'utf-8', mb_detect_encoding($fileContents)
+				$fileContents,
+				'utf-8',
+				mb_detect_encoding($fileContents)
 			)
 		);
 
-		if ( $result !== false )
-		{
+		if ($result !== false) {
 			echo "Successfully executed file \"$file\"" . PHP_EOL;
-		}
-		else
-		{
+		} else {
 			throw new Exception(
 				"An error occurred while processing file \"$file\": "
-					. ( $conn->errorInfo()[2] ?? "no error information" )
+					. ($conn->errorInfo()[2] ?? "no error information")
 			);
 		}
 	}
@@ -122,20 +116,17 @@ try
 
 	$result = $conn->exec($convertScript);
 
-	if ( $result === false )
-	{
+	if ($result === false) {
 		throw new Exception(
 			"An error occurred while executing the convert script: "
-				. ( $conn->errorInfo()[2] ?? "no error information" )
+				. ($conn->errorInfo()[2] ?? "no error information")
 		);
 	}
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
 	echo "Something went wrong, rolling back" . PHP_EOL;
 	echo $e->getMessage() . PHP_EOL;
 
-	if ( $conn->inTransaction() )
+	if ($conn->inTransaction())
 		$conn->rollBack();
 
 	$conn->query("USE master");
@@ -144,7 +135,7 @@ catch (Exception $e)
 	die();
 }
 
-if ( $conn->inTransaction() )
+if ($conn->inTransaction())
 	$conn->commit();
 
 $conn->query("USE master");

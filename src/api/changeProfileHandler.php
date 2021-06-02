@@ -18,16 +18,16 @@ class ChangeProfileHandler extends BaseHandler {
 		$country = $_POST["country"];
 		$bank = $_POST["bank"];
 		$bankAccount = $_POST["bankAccount"];
-		if(isset($_POST["creditcard"])) {
+		if (isset($_POST["creditcard"])) {
 			$creditcard = $_POST["creditcard"];
-			if (!ctype_digit($creditcard) ) {
+			if (!ctype_digit($creditcard)) {
 				$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
 				$redirectAddress = $addressRoot;
 				$this->redirect(
 					$redirectAddress . "?editProfile-error=" . urlencode("Ongeldige creditcardnummer.")
 				);
 			}
-			$creditcardIsSet= true;
+			$creditcardIsSet = true;
 		} else {
 			$creditcardIsSet = null;
 		}
