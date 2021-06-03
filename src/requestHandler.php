@@ -11,6 +11,24 @@ class RequestHandler {
 
 		if (!isset($_SESSION["loggedin"])) {
 			$_SESSION["loggedin"] = false;
+		} else if ($_SESSION["loggedin"]) {
+			$db = new DatabaseHandler();
+
+			$users = $db->query(
+				"SELECT [admin], seller FROM [User] WHERE username = :username",
+				array(
+					":username" => $_SESSION["username"]
+				)
+			);
+
+			if (count($users) > 0) {
+				$_SESSION["seller"] = $users[0]["seller"] == 1;
+				$_SESSION["admin"] = $users[0]["admin"] == 1;
+			} else {
+				$_SESSION["seller"] = $_SESSION["admin"] = false;
+			}
+		} else {
+			$_SESSION["seller"] = $_SESSION["admin"] = false;
 		}
 	}
 
