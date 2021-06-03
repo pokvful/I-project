@@ -79,7 +79,7 @@ class DatabaseHandler {
 					$type = PDO::PARAM_NULL;
 					break;
 				case 'boolean':
-					$type = PDO::PARAM_BO;
+					$type = PDO::PARAM_BOOL;
 					break;
 				case 'integer':
 					$type = PDO::PARAM_INT;

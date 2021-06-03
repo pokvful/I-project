@@ -16,7 +16,6 @@ class Rubric {
 			if ($this->rubrics[$i]->id === $id)
 				return $this->rubrics[$i];
 		}
-
 		return null;
 	}
 
@@ -44,7 +43,7 @@ class RubricHelper {
 	 */
 	public static function sort(array &$arr) {
 		$length = count($arr);
-		$checkLength;
+		$checkLength = 0;
 
 		while ($length > 0) {
 			$checkLength = 0;
