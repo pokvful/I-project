@@ -33,6 +33,9 @@ class LoginHandler extends BaseHandler {
 				":username" => $username,
 			)
 		);
+		// bdump($users);
+		// die();
+
 		if (count($users) <= 0) {
 			$this->redirect(
 				"/login/?login-error=" . urlencode("Geen gebruiker met de gebruikersnaam \"$username\" gevonden.")
