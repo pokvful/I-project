@@ -18,29 +18,59 @@ class ChangeProfileHandler extends BaseHandler {
 		$country = $_POST["country"];
 		$bank = $_POST["bank"];
 		$bankAccount = $_POST["bankAccount"];
-		if (isset($_POST["creditcard"])) {
+		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
+		if(isset($_POST["creditcard"])) {
 			$creditcard = $_POST["creditcard"];
-			if (!ctype_digit($creditcard)) {
-				$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
-				$redirectAddress = $addressRoot;
+			if (!ctype_digit($creditcard) ) {
 				$this->redirect(
-					$redirectAddress . "?editProfile-error=" . urlencode("Ongeldige creditcardnummer.")
+					$addressRoot . "?editProfile-error=" . urlencode("Ongeldige creditcardnummer.")
 				);
 			}
-			$creditcardIsSet = true;
+			$creditcardIsSet= true;
 		} else {
 			$creditcardIsSet = null;
 		}
-
-		if (isset($creditcard)) {
-			$creditcard = $_POST["creditcard"];
-		}
 		$phoneNumbers = $_POST["phone"];
+
+		//checks for space inputs
+		if(ctype_space($email)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige e-mail."));
+		}
+		if(ctype_space($firstName)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige voornaam."));
+		}
+		if(ctype_space($lastName)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige achternaam."));
+		}
+		if(ctype_space($birthDate)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige geboortedatum."));
+		}
+		if(ctype_space($address1)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige adres."));
+		}
+		if(ctype_space($address2)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige adres."));
+		}
+		if(ctype_space($zipCode)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige postcode."));
+		}
+		if(ctype_space($city)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige stad."));
+		}
+		if(ctype_space($country)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige land."));
+		}
+		if(ctype_space($bank)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige bank."));
+		}
+		if(ctype_space($bankAccount)) {
+			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige rekeningnummer."));
+		}
+
 
 		//Builds URL for signup-errors
 		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
-		$redirectAddress = $addressRoot;
-
+		$this->data["editProfileError"] = $_GET["editProfile-error"] ?? null;
 		$this->data["phoneNumberCount"] = $dbh->query(
 			"SELECT COUNT(*) AS amount FROM User_Phone WHERE [user] = :user",
 			array(
@@ -56,7 +86,7 @@ class ChangeProfileHandler extends BaseHandler {
 
 		if (strlen($zipCode) < 6) {
 			$this->redirect(
-				$redirectAddress . "?editProfile-error=" . urlencode("Ongeldige postcode.")
+				$addressRoot . "?editProfile-error=" . urlencode("Ongeldige postcode.")
 			);
 		}
 
