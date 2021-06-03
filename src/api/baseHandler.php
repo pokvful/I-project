@@ -13,7 +13,7 @@ class BaseHandler {
 		$this->filePath = $filePath;
 		$this->fileName = $fileName;
 
-		if ( !BaseHandler::isValidRequest() ) {
+		if (!BaseHandler::isValidRequest()) {
 			header("Content-Type: application/json");
 			http_response_code(403);
 			die(json_encode(
@@ -29,16 +29,13 @@ class BaseHandler {
 	private static function isValidRequest(): bool {
 		$headers = null;
 
-		return !(
-			!isset($_POST["csrf-token"])
-				|| !$_POST["csrf-token"]
-				|| $_POST["csrf-token"] !== $_SESSION["csrf-token"]
-		) || (
-			( $headers = getallheaders() )
-				&& isset( $headers["X-cronjob"] )
-				&& $headers
-				&& $headers["X-cronjob"] === SETTINGS["cronjob"]
-		);
+		return !(!isset($_POST["csrf-token"])
+			|| !$_POST["csrf-token"]
+			|| $_POST["csrf-token"] !== $_SESSION["csrf-token"]) || (
+			($headers = getallheaders())
+			&& isset($headers["X-cronjob"])
+			&& $headers
+			&& $headers["X-cronjob"] === SETTINGS["cronjob"]);
 	}
 
 	/**

@@ -29,7 +29,7 @@ class ItemsController extends BaseController {
 
 	public function run() {
 		$dbh = new DatabaseHandler();
-		
+
 		$rubrics = RubricHelper::getRubricsFromDataBase();
 		$this->data["rubrics"] = RubricHelper::getEndRubrics($rubrics);
 
@@ -54,14 +54,12 @@ class ItemsController extends BaseController {
 			$this->redirect(
 				$addressRoot . "?error=" . urlencode("Prijs filter mag geen negatieve waarden bevatten.")
 			);
-		} else if ( !(
-			$this->data["rubric_wanted"] == -1
-				|| count(
-					array_filter( $this->data["rubrics"], function(Rubric $v) {
-						return $v->id == $this->data["rubric_wanted"];
-					} )
-				) > 0
-			)) {
+		} else if (!($this->data["rubric_wanted"] == -1
+			|| count(
+				array_filter($this->data["rubrics"], function (Rubric $v) {
+					return $v->id == $this->data["rubric_wanted"];
+				})
+			) > 0)) {
 			$this->redirect(
 				$addressRoot . "?error=" . urldecode("Ongeldige categorie opgegeven.")
 			);
