@@ -183,7 +183,6 @@ class SignupHandler extends BaseHandler {
 
 			));
 
-			// TODO: This isn't the most optimal solution
 			foreach ($phoneNumbers as $phoneNumber) {
 				$dbh->query("INSERT INTO User_Phone ([user], phone) VALUES (:username, :phoneNumber)", array(
 					":username" => $username,

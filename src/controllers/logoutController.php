@@ -6,6 +6,6 @@ class LogoutController extends BaseController {
 		unset($_SESSION["username"]);
 		$_SESSION["loggedin"] = false;
 
-		$this->redirect("/"); // TODO: Or maybe to login page?
+		$this->redirect("/");
 	}
 }
