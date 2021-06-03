@@ -65,13 +65,7 @@ class ItemsController extends BaseController {
 			);
 		}
 
-		if (isset($_SESSION["username"])) {
-			$username = $_SESSION["username"];
-		} else {
-			$this->redirect(
-				"/"
-			);
-		}
+		$username = $_SESSION["username"] ?? "";
 
 		$getUserLocationQuery = $dbh->query("SELECT latitude, longitude FROM [User] WHERE username = :username", array(
 			":username" => $username
@@ -82,7 +76,7 @@ class ItemsController extends BaseController {
 				SELECT item_number, title, [description], [filename], bid_amount, latitude, longitude, row_count
 					FROM vw_ItemsList
 					WHERE bid_amount BETWEEN :minprice AND :maxprice
-						AND dbo.fnCalcDistanceKM(latitude, :latUser, longitude, :lonUser) < :distance
+						AND (:logged_in = 0 OR dbo.fnCalcDistanceKM(latitude, :latUser, longitude, :lonUser) < :distance)
 						AND (:rubric = -1 OR rubric_number = :rubric_number)
 					ORDER BY item_number
 					OFFSET :offset ROWS
@@ -93,9 +87,10 @@ class ItemsController extends BaseController {
 				":per_page" => $this->data["perPage"],
 				":minprice" => $this->data["minPrice"],
 				":maxprice" => $this->data["maxPrice"],
+				":logged_in" => $username ? 1 : 0,
 				":distance" => $this->data["distance"],
-				":latUser" => $getUserLocationQuery[0]["latitude"],
-				":lonUser" => $getUserLocationQuery[0]["longitude"],
+				":latUser" => $username ? $getUserLocationQuery[0]["latitude"] : null,
+				":lonUser" => $username ? $getUserLocationQuery[0]["longitude"] : null,
 				":rubric" => $this->data["rubric_wanted"],
 				":rubric_number" => $this->data["rubric_wanted"],
 			)
@@ -106,15 +101,16 @@ class ItemsController extends BaseController {
 				SELECT COUNT(*) AS 'count'
 					FROM vw_ItemsList
 					WHERE bid_amount BETWEEN :minprice AND :maxprice
-						AND dbo.fnCalcDistanceKM(latitude, :latUser, longitude, :lonUser) < :distance
+						AND (:logged_in = 0 OR dbo.fnCalcDistanceKM(latitude, :latUser, longitude, :lonUser) < :distance)
 						AND (:rubric = -1 OR rubric_number = :rubric_number)
 			SQL,
 			array(
 				":minprice" => $this->data["minPrice"],
 				":maxprice" => $this->data["maxPrice"],
+				":logged_in" => $username ? 1 : 0,
 				":distance" => $this->data["distance"],
-				":latUser" => $getUserLocationQuery[0]["latitude"],
-				":lonUser" => $getUserLocationQuery[0]["longitude"],
+				":latUser" => $username ? $getUserLocationQuery[0]["latitude"] : null,
+				":lonUser" => $username ? $getUserLocationQuery[0]["longitude"] : null,
 				":rubric" => $this->data["rubric_wanted"],
 				":rubric_number" => $this->data["rubric_wanted"],
 			)

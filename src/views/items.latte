@@ -28,8 +28,10 @@
 						{/foreach}
 					</select>
 
-					<label class="form-label mt-2" name="input-distance">Afstand:</label>
-					<input name="distance" placeholder="Afstand in km" type="number" min="0" max ="999999999" class="form-control" />
+					{if $_loggedin}
+						<label class="form-label mt-2" name="input-distance">Afstand:</label>
+						<input name="distance" placeholder="Afstand in km" type="number" min="0" max ="999999999" class="form-control" />
+					{/if}
 
 					<label class="form-label mt-2" for="price">Prijs:</label>
 					<div class="input-group"> 
