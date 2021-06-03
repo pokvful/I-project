@@ -54,7 +54,6 @@ class RequestHandler {
 				$instance->run();
 			}
 		} catch (NotImplementedException $e) {
-			// TODO: 5xx page
 			die('<h1 style="color: red">Whoopsie</h1><code>'
 				. ' In "' . $e->getFile() . ':' . $e->getLine() . '"<br>'
 				. $e->getMessage()
