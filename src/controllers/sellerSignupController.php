@@ -10,7 +10,7 @@ class SellerSignupController extends BaseController {
 			$this->redirect("/");
 		} else {
 			$dbh = new DatabaseHandler();
-			$this->data["signupError"] = $_GET["signup-error"] ?? null;
+			$this->data["sellerSignupError"] = $_GET["seller-signup-error"] ?? null;
 			$this->data["isSeller"] = $dbh->query(
 				"SELECT Seller FROM [User] WHERE [username] = :user",
 				array(

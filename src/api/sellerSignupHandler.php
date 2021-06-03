@@ -7,6 +7,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/signupHandler.php';
 class SellerSignupHandler extends BaseHandler {
 
 	public function run() {
+		bdump($_POST);
 		$dbh = new DatabaseHandler();
 		$this->data["isSeller"] = $dbh->query(
 			"SELECT seller FROM [User] WHERE [username] = :user",
@@ -22,40 +23,47 @@ class SellerSignupHandler extends BaseHandler {
 			$paymentMethod = $_POST['payment_method'] ?? null;
 			//Builds URL for signup-errors
 			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/sellerSignup/";
-			if (isset($_POST["creditcard_number"])) {
-				$creditcard = $_POST["creditcard_number"];
-				if (!ctype_digit($creditcard)) {
-					$this->redirect($addressRoot . "?signup-error=" . urlencode("Ongeldige creditcardnummer."));
-				}
-				$creditcardIsSet = true;
-			} else {
-				$creditcardIsSet = null;
-			}
+
 			//Filters form inputs
 			if (!isset($bank) || !$bank) {
 				$this->redirect(
-					$addressRoot . "?signup-error=" . urlencode("Banknaam is niet ingevuld.")
+					$addressRoot . "?seller-signup-error=" . urlencode("Banknaam is niet ingevuld.")
 				);
 			}
 			if (!isset($bankAccount) || !$bankAccount) {
 				$this->redirect(
-					$addressRoot . "?signup-error=" . urlencode("Rekeningnummer is niet ingevuld.")
+					$addressRoot . "?seller-signup-error=" . urlencode("Rekeningnummer is niet ingevuld.")
 				);
 			}
-			if ($paymentMethod == 'creditcard' && !$creditcard) {
+			if ($paymentMethod == 'creditcard' && !$_POST["creditcard_number"]) {
 				$this->redirect(
-					$addressRoot . "?signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
+					$addressRoot . "?seller-signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
 				);
 			}
-			if ($paymentMethod == 'post' && $creditcard != '') {
+			if ($paymentMethod == 'post' && $_POST["creditcard_number"] = '') {
 				$this->redirect(
-					$addressRoot . "?signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
+					$addressRoot . "?seller-signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
+				);
+			}
+			if ($paymentMethod == 'post' && $_POST["creditcard_number"] === '') {
+				$this->redirect(
+					$addressRoot . "?seller-signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
 				);
 			}
 			if (!isset($paymentMethod) || !$paymentMethod) {
 				$this->redirect(
-					$addressRoot . "?signup-error=" . urlencode("Betaalmethode is niet ingevuld.")
+					$addressRoot . "?seller-signup-error=" . urlencode("Betaalmethode is niet ingevuld.")
 				);
+			}
+
+			if (isset($_POST["creditcard_number"])) {
+				$creditcard = $_POST["creditcard_number"];
+				if (!ctype_digit($creditcard) && !$creditcard && $paymentMethod != "post") {
+					$this->redirect($addressRoot . "?seller-signup-error=" . urlencode("Ongeldige creditcardnummer."));
+				}
+				$creditcardIsSet = true;
+			} else {
+				$creditcardIsSet = null;
 			}
 			$dbh->query(
 				<<<SQL
