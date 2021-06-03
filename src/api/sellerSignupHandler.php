@@ -9,7 +9,7 @@ class SellerSignupHandler extends BaseHandler {
 	public function run() {
 		$dbh = new DatabaseHandler();
 		$this->data["isSeller"] = $dbh->query(
-			"SELECT Seller FROM [User] WHERE [username] = :user",
+			"SELECT seller FROM [User] WHERE [username] = :user",
 			array(
 				":user" => $_SESSION["username"]
 			)
@@ -55,6 +55,16 @@ class SellerSignupHandler extends BaseHandler {
 			}
 			$dbh->query(
 				<<<SQL
+				UPDATE 	[User]
+				SET seller = 1
+				WHERE [username] = :username
+				SQL,
+				array(
+					":username" => $_SESSION["username"],
+				)
+			);
+			$dbh->query(
+				<<<SQL
 					INSERT INTO Seller ([user], bank, bank_account, control_option, creditcard)
 									VALUES (:username, :bank, :bank_account, :payment_method, :creditcard_number)
 				SQL,
@@ -64,16 +74,6 @@ class SellerSignupHandler extends BaseHandler {
 					":bank_account" => $bankAccount,
 					":payment_method" => $paymentMethod,
 					":creditcard_number" => $creditcard,
-				)
-			);
-			$dbh->query(
-				<<<SQL
-				UPDATE 	[User]
-				SET seller = 1
-				WHERE [username] = :username							
-				SQL,
-				array(
-					":username" => $_SESSION["username"],
 				)
 			);
 
