@@ -21,7 +21,7 @@ class LoginHandler extends BaseHandler {
 		$db = new DatabaseHandler();
 
 		$users = $db->query(
-			"SELECT [password], [admin]=1, seller FROM [User] WHERE username = :username",
+			"SELECT [password], [admin], seller FROM [User] WHERE username = :username",
 			array(
 				":username" => $username,
 			)
@@ -43,7 +43,6 @@ class LoginHandler extends BaseHandler {
 			$this->redirect("/login/?login-error=" . urlencode("Dit account is geblokkeerd!"));
 		}
 
-
 		$user = $users[0];
 
 		if (!password_verify($password, $user["password"])) {
@@ -55,8 +54,6 @@ class LoginHandler extends BaseHandler {
 
 		$_SESSION["loggedin"] = true;
 		$_SESSION["username"] = $username;
-		$_SESSION["seller"] = $user["seller"] == 1;
-		$_SESSION["admin"] = $user["admin"] == 1;
 
 		isset($_POST["redirect_uri"])
 			? $this->redirect()

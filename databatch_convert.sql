@@ -152,7 +152,7 @@ BEGIN TRY
 	 )
 		SELECT
 			/*1*/  ID,
-			/*2*/  TRIM( SUBSTRING( CONCAT( Conditie, ' ', Titel ), 0, 60 ) ), -- TODO: don't cut a word off in the middle
+			/*2*/  TRIM( SUBSTRING( CONCAT( Conditie, ' ', Titel ), 0, 60 ) ),
 			/*3*/  Beschrijving,
 			/*4*/  Prijs,
 			/*5*/  '\0',

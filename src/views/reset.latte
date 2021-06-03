@@ -41,8 +41,6 @@
 
 	<script>
 		// from https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles
-		// TODO: should we really add this, because javascript shouldn't be in the middle of the page...
-		// Example starter JavaScript for disabling form submissions if there are invalid fields
 		(function () {
 			'use strict'
 
@@ -64,7 +62,6 @@
 		})();
 	</script>
 {else}
-	{* TODO: probably need to fix the layout *}
 	<div class="d-flex justify-content-center p-3 w-100"> <!-- flexbox -->
 		<!--- ResetPassword form --->
 		<form method="POST" action="/reset/" class="needs-validation col-lg-4 mb-3" novalidate>

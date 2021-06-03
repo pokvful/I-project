@@ -37,7 +37,7 @@ class UsersController extends BaseController {
 			$this->data["users"] = $this->parseUsers(
 				$db->query(
 					<<<SQL
-						SELECT username, blocked, [admin]=1
+						SELECT username, blocked, [admin]
 							FROM [User]
 							WHERE username LIKE CONCAT('%', :username, '%')
 							ORDER BY username
@@ -50,7 +50,7 @@ class UsersController extends BaseController {
 		} else {
 			$this->data["users"] = $this->parseUsers(
 				$db->query(
-					"SELECT username, blocked, [admin]=1 FROM [User] ORDER BY username"
+					"SELECT username, blocked, [admin] FROM [User] ORDER BY username"
 				)
 			);
 		}

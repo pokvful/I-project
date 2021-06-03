@@ -4,7 +4,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/database/databaseHandler.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/baseHandler.php';
 
 class BiddingItemHandler extends BaseHandler {
-
 	public function run() {
 		if (isset($_POST["bid_button"])) {
 			$dbh = new DatabaseHandler();
