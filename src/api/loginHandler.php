@@ -21,7 +21,7 @@ class LoginHandler extends BaseHandler {
 		$db = new DatabaseHandler();
 
 		$users = $db->query(
-			"SELECT [password], [admin]=1, seller FROM [User] WHERE username = :username",
+			"SELECT [password], [admin], seller FROM [User] WHERE username = :username",
 			array(
 				":username" => $username,
 			)
