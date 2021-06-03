@@ -14,7 +14,7 @@ class SellerSignupHandler extends BaseHandler {
 				":user" => $_SESSION["username"]
 			)
 		);
-		if ($this->data["isSeller"][0]["Seller"] == 1) {
+		if ($this->data["isSeller"][0]["seller"] == 1) {
 			$this->redirect("/");
 		} else {
 			$bank = $_POST["bank_name"];
