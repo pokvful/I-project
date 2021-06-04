@@ -50,11 +50,12 @@ BEGIN TRY
 		SELECT ID, [Name], Parent, 0
 			FROM TEMP_DataBatch.dbo.Categorieen;
 
-	-- Set all the 
+	-- Set all the rubrics to NULL if they have a value of `-1`
 	UPDATE test.dbo.Rubric
 		SET rubric = NULL
 			WHERE rubric = -1;
 
+	-- Remove the ROOT rubric from the Rubrics
 	DELETE FROM test.dbo.Rubric
 		WHERE rubric_number < 0;
 
