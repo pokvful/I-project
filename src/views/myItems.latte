@@ -24,11 +24,10 @@
 					</div>
 				</div>
 			</div>
-		{else}
-		<h4 class="bg-primary text-dark w-50 m-auto mt-5 p-3 text-center">U heeft nog niet op items geboden.</h4>
-		{/if}
 		</div>
-
+		{else}
+		<h4 class="bg-danger text-dark w-50 m-auto mt-5 p-3 text-center">U heeft nog niet op items geboden.</h4>
+		{/if}
 		{if $placedItems}
 		<h4 n:if="$_seller" class="text-center bg-primary text-dark w-50 m-auto mt-5 p-3">Items die je aanbiedt:</h4>
 		<div n:if="$_seller && !$mySellerItems" class="row">
@@ -46,7 +45,7 @@
 			</div>
 		</div>
 		{else}
-		<h4 class="text-center bg-danger w-50 m-auto mt-5 p-3">U heeft nog geen items aangeboden.</h4>
+		<h4 class="bg-danger text-dark w-50 m-auto mt-5 p-3 text-center">U heeft nog geen items aangeboden.</h4>
 		{/if}
 	</div>
 </div>

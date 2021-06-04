@@ -102,8 +102,8 @@ class SellerSignupHandler extends BaseHandler {
 						":payment_method" => $paymentMethod,
 						":creditcard_number" => $creditcard,
 					)
-				);	
-			} 
+				);
+			}
 
 			$this->redirect("/profile/");
 		}

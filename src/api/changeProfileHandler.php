@@ -19,51 +19,51 @@ class ChangeProfileHandler extends BaseHandler {
 		$bank = $_POST["bank"];
 		$bankAccount = $_POST["bankAccount"];
 		$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/changeProfile";
-		if(isset($_POST["creditcard"])) {
+		if (isset($_POST["creditcard"])) {
 			$creditcard = $_POST["creditcard"];
-			if (!ctype_digit($creditcard) ) {
+			if (!ctype_digit($creditcard)) {
 				$this->redirect(
 					$addressRoot . "?editProfile-error=" . urlencode("Ongeldige creditcardnummer.")
 				);
 			}
-			$creditcardIsSet= true;
+			$creditcardIsSet = true;
 		} else {
 			$creditcardIsSet = null;
 		}
 		$phoneNumbers = $_POST["phone"];
 
 		//checks for space inputs
-		if(ctype_space($email)) {
+		if (ctype_space($email)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige e-mail."));
 		}
-		if(ctype_space($firstName)) {
+		if (ctype_space($firstName)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige voornaam."));
 		}
-		if(ctype_space($lastName)) {
+		if (ctype_space($lastName)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige achternaam."));
 		}
-		if(ctype_space($birthDate)) {
+		if (ctype_space($birthDate)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige geboortedatum."));
 		}
-		if(ctype_space($address1)) {
+		if (ctype_space($address1)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige adres."));
 		}
-		if(ctype_space($address2)) {
+		if (ctype_space($address2)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige adres."));
 		}
-		if(ctype_space($zipCode)) {
+		if (ctype_space($zipCode)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige postcode."));
 		}
-		if(ctype_space($city)) {
+		if (ctype_space($city)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige stad."));
 		}
-		if(ctype_space($country)) {
+		if (ctype_space($country)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige land."));
 		}
-		if(ctype_space($bank)) {
+		if (ctype_space($bank)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige bank."));
 		}
-		if(ctype_space($bankAccount)) {
+		if (ctype_space($bankAccount)) {
 			$this->redirect($addressRoot . "?editProfile-error=" . urlencode("Ongeldige rekeningnummer."));
 		}
 
