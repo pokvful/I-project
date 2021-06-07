@@ -1,6 +1,6 @@
-BEGIN TRANSACTION DatabatchConvert
+--BEGIN TRANSACTION DatabatchConvert
 
-BEGIN TRY
+--BEGIN TRY
 	SET IDENTITY_INSERT test.dbo.Rubric ON;
 
 	/**
@@ -191,26 +191,23 @@ BEGIN TRY
 					FROM TEMP_DataBatch.dbo.Illustraties
 			) AS Files
 			WHERE [row] < 5;
+	
+	/*PRINT N'Commiting!';
+	COMMIT TRANSACTION DatabatchConvert;
 END TRY
 BEGIN CATCH
-	SELECT
-		ERROR_NUMBER() AS ErrorNumber,
-		ERROR_SEVERITY() AS ErrorSeverity,
-		ERROR_STATE() AS ErrorState,
-		ERROR_PROCEDURE() AS ErrorProcedure,
-		ERROR_LINE() AS ErrorLine,
-		ERROR_MESSAGE() AS ErrorMessage,
-		XACT_STATE() AS XactState;
+	--SELECT
+	--	ERROR_NUMBER() AS ErrorNumber,
+	--	ERROR_SEVERITY() AS ErrorSeverity,
+	--	ERROR_STATE() AS ErrorState,
+	--	ERROR_PROCEDURE() AS ErrorProcedure,
+	--	ERROR_LINE() AS ErrorLine,
+	--	ERROR_MESSAGE() AS ErrorMessage,
+	--	XACT_STATE() AS XactState;
 
-	IF @@TRANCOUNT > 0
-	BEGIN
-		PRINT N'Rolling back!';
-		ROLLBACK TRANSACTION DatabatchConvert;
-	END
+	PRINT N'Rolling back!';
+	ROLLBACK TRANSACTION DatabatchConvert;
+
+	THROW;
 END CATCH;
-
-IF @@TRANCOUNT > 0
-BEGIN
-	PRINT N'Commiting!';
-	COMMIT TRANSACTION DatabatchConvert;
-END
+*/

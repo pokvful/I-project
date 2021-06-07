@@ -103,7 +103,9 @@ try {
 		);
 
 		if ($result !== false) {
-			echo "Successfully executed file \"$file\"" . PHP_EOL;
+			$res = $conn->query("SELECT COUNT(*) AS 'rows' FROM {$TEMP_DATABASE}.dbo.Items");
+
+			echo "Successfully executed file \"$file\". Now " . $res->fetchAll()[0]["rows"] . " rows" . PHP_EOL;
 		} else {
 			throw new Exception(
 				"An error occurred while processing file \"$file\": "
@@ -115,6 +117,8 @@ try {
 	$convertScript = file_get_contents($executablePath . "databatch_convert.sql");
 
 	$result = $conn->exec($convertScript);
+
+	var_dump( $conn->errorInfo() );
 
 	if ($result === false) {
 		throw new Exception(
