@@ -7,7 +7,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/src/api/signupHandler.php';
 class SellerSignupHandler extends BaseHandler {
 
 	public function run() {
-		bdump($_POST);
+		
 		$dbh = new DatabaseHandler();
 		$this->data["isSeller"] = $dbh->query(
 			"SELECT seller FROM [User] WHERE [username] = :user",
@@ -21,8 +21,13 @@ class SellerSignupHandler extends BaseHandler {
 			$bank = $_POST["bank_name"];
 			$bankAccount = $_POST["bank_account"];
 			$paymentMethod = $_POST['payment_method'] ?? null;
+			$creditcard = $_POST['creditcard_number'] ? $_POST["creditcard_number"] : null;
 			//Builds URL for signup-errors
 			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/sellerSignup/";
+
+			bdump($bankAccount);
+			bdump($paymentMethod);
+			bdump($creditcard);
 
 			//Filters form inputs
 			if (!isset($bank) || !$bank) {
@@ -35,17 +40,12 @@ class SellerSignupHandler extends BaseHandler {
 					$addressRoot . "?seller-signup-error=" . urlencode("Rekeningnummer is niet ingevuld.")
 				);
 			}
-			if ($paymentMethod == 'creditcard' && !$_POST["creditcard_number"]) {
+			if ($paymentMethod == 'creditcard' && !$creditcard) {
 				$this->redirect(
 					$addressRoot . "?seller-signup-error=" . urlencode("Creditcardnummer is niet ingevuld.")
 				);
 			}
-			if ($paymentMethod == 'post' && $_POST["creditcard_number"] = '') {
-				$this->redirect(
-					$addressRoot . "?seller-signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
-				);
-			}
-			if ($paymentMethod == 'post' && $_POST["creditcard_number"] === '') {
+			if ($paymentMethod == 'post' && $creditcard) {
 				$this->redirect(
 					$addressRoot . "?seller-signup-error=" . urlencode("U kan geen creditcard ingeven als uw betaalmethode op post staat.")
 				);
@@ -56,7 +56,7 @@ class SellerSignupHandler extends BaseHandler {
 				);
 			}
 
-			if (isset($_POST["creditcard_number"])) {
+			if (isset($_POST["creditcard_number"]) && $creditcard) {
 				$creditcard = $_POST["creditcard_number"];
 				if (!ctype_digit($creditcard) && !$creditcard && $paymentMethod != "post") {
 					$this->redirect($addressRoot . "?seller-signup-error=" . urlencode("Ongeldige creditcardnummer."));
