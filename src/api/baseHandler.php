@@ -33,9 +33,9 @@ class BaseHandler {
 			|| !$_POST["csrf-token"]
 			|| $_POST["csrf-token"] !== $_SESSION["csrf-token"]) || (
 			($headers = getallheaders())
-			&& isset($headers["X-cronjob"])
+			&& isset($headers["X-Cronjob"])
 			&& $headers
-			&& $headers["X-cronjob"] === SETTINGS["cronjob"]);
+			&& $headers["X-Cronjob"] === SETTINGS["cronjob"]);
 	}
 
 	/**
