@@ -11,7 +11,16 @@ class BiddingItemHandler extends BaseHandler {
 			$item = $_POST["item_number"];
 			$bid_amount = $_POST["bid_amount"];
 			$user = $_SESSION["username"];
+				
+			$checkIfSellerPlacedItem = $dbh->query("SELECT seller FROM Item WHERE seller = :seller AND item_number = :item_number", array(
+				":seller" => $user,
+				":item_number" => $item
+			));
 
+			if (count($checkIfSellerPlacedItem) > 0){		
+				$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/biddingItem/";
+				$this->redirect("$addressRoot" . "?item_number=" . $_GET["item_number"] . "&bid-error=" . urlencode("U kunt niet bieden op uw eigen veilingitems."));
+			}
 			$dbh->query(
 				<<<SQL
 					INSERT INTO Bid (item, bid_amount, [user], bid_day, bid_time)
@@ -25,7 +34,7 @@ class BiddingItemHandler extends BaseHandler {
 			);
 
 			$addressRoot = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER["SERVER_NAME"] . "/biddingItem/";
-			$this->redirect("$addressRoot" . "?item_number=" . $item . "&bid-error=" . urlencode("Bod is succesvol geplaatst."));
+			$this->redirect("$addressRoot" . "?item_number=" . $item . "&bid-success=" . urlencode("Bod is succesvol geplaatst."));
 		}
 	}
 }

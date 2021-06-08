@@ -46,13 +46,13 @@ class BiddingItemController extends BaseController {
 				$this->redirect($addressRoot . "?item-error=" . urlencode("Deze veiling is geblokkeerd"));
 			}
 
-
 			$this->data["startingTime"] = $dbh->query(
 				"SELECT LEFT(duration_start_time,8) AS starting_time FROM item WHERE item_number = :item_number",
 				array(
 					":item_number" => $_GET["item_number"]
 				)
 			);
+
 			$this->data["bids"] = $dbh->query(
 				<<<SQL
 				SELECT item, bid_amount, [user], bid_day, LEFT(bid_time,8) AS bid_time FROM Bid 
@@ -63,6 +63,7 @@ class BiddingItemController extends BaseController {
 					":item_number" => $_GET["item_number"]
 				)
 			);
+
 			$this->data["highestBid"] = $dbh->query(
 				"SELECT MAX(bid_amount) AS highestBid FROM Bid WHERE item = :item_number",
 				array(

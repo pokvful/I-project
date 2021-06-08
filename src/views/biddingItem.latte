@@ -2,11 +2,19 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col text-center mt-5 mb-3">
+		<div class="col text-center mt-5">
 			<h1 class="mb-3">
 				{$itemInformation[0]["title"]}
 			</h1>
 			{getBreadCrumbs()|noescape}
+		</div>
+	</div>
+	<div class="row mb-3">
+		<div n:ifset="($bidSuccess)" class="col-12 mt-5 alert alert-success">
+			{$bidSuccess}
+		</div>
+		<div n:ifset="($bidError)" class="col-12 mt-5 alert alert-danger">
+			{$bidError}
 		</div>
 	</div>
 	<div class="row">
