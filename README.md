@@ -1,3 +1,3 @@
-# IProject-Template2021
+# I-project
 
-ICT-propedeuse project
+Auction website, created in the last period of my first school year of the HAN.
