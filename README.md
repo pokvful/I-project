@@ -5,14 +5,15 @@ Auction website, created in the last period of my first school year of the HAN.
 ## Vereiste programma's
 
 Voor het opzetten van de website zijn de volgende programma’s nodig:
-•	Microsoft SQL Server v18.9.1;
-•	PHP v7.4.16;
-•	Apache v.2.4.46;
-•	Composer;
-o	Latte v2.10.3;
-o	Tracy v2.8.4;
-o	Bootstrap v.5.0.0-beta3;
-o	PHP-mailer v6;
+
+- Microsoft SQL Server v18.9.1;
+- PHP v7.4.16;
+- Apache v.2.4.46;
+- Composer;
+- Latte v2.10.3;
+- Tracy v2.8.4;
+- Bootstrap v.5.0.0-beta3;
+- PHP-mailer v6;
 
 ## Database
 
